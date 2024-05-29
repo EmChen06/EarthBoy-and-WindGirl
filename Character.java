@@ -32,6 +32,14 @@ public class Character {
         this.isJump = jump;
     }
 
+    void setVX(double speedX) {
+        this.vx = speedX;
+    }
+
+    void setVY(double speedY) {
+        this.vy = speedY;
+    }
+
     boolean getJump() {
         return this.isJump;
     }
