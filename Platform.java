@@ -1,7 +1,10 @@
 import java.awt.*;
-public class Platform extends Rectangle{
+import java.awt.image.BufferedImage;
 
-    Platform(int x, int y, int width, int height){
+public class Platform extends Rectangle{
+    BufferedImage image;
+    Platform(int x, int y, int width, int height, BufferedImage img){
         super(x,y,width,height);
+        this.image = img;
     }
 }
