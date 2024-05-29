@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 public class Character {
 
     BufferedImage img;
-    int x, y
+    int x, y;
     final int w = 20, h = 40;
     double xx, yy, vx, vy;
 
