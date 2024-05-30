@@ -18,13 +18,19 @@ public class Character {
     }
 
     void move() {
+        this.xx  += this.vx;
+        this.yy += this.vy;
+        this.x = (int)this.xx;
+        this.y = (int) this.yy;
     }
 
     void setX(int newX) {
+        this.xx = newX;
         this.x = newX;
     }
 
     void setY(int newY) {
+        this.yy = newY;
         this.y = newY;
     }
 

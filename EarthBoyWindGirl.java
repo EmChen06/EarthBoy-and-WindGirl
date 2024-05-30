@@ -9,6 +9,10 @@ public class EarthBoyWindGirl extends JFrame {
     DrawingPanel p;
     int WIDTH = 1000;
     int HEIGHT = 600;
+
+    WindGirl windGirl;
+    EarthBoy earthBoy;
+
     ArrayList<Platform> platforms = new ArrayList<>();
     
     
@@ -20,7 +24,12 @@ public class EarthBoyWindGirl extends JFrame {
         this.add(p);
 
         
-        platforms.add(new Platform(50, 50, 100, 20, null));
+        for (int i = 0; i < (WIDTH / 20); i++) {
+            for(int j = 0; j < (HEIGHT / 20); j++){
+                Platform p = new Platform(i * 20, j*20, 20, 20, null);
+                platforms.add(p);
+            }
+        }
 
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -41,13 +50,14 @@ public class EarthBoyWindGirl extends JFrame {
 			//turn on antialiasing
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
+            g2.setColor(Color.black);
 
             for (Platform platform : platforms) {
-                g2.fillRect(platform.x, platform.y, platform.width, platform.height);
+                g2.drawRect(platform.x, platform.y, platform.width, platform.height);
+                }
             }
             
         }
-    }
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
