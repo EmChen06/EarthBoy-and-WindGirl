@@ -1,4 +1,5 @@
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Character {
 
@@ -50,4 +51,22 @@ public class Character {
         return this.isJump;
     }
 
+    void checkCollision(ArrayList<Platform> platforms){
+        for (Platform p : platforms){
+            if (this.x < p.x+p.width && this.x  + this.w> p.x && this.y + this.h >= p.y && vy <= 0 && this.y + this.h <= p.y+p.height) {
+                this.y = p.y - this.h;
+                this.setVY(0);
+                System.out.println("COLLIDING");
+                isJump = false;
+            }
+            if (this.x + this.w > p.x && this.y < p.y + p.height && this.y + this.h > p.y){
+                this.x = p.x - this.w;
+            }
+            if (this.x < p.x + p.width){
+                
+            }
+
+
+        }
+    }
 }

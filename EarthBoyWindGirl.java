@@ -8,13 +8,13 @@ public class EarthBoyWindGirl extends JFrame {
 
     DrawingPanel draw;
     JPanel p;
-    int w = 1000;
-    int h = 600;
+    int W = 1000;
+    int H = 600;
 
     WindGirl windGirl;
     EarthBoy earthBoy;
 
-    // ArrayList<Platform> platforms = new ArrayList<>();
+    ArrayList<Platform> platforms = new ArrayList<>();
     Platform plat;
 
     public static void main(String[] args) {
@@ -30,20 +30,29 @@ public class EarthBoyWindGirl extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         p = new JPanel();
-        p.setPreferredSize(new Dimension(w, h));
+        p.setPreferredSize(new Dimension(W, H));
 
         draw = new DrawingPanel();
 
-        // plat = new Platform(0, 0, 100, 30);
+        plat = new Platform(0, 0, 100, 30);
+        platforms.add(plat);
 
-        // for (int i = 0; i < (WIDTH / 20); i++) {
-        //     for(int j = 0; j < (HEIGHT / 20); j++){
-        //         Platform p = new Platform(i * 20, j*20, 20, 20, null);
-        //         platforms.add(p);
-        //     }
-        // }
+        /* 
+        for (int i = 0; i < (W / 20); i++) {
+            for(int j = 0; j < (H / 20); j++){
+                Platform pl = new Platform(i * 20, j*20, 20, 20);
+                platforms.add(pl);
+            }
+        }
+        */
 
-        draw.setPreferredSize(new Dimension(w, h));
+
+        windGirl = new WindGirl(30, H - 40, null, false);
+        earthBoy = new EarthBoy(70, H - 40, null, false, false);
+
+
+        
+        draw.setPreferredSize(new Dimension(W, H));
 
         p.add(draw);
         this.setContentPane(p);
@@ -51,6 +60,7 @@ public class EarthBoyWindGirl extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
     }
+
 
     class DrawingPanel extends JPanel{
 
@@ -67,13 +77,16 @@ public class EarthBoyWindGirl extends JFrame {
             g2.setColor(Color.black);
             // g2.fillRect(plat.x, plat.y, plat.width, plat.height);
 
-            g2.fillRect(w - 500, h - 100,200,100);
-
-            // for (Platform platform : platforms) {
-            //     g2.drawRect(platform.x, platform.y, platform.width, platform.height);
-            //     }
-            // }
+            for (Platform platform : platforms) {
+                 g2.fillRect(platform.x, platform.y, platform.width, platform.height);
+                 }
             
+            g2.setColor(Color.blue);
+            g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
+
+            g2.setColor(Color.red);
+            g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
+
         }
     }
 }
