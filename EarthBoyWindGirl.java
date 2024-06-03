@@ -10,10 +10,11 @@ public class EarthBoyWindGirl extends JFrame{
     JPanel p;
     int W = 1000;
     int H = 600;
-
     WindGirl windGirl;
     EarthBoy earthBoy;
+    Timer keyDelay;
 
+    ArrayList<Integer> storedKeys = new ArrayList<>();
     // ArrayList<Platform> platforms = new ArrayList<>();
     Platform plat;
 
@@ -35,6 +36,7 @@ public class EarthBoyWindGirl extends JFrame{
         draw = new DrawingPanel();
 
         earthBoy = new EarthBoy(0, H - 40, null, false, false);
+        windGirl = new WindGirl(500, H - 40, null, false);
         plat = new Platform(W - 300, H - 30, 100, 30);
 
         // for (int i = 0; i < (WIDTH / 20); i++) {
@@ -46,6 +48,37 @@ public class EarthBoyWindGirl extends JFrame{
 
         p.add(draw);
         p.addKeyListener(new kListener());
+        keyDelay = new Timer(10, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (Integer i: storedKeys) {
+                
+                    if (i == KeyEvent.VK_W) { // up,jump
+                        earthBoy.setJump(true);
+                        System.out.println("true");
+                    } else if (i == KeyEvent.VK_D) { // forward
+                        earthBoy.setVX(3.5);
+                        earthBoy.move();
+                    } else if (i == KeyEvent.VK_A) { // back
+                        earthBoy.setVX(-3.5);
+                        earthBoy.move();
+                    } else if (i == KeyEvent.VK_E) {
+                        earthBoy.enterBuildMode();
+                    } else if (i == KeyEvent.VK_UP) {
+                        windGirl.setJump(true);
+                        windGirl.move();
+                    } else if (i == KeyEvent.VK_RIGHT) {
+                        windGirl.setVX(3.5);
+                        windGirl.move();
+                    } else if (i == KeyEvent.VK_LEFT) {
+                        windGirl.setVX(-3.5);
+                        windGirl.move();
+                    }
+                    draw.repaint();
+                }
+            }
+        });
+        keyDelay.start();
+
         p.setFocusable(true);
         this.setContentPane(p);
         this.pack();
@@ -53,40 +86,20 @@ public class EarthBoyWindGirl extends JFrame{
         this.setLocationRelativeTo(null);
     }
 
-    public class kListener implements KeyListener{
-    public void keyPressed(KeyEvent event) {
-        int e = event.getKeyCode();
-        System.out.println(e);
-        if (e == KeyEvent.VK_W) { // up,jump
-            earthBoy.setJump(true);
-            System.out.println("true");
-            draw.repaint();
-        } else if (e == KeyEvent.VK_D) { // forward
-            earthBoy.setVX(2.5);
-            earthBoy.move();
-            draw.repaint();
-        } else if (e == KeyEvent.VK_A) { // back
-            earthBoy.setVX(-2.5);
-            draw.repaint();
-        } else if (e == KeyEvent.VK_UP) {
-            windGirl.setJump(true);
-            draw.repaint();
-        } else if (e == KeyEvent.VK_RIGHT) {
-            windGirl.setVX(2.5);
-            draw.repaint();
-        } else if (e == KeyEvent.VK_LEFT) {
-            windGirl.setVX(-2.5);
-            draw.repaint();
+    private class kListener extends KeyAdapter{
+        public void keyPressed(KeyEvent event) {
+            Integer e = event.getKeyCode();
+
+            if (!storedKeys.contains(e)) {
+                storedKeys.add(e); 
+            }
+        }
+
+        public void keyReleased(KeyEvent event) {
+            Integer e = event.getKeyCode();
+            storedKeys.remove(e);
         }
     }
-
-    @Override public void keyTyped(KeyEvent event) {}
-
-    @Override
-    public void keyReleased(KeyEvent event) {
-        
-    }
-}
 
     class DrawingPanel extends JPanel{
 
@@ -103,7 +116,12 @@ public class EarthBoyWindGirl extends JFrame{
 
             g2.setColor(Color.black);
             g2.fillRect(plat.x, plat.y, plat.width, plat.height);
+
+            g2.setColor(Color.BLUE);
             g2.fillRect(earthBoy.x, earthBoy.y, 20, 40);
+            
+            g2.setColor(Color.RED);
+            g2.fillRect(windGirl.x, windGirl.y, 20, 40);
 
             // g2.fillRect(w - 500, h - 100,200,100);
 

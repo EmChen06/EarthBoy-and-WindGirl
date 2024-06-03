@@ -11,7 +11,9 @@ public class Character {
     Character(int startX, int startY, BufferedImage image, boolean jump) {
         this.img = image;
         this.x = startX;
+        this.xx = this.x;
         this.y = startY;
+        this.yy = this.y;
         this.isJump = jump;
         vx = 0;
         vy = 0;
@@ -21,7 +23,7 @@ public class Character {
         this.xx  += this.vx;
         this.yy += this.vy;
         this.x = (int)this.xx;
-        this.y = (int) this.yy;
+        this.y = (int)this.yy;
     }
 
     void setX(int newX) {
