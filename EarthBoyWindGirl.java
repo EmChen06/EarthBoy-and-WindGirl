@@ -43,8 +43,10 @@ public class EarthBoyWindGirl extends JFrame {
         //     }
         // }
 
+        draw.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+
         p.add(draw);
-        this.add(p);
+        this.setContentPane(p);
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -65,7 +67,7 @@ public class EarthBoyWindGirl extends JFrame {
             g2.setColor(Color.black);
             // g2.fillRect(plat.x, plat.y, plat.width, plat.height);
 
-            g2.fillRect(0,0,500,100);
+            g2.fillRect(0,0,100,100);
 
             // for (Platform platform : platforms) {
             //     g2.drawRect(platform.x, platform.y, platform.width, platform.height);
