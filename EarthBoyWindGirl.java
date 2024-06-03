@@ -8,8 +8,8 @@ public class EarthBoyWindGirl extends JFrame {
 
     DrawingPanel draw;
     JPanel p;
-    int WIDTH = 1000;
-    int HEIGHT = 600;
+    int w = 1000;
+    int h = 600;
 
     WindGirl windGirl;
     EarthBoy earthBoy;
@@ -30,7 +30,7 @@ public class EarthBoyWindGirl extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         p = new JPanel();
-        p.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        p.setPreferredSize(new Dimension(w, h));
 
         draw = new DrawingPanel();
 
@@ -43,7 +43,7 @@ public class EarthBoyWindGirl extends JFrame {
         //     }
         // }
 
-        draw.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        draw.setPreferredSize(new Dimension(w, h));
 
         p.add(draw);
         this.setContentPane(p);
@@ -67,7 +67,7 @@ public class EarthBoyWindGirl extends JFrame {
             g2.setColor(Color.black);
             // g2.fillRect(plat.x, plat.y, plat.width, plat.height);
 
-            g2.fillRect(0,0,100,100);
+            g2.fillRect(w - 500, h - 100,200,100);
 
             // for (Platform platform : platforms) {
             //     g2.drawRect(platform.x, platform.y, platform.width, platform.height);
