@@ -8,6 +8,7 @@ public class Character {
     final int w = 20, h = 40;
     double xx, yy, vx, vy;
     boolean isJump;
+    double gravity = 0.98;
 
     Character(int startX, int startY, BufferedImage image, boolean jump) {
         this.img = image;
@@ -22,9 +23,14 @@ public class Character {
 
     void move() {
         this.xx  += this.vx;
-        this.yy += this.vy;
+        this.yy -= this.vy;
         this.x = (int)this.xx;
         this.y = (int)this.yy;
+        this.checkCollision(EarthBoyWindGirl.platforms);
+
+        if (this.isJump){
+            this.setVY(this.vy -= gravity);
+        }
     }
 
     void setX(int newX) {
@@ -54,21 +60,34 @@ public class Character {
     }
 
     void checkCollision(ArrayList<Platform> platforms){
+        boolean jumping = true;
         for (Platform p : platforms){
-            if (this.x < p.x+p.width && this.x  + this.w> p.x && this.y + this.h >= p.y && vy <= 0 && this.y + this.h <= p.y+p.height) {
-                this.y = p.y - this.h;
+            if (this.x < p.x+p.width && this.x  + this.w> p.x && this.y + this.h >= p.y && vy < 0 && this.y + this.h <= p.y+p.height) {
+                this.setY(p.y - this.h);
                 this.setVY(0);
                 System.out.println("COLLIDING");
-                isJump = false;
+                this.isJump = false;
+                jumping = false;
             }
-            if (this.x + this.w > p.x && this.y < p.y + p.height && this.y + this.h > p.y){
-                this.x = p.x - this.w;
+            if (this.x + this.w > p.x && this.x < p.x && this.y < p.y + p.height && this.y + this.h > p.y){
+                this.setX(p.x - this.w);
+                //this.setVX(0);
+                System.out.println("COLLIDING");
+
             }
-            if (this.x < p.x + p.width){
-                
+            if (this.x < p.x + p.width && this.x + this.w > p.x + p.width && this.y < p.y + p.height && this.y + this.h > p.y){
+                this.setX(p.x + p.width);
+                //this.setVX(0);
+                System.out.println("COLLIDING");                
             }
 
+            if (this.y < p.y + p.height && this.x + this.w > p.x && this.x < p.x + p.width && vy > 0 && this.y + this.h > p.y + p.height){
+                this.setY(p.y + p.height);
+                this.setVY(0);
+                System.out.println("COLLIDING");                
+            }
 
+        this.isJump = jumping;
         }
     }
 }
