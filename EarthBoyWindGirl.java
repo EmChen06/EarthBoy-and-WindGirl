@@ -40,7 +40,7 @@ public class EarthBoyWindGirl extends JFrame{
 
         // adding test platforms
         platforms.add(new Platform(W - 300, H - 180, 100, 30));
-        platforms.add(new Platform(W - 500, H - 80, 100, 30));
+        platforms.add(new Platform(W - 450, H - 80, 100, 30));
         platforms.add(new Platform(0, H-30, W, 30));
 
         /* 
