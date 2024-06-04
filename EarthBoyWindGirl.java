@@ -71,7 +71,7 @@ public class EarthBoyWindGirl extends JFrame{
                     if (i == KeyEvent.VK_W) { // up,jump
                         if (!earthBoy.isJump){
                             earthBoy.setJump(true);
-                            earthBoy.setVY(18);
+                            earthBoy.setVY(15);
                         }
                     } else if (i == KeyEvent.VK_D) { // forward
                         eVX += 3.5;
@@ -82,7 +82,7 @@ public class EarthBoyWindGirl extends JFrame{
                     } else if (i == KeyEvent.VK_UP) {
                         if (!windGirl.isJump){
                             windGirl.setJump(true);
-                            windGirl.setVY(18);
+                            windGirl.setVY(15);
                         }
                     } else if (i == KeyEvent.VK_RIGHT) {
                         wVX += 3.5;

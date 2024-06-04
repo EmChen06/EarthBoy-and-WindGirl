@@ -62,7 +62,7 @@ public class Character {
     void checkCollision(ArrayList<Platform> platforms){
         boolean jumping = true;
         for (Platform p : platforms){
-            if (this.x < p.x+p.width && this.x  + this.w> p.x && this.y + this.h >= p.y && vy < 0 && this.y + this.h <= p.y+p.height) {
+            if (this.x < p.x+p.width && this.x  + this.w> p.x && this.y + this.h>= p.y && vy < 0 && this.y + this.h <= p.y+p.height && this.y + this.h + this.vy <= p.y) {
                 this.setY(p.y - this.h);
                 this.setVY(0);
                 System.out.println("COLLIDING");
