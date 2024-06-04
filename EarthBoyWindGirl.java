@@ -28,18 +28,16 @@ public class EarthBoyWindGirl extends JFrame{
     EarthBoyWindGirl() {
         this.setTitle("EarthBoy and WindGirl");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
         
         p = new JPanel();
         p.setPreferredSize(new Dimension(W, H));
 
         draw = new DrawingPanel();
 
-        earthBoy = new EarthBoy(0, H - 40, null, false, false);
-        windGirl = new WindGirl(500, H - 40, null, false);
-
 
         // adding test platforms
-        platforms.add(new Platform(W - 300, H - 180, 100, 30));
+        platforms.add(new Platform(W - 300, H - 200, 100, 30));
         platforms.add(new Platform(W - 450, H - 80, 100, 30));
         platforms.add(new Platform(-30, H-30, W+60, 30));
         platforms.add(new Platform(-30, 0, 30, H+30));
@@ -71,9 +69,10 @@ public class EarthBoyWindGirl extends JFrame{
                 for (Integer i: storedKeys) {
                 
                     if (i == KeyEvent.VK_W) { // up,jump
-                        if (!earthBoy.isJump){
+                        if (!earthBoy.isJump && earthBoy.preparedJump){
                             earthBoy.setJump(true);
                             earthBoy.setVY(15);
+                            earthBoy.setPreparedJump(false);
                         }
                     } else if (i == KeyEvent.VK_D) { // forward
                         eVX += 3.5;
@@ -82,9 +81,20 @@ public class EarthBoyWindGirl extends JFrame{
                     } else if (i == KeyEvent.VK_E) {
                         earthBoy.enterBuildMode();
                     } else if (i == KeyEvent.VK_UP) {
+                        System.out.println(windGirl.isDoubleJump);
                         if (!windGirl.isJump){
+                            windGirl.setDoubleJump(false);
+                        }
+                        if (!windGirl.isJump && windGirl.preparedJump){
                             windGirl.setJump(true);
                             windGirl.setVY(15);
+                            windGirl.setPreparedJump(false);
+                        }
+                        if (windGirl.isJump && !windGirl.isDoubleJump && windGirl.preparedJump){
+                            windGirl.setDoubleJump(true);
+                            windGirl.setVY(15);
+                            System.out.println("Double Jump");
+                            windGirl.setPreparedJump(false);
                         }
                     } else if (i == KeyEvent.VK_RIGHT) {
                         wVX += 3.5;
@@ -112,7 +122,6 @@ public class EarthBoyWindGirl extends JFrame{
     private class kListener extends KeyAdapter{
         public void keyPressed(KeyEvent event) {
             Integer e = event.getKeyCode();
-
             if (!storedKeys.contains(e)) {
                 storedKeys.add(e); 
             }
@@ -121,6 +130,13 @@ public class EarthBoyWindGirl extends JFrame{
         public void keyReleased(KeyEvent event) {
             Integer e = event.getKeyCode();
             storedKeys.remove(e);
+
+            if (e == KeyEvent.VK_W){
+                earthBoy.setPreparedJump(true);
+            }
+            if (e == KeyEvent.VK_UP){
+                windGirl.setPreparedJump(true);
+            }
         }
     }
 
