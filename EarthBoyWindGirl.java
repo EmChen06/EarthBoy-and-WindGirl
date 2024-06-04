@@ -57,8 +57,6 @@ public class EarthBoyWindGirl extends JFrame{
 
         windGirl = new WindGirl(30, H - 40 - 30, null, false);
         earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false);
-
-
         
         draw.setPreferredSize(new Dimension(W, H));
 
@@ -79,7 +77,7 @@ public class EarthBoyWindGirl extends JFrame{
                         eVX += 3.5;
                     } else if (i == KeyEvent.VK_A) { // back
                         eVX -= 3.5;
-                    } else if (i == KeyEvent.VK_E) {
+                    } else if (i == KeyEvent.VK_E) { //if he presses E again, he can exit
                         earthBoy.enterBuildMode();
                     } else if (i == KeyEvent.VK_UP) {
                         if (!windGirl.isJump){

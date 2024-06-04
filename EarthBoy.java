@@ -13,6 +13,14 @@ public class EarthBoy extends Character{
         this.isBuild = true;
     }
 
+    //it wont move
+    @Override
+    void move() {
+        if (! this.isBuild){
+            super.move();
+        } 
+    }
+
     void leaveBuildMode() {
         this.isBuild = false;
     }
