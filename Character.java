@@ -7,16 +7,17 @@ public class Character {
     int x, y;
     final int w = 20, h = 40;
     double xx, yy, vx, vy;
-    boolean isJump;
+    boolean isJump, isDead;
     double gravity = 0.98;
 
-    Character(int startX, int startY, BufferedImage image, boolean jump) {
+    Character(int startX, int startY, BufferedImage image, boolean jump, boolean dead) {
         this.img = image;
         this.x = startX;
         this.xx = this.x;
         this.y = startY;
         this.yy = this.y;
         this.isJump = jump;
+        this.isDead = dead;
         vx = 0;
         vy = 0;
     }
@@ -31,6 +32,10 @@ public class Character {
         if (this.isJump){
             this.setVY(this.vy -= gravity);
         }
+    }
+
+    void setDead(boolean newDead) {
+        this.isDead = newDead;
     }
 
     void setX(int newX) {

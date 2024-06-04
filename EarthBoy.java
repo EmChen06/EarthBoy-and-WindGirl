@@ -4,8 +4,8 @@ public class EarthBoy extends Character{
 
     boolean isBuild;
 
-    EarthBoy(int startX, int startY, BufferedImage image, boolean jump, boolean build) {
-        super(startX, startY, image, jump);
+    EarthBoy(int startX, int startY, BufferedImage image, boolean jump, boolean dead, boolean build) {
+        super(startX, startY, image, jump, dead);
         this.isBuild = build;
     }
 

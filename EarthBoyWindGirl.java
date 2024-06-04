@@ -34,10 +34,6 @@ public class EarthBoyWindGirl extends JFrame{
 
         draw = new DrawingPanel();
 
-        earthBoy = new EarthBoy(0, H - 40, null, false, false);
-        windGirl = new WindGirl(500, H - 40, null, false);
-
-
         // adding test platforms
         platforms.add(new Platform(W - 300, H - 180, 100, 30));
         platforms.add(new Platform(W - 450, H - 80, 100, 30));
@@ -55,8 +51,8 @@ public class EarthBoyWindGirl extends JFrame{
         */
 
 
-        windGirl = new WindGirl(30, H - 40 - 30, null, false);
-        earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false);
+        windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
+        earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false, false);
         
         draw.setPreferredSize(new Dimension(W, H));
 
