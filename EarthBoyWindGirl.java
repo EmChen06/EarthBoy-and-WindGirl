@@ -80,9 +80,6 @@ public class EarthBoyWindGirl extends JFrame{
                                 earthBoy.setPreparedJump(false);
                             }
                         }
-                        else{
-                            earthAbility();
-                        }
                     } else if (i == KeyEvent.VK_D) { // forward
                         if (!earthBoy.isBuild){
                             eVX += 3.5;
@@ -95,11 +92,15 @@ public class EarthBoyWindGirl extends JFrame{
                         if (earthBoy.isBuild){
                             earthBoy.leaveBuildMode();
                             earthBoy.setReadyBuild(false);
+                            if (platforms.contains(earthPlat)){
+                                platforms.remove(earthPlat);
+                            }
+                            earthPlat = new Platform(0,0,0,0);
                         }
                         else{
                             earthBoy.enterBuildMode();
+                            earthPlat = new Platform(20,20, 100, 30);
                             earthBoy.setReadyBuild(false);
-
                         }
                     } else if (i == KeyEvent.VK_UP) {
                         System.out.println(windGirl.isDoubleJump);
@@ -127,6 +128,11 @@ public class EarthBoyWindGirl extends JFrame{
                 windGirl.move();
                 earthBoy.setVX(eVX);
                 earthBoy.move();
+
+                if (earthBoy.isBuild){
+                    earthAbility();
+                }
+
                 draw.repaint();
             }
         });
@@ -140,24 +146,29 @@ public class EarthBoyWindGirl extends JFrame{
     }
 
     public void earthAbility() {
-        earthPlat = new Platform(20,20, 100, 30);
-        p.addKeyListener(new KeyAdapter(){
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int key = e.getKeyCode();
-                if (key == KeyEvent.VK_W) {
-                    earthPlat.setVY(2.0);
-                } else if (key == KeyEvent.VK_D) {
-                    earthPlat.setVX(2.0);
-                } else if (key == KeyEvent.VK_A) {
-                    earthPlat.setVX(-2.0);
-                } else if (key == KeyEvent.VK_S) {
-                    earthPlat.setVY(-2.0);
-                }
-                earthPlat.move();
-                draw.repaint();
+        earthPlat.setVX(0);
+        earthPlat.setVY(0);
+        for (Integer i: storedKeys) {
+            if (i == KeyEvent.VK_W){
+                earthPlat.setVY(2.0);
+            }   
+            if (i == KeyEvent.VK_S){
+                earthPlat.setVY(-2.0);
             }
-        });
+            if (i == KeyEvent.VK_A){
+                earthPlat.setVX(-2.0);
+            }
+            if (i == KeyEvent.VK_D){
+                earthPlat.setVX(2.0);
+            }
+            if (i == KeyEvent.VK_SPACE){
+                platforms.add(earthPlat);
+                earthPlat = new Platform(0,0,0,0);
+                earthBoy.leaveBuildMode();
+            }
+        }
+
+        earthPlat.move();
     }
 
     private class kListener extends KeyAdapter{
@@ -219,7 +230,8 @@ public class EarthBoyWindGirl extends JFrame{
 
             g2.setColor(Color.red);
             g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
-            g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h, 0, 0, 100, 100, null);
+            System.out.println(earthBoy.x);
+            g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + earthBoy.h, 37, 67, 92, 126, null);
 
 
         }
