@@ -61,7 +61,7 @@ public class EarthBoyWindGirl extends JFrame{
         windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
         earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false, false);
 
-        SS = loadImage("EdittedSpriteSheet.png");
+        SS = loadImage("\\Images\\EdittedSpriteSheet.png");
         
         draw.setPreferredSize(new Dimension(W, H));
 
@@ -219,7 +219,7 @@ public class EarthBoyWindGirl extends JFrame{
             
             g2.setColor(Color.blue);
             g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
-            //g.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, frame * spriteW, exploNum * spriteH, (frame+1) * spriteW, (exploNum+1) * spriteH, null);
+            // g.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, frame * spriteW, exploNum * spriteH, (frame+1) * spriteW, (exploNum+1) * spriteH, null);
 
             g2.setColor(Color.red);
             g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
