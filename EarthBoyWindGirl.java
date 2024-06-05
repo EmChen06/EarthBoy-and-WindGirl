@@ -3,6 +3,10 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.Timer;
 import java.util.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+
 
 public class EarthBoyWindGirl extends JFrame{
 
@@ -13,6 +17,7 @@ public class EarthBoyWindGirl extends JFrame{
     WindGirl windGirl;
     EarthBoy earthBoy;
     Timer keyDelay;
+    BufferedImage SS;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     ArrayList<Integer> storedKeys = new ArrayList<>();
@@ -54,6 +59,8 @@ public class EarthBoyWindGirl extends JFrame{
 
         windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
         earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false, false);
+
+        SS = loadImage("EdittedSpriteSheet.png");
         
         draw.setPreferredSize(new Dimension(W, H));
 
@@ -180,10 +187,32 @@ public class EarthBoyWindGirl extends JFrame{
             
             g2.setColor(Color.blue);
             g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
+            //g.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, frame * spriteW, exploNum * spriteH, (frame+1) * spriteW, (exploNum+1) * spriteH, null);
 
             g2.setColor(Color.red);
             g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
 
         }
     }
+
+    /**
+	 * Loads an image from a file in the resource folder
+	 * @param filename	The name of the file
+	 * @return	Returns a BufferedImage connected to filename
+	 */
+	BufferedImage loadImage(String filename) {
+		BufferedImage image = null;	
+		java.net.URL imageURL = this.getClass().getResource(filename);
+		if (imageURL != null) {
+			try {
+				image = ImageIO.read(imageURL);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else { 
+			JOptionPane.showMessageDialog(null, "An image failed to load: " + filename , "ERROR", JOptionPane.ERROR_MESSAGE);
+		}
+		return image;
+	}
+
 }
