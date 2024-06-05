@@ -16,8 +16,7 @@ public class EarthBoyWindGirl extends JFrame{
     int H = 600;
     WindGirl windGirl;
     EarthBoy earthBoy;
-    Timer keyDelay, platTimer; //platTimer for the EarthBoy ability, disappears after 5 seconds
-    Platform earthPlat = new Platform(0,0,0,0);
+    Timer keyDelay;
     BufferedImage SS;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
@@ -73,17 +72,18 @@ public class EarthBoyWindGirl extends JFrame{
                 int wVX = 0;
                 for (Integer i: storedKeys) {
                     if (i == KeyEvent.VK_W) { // up,jump
-                        if (!earthBoy.isBuild){ //NORMAL MOVEMENT
+                        if (!earthBoy.isBuild){
                             if (!earthBoy.isJump && earthBoy.preparedJump){
                                 earthBoy.setJump(true);
                                 earthBoy.setVY(15);
                                 earthBoy.setPreparedJump(false);
-
                             }
                         }
-                        else if (earthBoy.isBuild) { //WHEN HE CLICKS BUILD, TODO: make sure he is on the group (not jumping) before he builds
-                            earthAbility();
+                        else{
+
                         }
+
+                        
                     } else if (i == KeyEvent.VK_D) { // forward
                         if (!earthBoy.isBuild){
                             eVX += 3.5;
@@ -141,29 +141,6 @@ public class EarthBoyWindGirl extends JFrame{
         this.setLocationRelativeTo(null);
     }
 
-    public void earthAbility() {
-        earthPlat = new Platform (W / 2, H / 2, 100, 30); 
-        draw.repaint();
-        p.addKeyListener(new KeyAdapter() {
-             @Override
-             public void keyPressed(KeyEvent event) {
-                 int key = event.getKeyCode();
-                 
-                 if (key == KeyEvent.VK_W) {
-                     earthPlat.setVY(2.0);
-                 } else if (key == KeyEvent.VK_D) {
-                     earthPlat.setVX(2.0);
-                 } else if (key == KeyEvent.VK_A) {
-                     earthPlat.setVX(-2.0);
-                 } else if (key == KeyEvent.VK_S) {
-                     earthPlat.setVY(-2.0);
-                 }
-                 earthPlat.move();
-                 draw.repaint();
-             }
-        });
-    }
-
     private class kListener extends KeyAdapter{
         public void keyPressed(KeyEvent event) {
             Integer e = event.getKeyCode();
@@ -213,9 +190,6 @@ public class EarthBoyWindGirl extends JFrame{
             for (Platform platform : platforms) {
                  g2.fillRect(platform.x, platform.y, platform.width, platform.height);
             }
-
-            g2.setColor(new Color(128, 156, 217));
-            g2.fillRect(earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height);
             
             g2.setColor(Color.blue);
             g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
