@@ -19,4 +19,12 @@ public class Platform extends Rectangle{
         this.y = (int)this.yy;
     }
 
+    void setVX(double speedX) {
+        this.vx = speedX;
+    }
+
+    void setVY(double speedY) {
+        this.vy = speedY;
+    }
+
 }
