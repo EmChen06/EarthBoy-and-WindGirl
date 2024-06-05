@@ -38,7 +38,7 @@ public class EarthBoyWindGirl extends JFrame{
         // adding test platforms
         platforms.add(new Platform(W - 300, H - 200, 100, 30));
         platforms.add(new Platform(W - 450, H - 80, 100, 30));
-        platforms.add(new Platform(-30, H-30, W+60, 30));
+        platforms.add(new Platform(-30, H, W+60, 30));
         platforms.add(new Platform(-30, 0, 30, H+30));
         platforms.add(new Platform(W, 0, 30, H+30));
 
@@ -168,11 +168,17 @@ public class EarthBoyWindGirl extends JFrame{
         @Override
         public void paintComponent(Graphics g) { //changed to public instead of protected
             super.paintComponent(g); 
-
+        
             Graphics2D g2 = (Graphics2D)g;
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON); //turn on antialiasing
-
+        
             g2.setColor(Color.black);
+
+            for (int i = 0; i < W / 20; i++) {
+                for (int j = 0; j < H / 20; j++){
+                    g2.drawRect(i*20, j*20, 20, 20);
+                }
+            }
 
             for (Platform platform : platforms) {
                  g2.fillRect(platform.x, platform.y, platform.width, platform.height);
