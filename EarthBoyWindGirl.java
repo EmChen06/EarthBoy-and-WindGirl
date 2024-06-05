@@ -218,10 +218,11 @@ public class EarthBoyWindGirl extends JFrame{
             g2.fillRect(earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height);
             
             g2.setColor(Color.blue);
+            g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
             g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
-            // g.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, frame * spriteW, exploNum * spriteH, (frame+1) * spriteW, (exploNum+1) * spriteH, null);
 
             g2.setColor(Color.red);
+            g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h, 0, 0, 100, 100, null);
             g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
 
         }
