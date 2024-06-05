@@ -64,19 +64,37 @@ public class EarthBoyWindGirl extends JFrame{
                 int eVX = 0;
                 int wVX = 0;
                 for (Integer i: storedKeys) {
-                
                     if (i == KeyEvent.VK_W) { // up,jump
-                        if (!earthBoy.isJump && earthBoy.preparedJump){
-                            earthBoy.setJump(true);
-                            earthBoy.setVY(15);
-                            earthBoy.setPreparedJump(false);
+                        if (!earthBoy.isBuild){
+                            if (!earthBoy.isJump && earthBoy.preparedJump){
+                                earthBoy.setJump(true);
+                                earthBoy.setVY(15);
+                                earthBoy.setPreparedJump(false);
+                            }
                         }
+                        else{
+
+                        }
+
+                        
                     } else if (i == KeyEvent.VK_D) { // forward
-                        eVX += 3.5;
+                        if (!earthBoy.isBuild){
+                            eVX += 3.5;
+                        }
                     } else if (i == KeyEvent.VK_A) { // back
-                        eVX -= 3.5;
-                    } else if (i == KeyEvent.VK_E) { //if he presses E again, he can exit
-                        earthBoy.enterBuildMode();
+                        if (!earthBoy.isBuild){
+                            eVX -= 3.5;
+                        }
+                    } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump) { //if he presses E again, he can exit
+                        if (earthBoy.isBuild){
+                            earthBoy.leaveBuildMode();
+                            earthBoy.setReadyBuild(false);
+                        }
+                        else{
+                            earthBoy.enterBuildMode();
+                            earthBoy.setReadyBuild(false);
+
+                        }
                     } else if (i == KeyEvent.VK_UP) {
                         System.out.println(windGirl.isDoubleJump);
                         if (!windGirl.isJump){
@@ -133,6 +151,10 @@ public class EarthBoyWindGirl extends JFrame{
             }
             if (e == KeyEvent.VK_UP){
                 windGirl.setPreparedJump(true);
+            }
+
+            if (e == KeyEvent.VK_E){
+                earthBoy.setReadyBuild(true);
             }
         }
     }

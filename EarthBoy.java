@@ -3,6 +3,7 @@ import java.awt.image.BufferedImage;
 public class EarthBoy extends Character{
 
     boolean isBuild;
+    boolean readyBuild = true;
 
     EarthBoy(int startX, int startY, BufferedImage image, boolean jump, boolean dead, boolean build) {
         super(startX, startY, image, jump, dead);
@@ -23,6 +24,10 @@ public class EarthBoy extends Character{
 
     void leaveBuildMode() {
         this.isBuild = false;
+    }
+
+    public void setReadyBuild(boolean readyBuild) {
+        this.readyBuild = readyBuild;
     }
 
 }
