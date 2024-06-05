@@ -41,28 +41,28 @@ public class Platform extends Rectangle{
 
     void checkCollision(ArrayList<Platform> platforms){
         for (Platform p : platforms){
-            if (this.x < p.x+p.width && this.x  + this.height> p.x && this.y + this.height>= p.y && vy < 0 && this.y + this.height <= p.y+p.height && this.y + this.height + this.vy <= p.y) {
+            if (this.x < p.x+p.width && this.x  + this.width> p.x && this.y + this.height>= p.y && vy < 0 && this.y + this.height <= p.y+p.height && this.y + this.height + this.vy <= p.y) {
                 this.setY(p.y - this.height);
                 this.setVY(0);
-                // System.out.println("COLLIDING");
+                System.out.println("COLLIDING 1");
             }
-            else if (this.x + this.width > p.x && this.x < p.x && this.y < p.y + p.height && this.y + this.height > p.y){
-                this.setX(p.x - this.width);
-                this.setVX(0);
-                //System.out.println("COLLIDING");
-
-            }
-            else if (this.x < p.x + p.width && this.x + this.width > p.x + p.width && this.y < p.y + p.height && this.y + this.height > p.y){
-                this.setX(p.x + p.width);
-                this.setVX(0);
-                //System.out.println("COLLIDING");                
-            }
-
-            else if (this.y < p.y + p.height && this.x + this.width > p.x && this.x < p.x + p.width && vy > 0 && this.y + this.height > p.y + p.height){
+            if (this.y < p.y + p.height && this.x + this.width > p.x && this.x < p.x + p.width && vy > 0 && this.y + this.height > p.y + p.height){
                 this.setY(p.y + p.height);
                 this.setVY(0);
-                // System.out.println("COLLIDING");                
+                System.out.println("COLLIDING 4");                
             }
+            if (this.x + this.width > p.x && this.x < p.x && this.y < p.y + p.height && this.y + this.height > p.y){
+                this.setX(p.x - this.width);
+                this.setVX(0);
+                System.out.println("COLLIDING 2");
+
+            }
+            if (this.x < p.x + p.width && this.x + this.width > p.x + p.width && this.y < p.y + p.height && this.y + this.height > p.y){
+                this.setX(p.x + p.width);
+                this.setVX(0);
+            }
+
+           
         }
     }
 }

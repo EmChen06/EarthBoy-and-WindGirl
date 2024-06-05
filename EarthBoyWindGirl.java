@@ -230,7 +230,6 @@ public class EarthBoyWindGirl extends JFrame{
 
             g2.setColor(Color.red);
             g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
-            System.out.println(earthBoy.x);
             g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + earthBoy.h, 37, 67, 92, 126, null);
 
 
