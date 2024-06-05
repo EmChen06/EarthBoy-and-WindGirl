@@ -3,6 +3,10 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.Timer;
 import java.util.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+
 
 public class EarthBoyWindGirl extends JFrame{
 
@@ -14,6 +18,7 @@ public class EarthBoyWindGirl extends JFrame{
     EarthBoy earthBoy;
     Timer keyDelay, platTimer; //platTimer for the EarthBoy ability, disappears after 5 seconds
     Platform earthPlat = new Platform(0,0,0,0);
+    BufferedImage SS;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     ArrayList<Integer> storedKeys = new ArrayList<>();
@@ -39,7 +44,7 @@ public class EarthBoyWindGirl extends JFrame{
         // adding test platforms
         platforms.add(new Platform(W - 300, H - 200, 100, 30));
         platforms.add(new Platform(W - 450, H - 80, 100, 30));
-        platforms.add(new Platform(-30, H-30, W+60, 30));
+        platforms.add(new Platform(-30, H, W+60, 30));
         platforms.add(new Platform(-30, 0, 30, H+30));
         platforms.add(new Platform(W, 0, 30, H+30));
 
@@ -55,6 +60,8 @@ public class EarthBoyWindGirl extends JFrame{
 
         windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
         earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false, false);
+
+        SS = loadImage("EdittedSpriteSheet.png");
         
         draw.setPreferredSize(new Dimension(W, H));
 
@@ -191,11 +198,17 @@ public class EarthBoyWindGirl extends JFrame{
         @Override
         public void paintComponent(Graphics g) { //changed to public instead of protected
             super.paintComponent(g); 
-
+        
             Graphics2D g2 = (Graphics2D)g;
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON); //turn on antialiasing
-
+        
             g2.setColor(Color.black);
+
+            for (int i = 0; i < W / 20; i++) {
+                for (int j = 0; j < H / 20; j++){
+                    g2.drawRect(i*20, j*20, 20, 20);
+                }
+            }
 
             for (Platform platform : platforms) {
                  g2.fillRect(platform.x, platform.y, platform.width, platform.height);
@@ -206,10 +219,32 @@ public class EarthBoyWindGirl extends JFrame{
             
             g2.setColor(Color.blue);
             g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
+            //g.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, frame * spriteW, exploNum * spriteH, (frame+1) * spriteW, (exploNum+1) * spriteH, null);
 
             g2.setColor(Color.red);
             g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
 
         }
     }
+
+    /**
+	 * Loads an image from a file in the resource folder
+	 * @param filename	The name of the file
+	 * @return	Returns a BufferedImage connected to filename
+	 */
+	BufferedImage loadImage(String filename) {
+		BufferedImage image = null;	
+		java.net.URL imageURL = this.getClass().getResource(filename);
+		if (imageURL != null) {
+			try {
+				image = ImageIO.read(imageURL);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else { 
+			JOptionPane.showMessageDialog(null, "An image failed to load: " + filename , "ERROR", JOptionPane.ERROR_MESSAGE);
+		}
+		return image;
+	}
+
 }
