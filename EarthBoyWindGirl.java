@@ -20,6 +20,7 @@ public class EarthBoyWindGirl extends JFrame{
     BufferedImage SS;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
+    Platform earthPlat = new Platform(0,0,0,0);
     ArrayList<Integer> storedKeys = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -80,10 +81,8 @@ public class EarthBoyWindGirl extends JFrame{
                             }
                         }
                         else{
-
+                            earthAbility();
                         }
-
-                        
                     } else if (i == KeyEvent.VK_D) { // forward
                         if (!earthBoy.isBuild){
                             eVX += 3.5;
@@ -128,7 +127,6 @@ public class EarthBoyWindGirl extends JFrame{
                 windGirl.move();
                 earthBoy.setVX(eVX);
                 earthBoy.move();
-
                 draw.repaint();
             }
         });
@@ -139,6 +137,27 @@ public class EarthBoyWindGirl extends JFrame{
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+    }
+
+    public void earthAbility() {
+        earthPlat = new Platform(20,20, 100, 30);
+        p.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == KeyEvent.VK_W) {
+                    earthPlat.setVY(2.0);
+                } else if (key == KeyEvent.VK_D) {
+                    earthPlat.setVX(2.0);
+                } else if (key == KeyEvent.VK_A) {
+                    earthPlat.setVX(-2.0);
+                } else if (key == KeyEvent.VK_S) {
+                    earthPlat.setVY(-2.0);
+                }
+                earthPlat.move();
+                draw.repaint();
+            }
+        });
     }
 
     private class kListener extends KeyAdapter{
@@ -191,13 +210,17 @@ public class EarthBoyWindGirl extends JFrame{
                  g2.fillRect(platform.x, platform.y, platform.width, platform.height);
             }
             
+            g2.setColor(new Color(128, 156, 217));
+            g2.fillRect(earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height);
+
             g2.setColor(Color.blue);
-            g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
+            // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
             g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
 
             g2.setColor(Color.red);
-            g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h, 0, 0, 100, 100, null);
             g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
+            g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h, 0, 0, 100, 100, null);
+
 
         }
     }
