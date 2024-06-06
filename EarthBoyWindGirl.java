@@ -123,10 +123,13 @@ public class EarthBoyWindGirl extends JFrame {
                     } else if (i == KeyEvent.VK_LEFT) {
                         wVX -= 3.5;
                     }
+                }
                 windGirl.setVX(wVX);
                 windGirl.move();
                 earthBoy.setVX(eVX);
                 earthBoy.move();
+
+                
 
                 if (earthBoy.isBuild) {
                     earthAbility();
@@ -139,7 +142,7 @@ public class EarthBoyWindGirl extends JFrame {
 
                 draw.repaint();
             }
-        }});
+        });
     
         keyDelay.start();
 
