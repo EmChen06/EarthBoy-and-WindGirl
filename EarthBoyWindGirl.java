@@ -94,7 +94,6 @@ public class EarthBoyWindGirl extends JFrame {
                             eVX -= 3.5;
                         }
                     } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump && !tempPlaced) { //if he presses E again, he can exit
-                        System.out.println(tempPlaced);
                         if (earthBoy.isBuild) {
                             earthBoy.leaveBuildMode();
                             earthBoy.setReadyBuild(false);
@@ -108,7 +107,6 @@ public class EarthBoyWindGirl extends JFrame {
                             earthBoy.setReadyBuild(false);
                         }
                     } else if (i == KeyEvent.VK_UP) {
-                        System.out.println(windGirl.isDoubleJump);
                         if (!windGirl.isJump) {
                             windGirl.setDoubleJump(false);
                         }
@@ -175,7 +173,6 @@ public class EarthBoyWindGirl extends JFrame {
                 platforms.add(earthPlat);
                 platPlaced = true;
                 tempPlaced = true;
-                System.out.println(platforms.size());
                 earthBoy.leaveBuildMode();
             }
         }
@@ -185,9 +182,7 @@ public class EarthBoyWindGirl extends JFrame {
     public void platformDecay() {
         platTimer = new Timer(3500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("woah");
                 platforms.remove(earthPlat);
-                System.out.println(platforms.size());
                 earthPlat = new Platform(0, 0, 0, 0);
                 draw.repaint();
                 tempPlaced = false;
@@ -251,7 +246,8 @@ public class EarthBoyWindGirl extends JFrame {
             }
 
             g2.setColor(new Color(128, 156, 217));
-            g2.fillRect(earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height);
+            // g2.fillRect(earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height);
+            g2.drawImage(platformImg, earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height, null);
 
             g2.setColor(Color.blue);
             // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);

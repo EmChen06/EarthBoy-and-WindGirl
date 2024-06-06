@@ -11,7 +11,7 @@ public abstract class Interactable extends Rectangle{
     }
 
     void checkCollision(Character c){
-        System.out.println(c.name);
+        // System.out.println(c.name);
         if (c.x < this.x+this.width && c.x  + c.w> this.x && c.y + c.h>= this.y && c.vy < 0 && c.y + c.h <= this.y+this.height && c.y + c.h + c.vy <= this.y) {
             onInteraction(c);
         }
