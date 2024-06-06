@@ -24,6 +24,8 @@ public class EarthBoyWindGirl extends JFrame {
     Platform earthPlat = new Platform(0, 0, 0, 0);
     ArrayList<Integer> storedKeys = new ArrayList<>();
 
+    PoisonFog poisonFog;
+
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -59,6 +61,8 @@ public class EarthBoyWindGirl extends JFrame {
          */
         windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
         earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false, false);
+
+        poisonFog = new PoisonFog(400,500,100,20,null);
 
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
         platformImg = loadImage("\\Images\\Platform.png");
@@ -129,7 +133,8 @@ public class EarthBoyWindGirl extends JFrame {
                 earthBoy.setVX(eVX);
                 earthBoy.move();
 
-                
+                poisonFog.checkCollision(earthBoy);
+                poisonFog.checkCollision(windGirl);
 
                 if (earthBoy.isBuild) {
                     earthAbility();
@@ -222,10 +227,11 @@ public class EarthBoyWindGirl extends JFrame {
 
         @Override
         public void paintComponent(Graphics g) { //changed to public instead of protected
-            super.paintComponent(g);
-
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //turn on antialiasing
+            super.paintComponent(g); 
+        
+            Graphics2D g2 = (Graphics2D)g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON); //turn on antialiasing
+            //g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR); //turn on antialiasing
 
             g2.setColor(Color.black);
 
@@ -250,6 +256,11 @@ public class EarthBoyWindGirl extends JFrame {
             g2.setColor(Color.red);
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
             g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + earthBoy.h, 37, 67, 92, 126, null);
+
+
+            
+            g2.setColor(Color.blue);
+            g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
 
         }
     }

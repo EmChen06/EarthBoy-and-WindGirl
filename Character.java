@@ -11,6 +11,7 @@ public class Character {
     boolean isJump, isDead;
     double gravity = 0.98;
     boolean preparedJump = true;
+    String name = "";
 
     Character(int startX, int startY, BufferedImage image, boolean jump, boolean dead) {
         this.img = image;
