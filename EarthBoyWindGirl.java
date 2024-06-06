@@ -16,7 +16,7 @@ public class EarthBoyWindGirl extends JFrame{
     int H = 600;
     WindGirl windGirl;
     EarthBoy earthBoy;
-    Timer keyDelay;
+    Timer keyDelay, platTimer;
     BufferedImage SS;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
@@ -133,6 +133,12 @@ public class EarthBoyWindGirl extends JFrame{
                     earthAbility();
                 }
 
+                // if (platforms.contains(earthPlat)) {
+                //     System.out.println("hello");
+                //     platformDecay();
+
+                // }
+
                 draw.repaint();
             }
         });
@@ -151,17 +157,13 @@ public class EarthBoyWindGirl extends JFrame{
         for (Integer i: storedKeys) {
             if (i == KeyEvent.VK_W){
                 earthPlat.setVY(2.0);
-            }   
-            if (i == KeyEvent.VK_S){
+            } else if (i == KeyEvent.VK_S){
                 earthPlat.setVY(-2.0);
-            }
-            if (i == KeyEvent.VK_A){
+            } else if (i == KeyEvent.VK_A){
                 earthPlat.setVX(-2.0);
-            }
-            if (i == KeyEvent.VK_D){
+            } else if (i == KeyEvent.VK_D){
                 earthPlat.setVX(2.0);
-            }
-            if (i == KeyEvent.VK_SPACE){
+            } else if (i == KeyEvent.VK_SPACE){
                 platforms.add(earthPlat);
                 earthPlat = new Platform(0,0,0,0);
                 earthBoy.leaveBuildMode();
@@ -169,6 +171,14 @@ public class EarthBoyWindGirl extends JFrame{
         }
 
         earthPlat.move();
+    }
+
+    public void platformDecay() {
+        platTimer = new Timer(5000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                platforms.remove(earthPlat);
+            }
+        });
     }
 
     private class kListener extends KeyAdapter{
@@ -185,12 +195,9 @@ public class EarthBoyWindGirl extends JFrame{
 
             if (e == KeyEvent.VK_W){
                 earthBoy.setPreparedJump(true);
-            }
-            if (e == KeyEvent.VK_UP){
+            } else if (e == KeyEvent.VK_UP){
                 windGirl.setPreparedJump(true);
-            }
-
-            if (e == KeyEvent.VK_E){
+            } else if (e == KeyEvent.VK_E){
                 earthBoy.setReadyBuild(true);
             }
         }
@@ -229,7 +236,7 @@ public class EarthBoyWindGirl extends JFrame{
             g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
 
             g2.setColor(Color.red);
-            g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
+            // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
             g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + earthBoy.h, 37, 67, 92, 126, null);
 
 
