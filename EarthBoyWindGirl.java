@@ -18,6 +18,7 @@ public class EarthBoyWindGirl extends JFrame{
     EarthBoy earthBoy;
     Timer keyDelay, platTimer;
     BufferedImage SS;
+    Boolean platPlaced = false, tempPlaced = false;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0,0,0,0);
@@ -88,7 +89,8 @@ public class EarthBoyWindGirl extends JFrame{
                         if (!earthBoy.isBuild){
                             eVX -= 3.5;
                         }
-                    } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump) { //if he presses E again, he can exit
+                    } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump && !tempPlaced) { //if he presses E again, he can exit
+                        System.out.println(tempPlaced);
                         if (earthBoy.isBuild){
                             earthBoy.leaveBuildMode();
                             earthBoy.setReadyBuild(false);
@@ -133,11 +135,10 @@ public class EarthBoyWindGirl extends JFrame{
                     earthAbility();
                 }
 
-                // if (platforms.contains(earthPlat)) {
-                //     System.out.println("hello");
-                //     platformDecay();
-
-                // }
+                if (platPlaced) {
+                    platformDecay();
+                    platPlaced = false;
+                }
 
                 draw.repaint();
             }
@@ -156,29 +157,37 @@ public class EarthBoyWindGirl extends JFrame{
         earthPlat.setVY(0);
         for (Integer i: storedKeys) {
             if (i == KeyEvent.VK_W){
-                earthPlat.setVY(2.0);
+                earthPlat.setVY(4.0);
             } else if (i == KeyEvent.VK_S){
-                earthPlat.setVY(-2.0);
+                earthPlat.setVY(-4.0);
             } else if (i == KeyEvent.VK_A){
-                earthPlat.setVX(-2.0);
+                earthPlat.setVX(-4.0);
             } else if (i == KeyEvent.VK_D){
-                earthPlat.setVX(2.0);
+                earthPlat.setVX(4.0);
             } else if (i == KeyEvent.VK_SPACE){
                 platforms.add(earthPlat);
-                earthPlat = new Platform(0,0,0,0);
+                platPlaced = true;
+                tempPlaced = true;
+                System.out.println(platforms.size());
                 earthBoy.leaveBuildMode();
             }
         }
-
         earthPlat.move();
     }
 
     public void platformDecay() {
-        platTimer = new Timer(5000, new ActionListener() {
+        platTimer = new Timer(3500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                System.out.println("woah");
                 platforms.remove(earthPlat);
+                System.out.println(platforms.size());
+                earthPlat = new Platform(0,0,0,0);
+                draw.repaint();
+                tempPlaced = false;
             }
         });
+        platTimer.setRepeats(false);
+        platTimer.start();
     }
 
     private class kListener extends KeyAdapter{
