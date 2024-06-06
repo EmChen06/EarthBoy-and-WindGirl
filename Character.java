@@ -79,6 +79,12 @@ public class Character {
                 this.isJump = false;
                 jumping = false;
             }
+            if (this.y < p.y + p.height && this.x + this.w > p.x && this.x < p.x + p.width && vy > 0 && this.y + this.h > p.y + p.height){
+                this.setY(p.y + p.height);
+                this.setVY(0);
+                // System.out.println("COLLIDING");                
+            }
+            
             if (this.x + this.w > p.x && this.x < p.x && this.y < p.y + p.height && this.y + this.h > p.y){
                 this.setX(p.x - this.w);
                 //this.setVX(0);
@@ -91,11 +97,7 @@ public class Character {
                 //System.out.println("COLLIDING");                
             }
 
-            if (this.y < p.y + p.height && this.x + this.w > p.x && this.x < p.x + p.width && vy > 0 && this.y + this.h > p.y + p.height){
-                this.setY(p.y + p.height);
-                this.setVY(0);
-                // System.out.println("COLLIDING");                
-            }
+            
 
         this.isJump = jumping;
         }
