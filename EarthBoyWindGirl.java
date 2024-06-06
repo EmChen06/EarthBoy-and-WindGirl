@@ -1,12 +1,12 @@
 
-import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import javax.swing.Timer;
-import java.util.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.*;
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.Timer;
 
 public class EarthBoyWindGirl extends JFrame {
 
@@ -17,7 +17,7 @@ public class EarthBoyWindGirl extends JFrame {
     WindGirl windGirl;
     EarthBoy earthBoy;
     Timer keyDelay, platTimer;
-    BufferedImage SS;
+    BufferedImage SS, platformImg;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0, 0, 0, 0);
@@ -60,6 +60,7 @@ public class EarthBoyWindGirl extends JFrame {
         earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false, false);
 
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
+        platformImg = loadImage("\\Images\\Platform.png");
 
         draw.setPreferredSize(new Dimension(W, H));
 
@@ -221,7 +222,8 @@ public class EarthBoyWindGirl extends JFrame {
             }
 
             for (Platform platform : platforms) {
-                g2.fillRect(platform.x, platform.y, platform.width, platform.height);
+                //g2.fillRect(platform.x, platform.y, platform.width, platform.height);
+                g2.drawImage(platformImg, platform.x, platform.y, platform.width, platform.height, null);
             }
 
             g2.setColor(new Color(128, 156, 217));
