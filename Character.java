@@ -10,6 +10,7 @@ public class Character {
     boolean isJump, isDead;
     double gravity = 0.98;
     boolean preparedJump = true;
+    String name = "";
 
     Character(int startX, int startY, BufferedImage image, boolean jump, boolean dead) {
         this.img = image;
@@ -84,7 +85,7 @@ public class Character {
                 this.setVY(0);
                 // System.out.println("COLLIDING");                
             }
-            
+
             if (this.x + this.w > p.x && this.x < p.x && this.y < p.y + p.height && this.y + this.h > p.y){
                 this.setX(p.x - this.w);
                 //this.setVX(0);
