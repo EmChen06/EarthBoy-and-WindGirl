@@ -17,7 +17,7 @@ public class EarthBoyWindGirl extends JFrame {
     WindGirl windGirl;
     EarthBoy earthBoy;
     Timer keyDelay, platTimer;
-    BufferedImage SS, platformImg;
+    BufferedImage SS, platformImg, backgroundImg;
     Boolean platPlaced = false, tempPlaced = false;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
@@ -62,10 +62,11 @@ public class EarthBoyWindGirl extends JFrame {
         windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
         earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false, false);
 
-        poisonFog = new PoisonFog(400,500,100,20,null);
+        poisonFog = new PoisonFog(400, 500, 100, 20, null);
 
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
         platformImg = loadImage("\\Images\\Platform.png");
+        backgroundImg = loadImage("\\Images\\background.png");
 
         draw.setPreferredSize(new Dimension(W, H));
 
@@ -94,7 +95,7 @@ public class EarthBoyWindGirl extends JFrame {
                         }
                     } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump && !tempPlaced) { //if he presses E again, he can exit
                         System.out.println(tempPlaced);
-                        if (earthBoy.isBuild){
+                        if (earthBoy.isBuild) {
                             earthBoy.leaveBuildMode();
                             earthBoy.setReadyBuild(false);
                             if (platforms.contains(earthPlat)) {
@@ -148,7 +149,7 @@ public class EarthBoyWindGirl extends JFrame {
                 draw.repaint();
             }
         });
-    
+
         keyDelay.start();
 
         p.setFocusable(true);
@@ -161,16 +162,16 @@ public class EarthBoyWindGirl extends JFrame {
     public void earthAbility() {
         earthPlat.setVX(0);
         earthPlat.setVY(0);
-        for (Integer i: storedKeys) {
-            if (i == KeyEvent.VK_W){
+        for (Integer i : storedKeys) {
+            if (i == KeyEvent.VK_W) {
                 earthPlat.setVY(4.0);
-            } else if (i == KeyEvent.VK_S){
+            } else if (i == KeyEvent.VK_S) {
                 earthPlat.setVY(-4.0);
-            } else if (i == KeyEvent.VK_A){
+            } else if (i == KeyEvent.VK_A) {
                 earthPlat.setVX(-4.0);
-            } else if (i == KeyEvent.VK_D){
+            } else if (i == KeyEvent.VK_D) {
                 earthPlat.setVX(4.0);
-            } else if (i == KeyEvent.VK_SPACE){
+            } else if (i == KeyEvent.VK_SPACE) {
                 platforms.add(earthPlat);
                 platPlaced = true;
                 tempPlaced = true;
@@ -187,7 +188,7 @@ public class EarthBoyWindGirl extends JFrame {
                 System.out.println("woah");
                 platforms.remove(earthPlat);
                 System.out.println(platforms.size());
-                earthPlat = new Platform(0,0,0,0);
+                earthPlat = new Platform(0, 0, 0, 0);
                 draw.repaint();
                 tempPlaced = false;
             }
@@ -227,11 +228,14 @@ public class EarthBoyWindGirl extends JFrame {
 
         @Override
         public void paintComponent(Graphics g) { //changed to public instead of protected
-            super.paintComponent(g); 
-        
-            Graphics2D g2 = (Graphics2D)g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON); //turn on antialiasing
+            super.paintComponent(g);
+
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //turn on antialiasing
             //g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR); //turn on antialiasing
+
+            //draw background
+            g2.drawImage(backgroundImg, 0, 0, W, H, null);
 
             g2.setColor(Color.black);
 
@@ -257,8 +261,6 @@ public class EarthBoyWindGirl extends JFrame {
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
             g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + earthBoy.h, 37, 67, 92, 126, null);
 
-
-            
             g2.setColor(Color.blue);
             g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
 
