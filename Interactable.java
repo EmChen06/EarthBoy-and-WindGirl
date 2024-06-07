@@ -26,7 +26,6 @@ public abstract class Interactable extends Rectangle{
         if (c.x < this.x + this.width && c.x + c.w > this.x + this.width && c.y < this.y + this.height && c.y + c.h > this.y){
             onInteraction(c);                
         }
-
     }
 
     abstract void onInteraction(Character c);

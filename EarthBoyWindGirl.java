@@ -12,13 +12,15 @@ public class EarthBoyWindGirl extends JFrame {
 
     DrawingPanel draw;
     JPanel p;
+    JOptionPane quit;
     int W = 1000;
     int H = 600;
     WindGirl windGirl;
     EarthBoy earthBoy;
+    Door dEarth, dWind;
     Timer keyDelay, platTimer;
     BufferedImage SS, platformImg, backgroundImg;
-    Boolean platPlaced = false, tempPlaced = false;
+    Boolean platPlaced = false, tempPlaced = false, endGame = false;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0, 0, 0, 0);
@@ -61,6 +63,8 @@ public class EarthBoyWindGirl extends JFrame {
          */
         windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
         earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false, false);
+        dWind = new Door(W - 300, H - 300, 40, 100, null);
+        dEarth = new Door(W - 450, H - 180, 40, 100, null);
 
         poisonFog = new PoisonFog(400, 500, 100, 20, null);
 
@@ -126,7 +130,7 @@ public class EarthBoyWindGirl extends JFrame {
                         wVX += 3.5;
                     } else if (i == KeyEvent.VK_LEFT) {
                         wVX -= 3.5;
-                    }
+                    } 
                 }
                 windGirl.setVX(wVX);
                 windGirl.move();
@@ -135,6 +139,9 @@ public class EarthBoyWindGirl extends JFrame {
 
                 poisonFog.checkCollision(earthBoy);
                 poisonFog.checkCollision(windGirl);
+
+                dEarth.checkCollision(earthBoy);
+                dWind.checkCollision(windGirl);
 
                 if (earthBoy.isBuild) {
                     earthAbility();
@@ -145,7 +152,11 @@ public class EarthBoyWindGirl extends JFrame {
                     platPlaced = false;
                 }
 
+                checkDoor();
+
                 checkDeath();
+
+                checkEnd();
 
                 draw.repaint();
             }
@@ -166,6 +177,21 @@ public class EarthBoyWindGirl extends JFrame {
             keyDelay.stop();
             this.dispose();
 
+        }
+    }
+
+    protected void checkDoor() {
+        if (dEarth.charDone && dWind.charDone) {
+            endGame = true;
+        }
+    }
+
+    protected void checkEnd() {
+        if (endGame) {
+            System.out.println("quit");
+            JOptionPane.showMessageDialog(null, "YOU WON!", "Great Job!", JOptionPane.INFORMATION_MESSAGE);
+            keyDelay.stop();
+            this.dispose();
         }
     }
 
@@ -264,11 +290,13 @@ public class EarthBoyWindGirl extends JFrame {
             g2.setColor(Color.blue);
             // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
             //g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
+            g2.fillRect(dWind.x, dWind.y, 40, 100);
             g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
             g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             
             g2.setColor(Color.red);
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
+            g2.fillRect(dEarth.x, dEarth.y, 40, 100);
             g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
             g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
 
