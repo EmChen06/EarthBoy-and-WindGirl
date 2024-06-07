@@ -8,7 +8,7 @@ public class EarthBoy extends Character{
     EarthBoy(int startX, int startY, BufferedImage image, boolean jump, boolean dead, boolean build) {
         super(startX, startY, image, jump, dead);
         this.isBuild = build;
-        this.name = "windGirl";
+        this.name = "earthBoy";
     }
 
     void enterBuildMode() {
