@@ -1,5 +1,4 @@
 import java.awt.image.BufferedImage;
-import java.awt.*;
 
 public class Door extends Interactable {
 

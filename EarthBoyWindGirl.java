@@ -27,6 +27,7 @@ public class EarthBoyWindGirl extends JFrame {
     ArrayList<Integer> storedKeys = new ArrayList<>();
 
     PoisonFog poisonFog;
+    QuickSand quickSand;
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -67,6 +68,7 @@ public class EarthBoyWindGirl extends JFrame {
         dEarth = new Door(W - 450, H - 180, 40, 100, null);
 
         poisonFog = new PoisonFog(400, 500, 100, 20, null);
+        quickSand = new QuickSand(700, 500, 100, 20, null);
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -139,6 +141,8 @@ public class EarthBoyWindGirl extends JFrame {
 
                 poisonFog.checkCollision(earthBoy);
                 poisonFog.checkCollision(windGirl);
+                quickSand.checkCollision(earthBoy);
+                quickSand.checkCollision(windGirl);
 
                 dEarth.checkCollision(earthBoy);
                 dWind.checkCollision(windGirl);
@@ -176,7 +180,6 @@ public class EarthBoyWindGirl extends JFrame {
             JOptionPane.showMessageDialog(null, "U DIED UNLUCKY", "Game Over", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
             this.dispose();
-
         }
     }
 
@@ -290,18 +293,17 @@ public class EarthBoyWindGirl extends JFrame {
             g2.setColor(Color.blue);
             // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
             //g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
-            g2.fillRect(dWind.x, dWind.y, 40, 100);
+            g2.fillRect(dWind.x, dWind.y, dWind.width, dWind.height);
+            g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
             g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
             g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             
             g2.setColor(Color.red);
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
-            g2.fillRect(dEarth.x, dEarth.y, 40, 100);
+            g2.fillRect(dEarth.x, dEarth.y, dEarth.width, dEarth.height);
+            g2.fillRect(quickSand.x, quickSand.y, quickSand.width, quickSand.height);
             g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
             g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
-
-            g2.setColor(Color.blue);
-            g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
 
         }
     }
