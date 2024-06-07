@@ -18,7 +18,7 @@ public class Platform extends Rectangle{
         this.yy -= vy;
         this.x = (int)this.xx;
         this.y = (int)this.yy;
-        this.checkCollision(EarthBoyWindGirl.platforms);
+        this.checkCollision(EarthBoyWindGirl.platforms, EarthBoyWindGirl.poisonList, EarthBoyWindGirl.quickSandList);
     }
 
     void setVX(double speedX) {
@@ -39,30 +39,38 @@ public class Platform extends Rectangle{
         this.x = x;
     }
 
-    void checkCollision(ArrayList<Platform> platforms){
+    void checkCollision(ArrayList<Platform> platforms, ArrayList<Platform> poisons, ArrayList<Platform> quicksands){
         for (Platform p : platforms){
-            if (this.x < p.x+p.width && this.x  + this.width> p.x && this.y + this.height>= p.y && vy < 0 && this.y + this.height <= p.y+p.height && this.y + this.height + this.vy <= p.y) {
-                this.setY(p.y - this.height);
-                this.setVY(0);
-                System.out.println("COLLIDING 1");
-            }
-            if (this.y < p.y + p.height && this.x + this.width > p.x && this.x < p.x + p.width && vy > 0 && this.y + this.height > p.y + p.height){
-                this.setY(p.y + p.height);
-                this.setVY(0);
-                System.out.println("COLLIDING 4");                
-            }
-            if (this.x + this.width > p.x && this.x < p.x && this.y < p.y + p.height && this.y + this.height > p.y){
-                this.setX(p.x - this.width);
-                this.setVX(0);
-                System.out.println("COLLIDING 2");
+            checkPlatformCollision(p);
+        }
+        for (Platform p: poisons){
+            checkPlatformCollision(p);
+        }
+        for (Platform p: quicksands){
+            checkPlatformCollision(p);
+        }
+    }
 
-            }
-            if (this.x < p.x + p.width && this.x + this.width > p.x + p.width && this.y < p.y + p.height && this.y + this.height > p.y){
-                this.setX(p.x + p.width);
-                this.setVX(0);
-            }
+    void checkPlatformCollision(Platform p){
+        if (this.x < p.x+p.width && this.x  + this.width> p.x && this.y + this.height>= p.y && vy < 0 && this.y + this.height <= p.y+p.height && this.y + this.height + this.vy <= p.y) {
+            this.setY(p.y - this.height);
+            this.setVY(0);
+            System.out.println("COLLIDING 1");
+        }
+        if (this.y < p.y + p.height && this.x + this.width > p.x && this.x < p.x + p.width && vy > 0 && this.y + this.height > p.y + p.height){
+            this.setY(p.y + p.height);
+            this.setVY(0);
+            System.out.println("COLLIDING 4");                
+        }
+        if (this.x + this.width > p.x && this.x < p.x && this.y < p.y + p.height && this.y + this.height > p.y){
+            this.setX(p.x - this.width);
+            this.setVX(0);
+            System.out.println("COLLIDING 2");
 
-           
+        }
+        if (this.x < p.x + p.width && this.x + this.width > p.x + p.width && this.y < p.y + p.height && this.y + this.height > p.y){
+            this.setX(p.x + p.width);
+            this.setVX(0);
         }
     }
 }

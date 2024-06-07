@@ -14,4 +14,8 @@ public class QuickSand extends Interactable{
         }        
     }
 
+    @Override
+    void onLeave(Character c) {        
+    }
+
 }

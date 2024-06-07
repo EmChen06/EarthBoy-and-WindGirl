@@ -14,4 +14,9 @@ public class PoisonFog extends Interactable{
         }        
     }
 
+    @Override
+    void onLeave(Character c) {        
+    }
+    
+
 }

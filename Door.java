@@ -12,6 +12,12 @@ public class Door extends Interactable {
         this.charDone = true;
     }
 
+    @Override
+    void onLeave(Character c) {
+        this.charDone = false;        
+    }
+    
+
 
 
 }

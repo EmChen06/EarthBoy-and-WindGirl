@@ -26,6 +26,9 @@ public class EarthBoyWindGirl extends JFrame {
     Platform earthPlat = new Platform(0, 0, 0, 0);
     ArrayList<Integer> storedKeys = new ArrayList<>();
 
+    static ArrayList<Platform> poisonList = new ArrayList<>();
+    static ArrayList<Platform> quickSandList = new ArrayList<>();
+
     PoisonFog poisonFog;
     QuickSand quickSand;
 
@@ -69,6 +72,9 @@ public class EarthBoyWindGirl extends JFrame {
 
         poisonFog = new PoisonFog(400, 500, 100, 20, null);
         quickSand = new QuickSand(700, 500, 100, 20, null);
+
+        poisonList.add(poisonFog);
+        quickSandList.add(quickSand);
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -145,7 +151,10 @@ public class EarthBoyWindGirl extends JFrame {
                 quickSand.checkCollision(windGirl);
 
                 dEarth.checkCollision(earthBoy);
+                System.out.println("Earth: " + dEarth.charDone);
                 dWind.checkCollision(windGirl);
+                System.out.println("Wind: " + dWind.charDone);
+
 
                 if (earthBoy.isBuild) {
                     earthAbility();
