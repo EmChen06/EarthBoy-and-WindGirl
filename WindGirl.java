@@ -2,10 +2,10 @@ import java.awt.image.BufferedImage;
 
 public class WindGirl extends Character{
     boolean isDoubleJump = false;
-    String name = "windGirl";
 
     WindGirl(int startX, int startY, BufferedImage image, boolean jump, boolean dead) {
         super(startX, startY, image, jump, dead);
+        this.name = "windGirl";
     }
 
     @Override
