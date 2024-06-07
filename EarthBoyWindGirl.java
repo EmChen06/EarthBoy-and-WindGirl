@@ -144,6 +144,8 @@ public class EarthBoyWindGirl extends JFrame {
                     platPlaced = false;
                 }
 
+                checkDeath();
+
                 draw.repaint();
             }
         });
@@ -155,6 +157,15 @@ public class EarthBoyWindGirl extends JFrame {
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+    }
+
+    protected void checkDeath() {
+        if (earthBoy.isDead || windGirl.isDead){
+            JOptionPane.showMessageDialog(null, "U DIED UNLUCKY", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            keyDelay.stop();
+            this.dispose();
+
+        }
     }
 
     public void earthAbility() {
