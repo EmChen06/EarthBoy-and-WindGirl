@@ -1,7 +1,7 @@
 /**
  * Reads a .txt file to generate a level
  */
-
+import java.util.*;
 import java.io.*;
 import java.io.FileReader;		
 import java.io.BufferedReader;

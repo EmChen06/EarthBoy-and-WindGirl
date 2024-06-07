@@ -64,6 +64,7 @@ public class EarthBoyWindGirl extends JFrame {
 
         poisonFog = new PoisonFog(400, 500, 100, 20, null);
 
+        //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
         platformImg = loadImage("\\Images\\Platform.png");
         backgroundImg = loadImage("\\Images\\background.png");
@@ -233,7 +234,7 @@ public class EarthBoyWindGirl extends JFrame {
             g2.drawImage(backgroundImg, 0, 0, W, H, null);
 
             g2.setColor(Color.black);
-
+        
             for (int i = 0; i < W / 20; i++) {
                 for (int j = 0; j < H / 20; j++) {
                     g2.drawRect(i * 20, j * 20, 20, 20);
@@ -251,11 +252,14 @@ public class EarthBoyWindGirl extends JFrame {
 
             g2.setColor(Color.blue);
             // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
-            g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
-
+            //g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
+            g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
+            g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
+            
             g2.setColor(Color.red);
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
-            g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + earthBoy.h, 37, 67, 92, 126, null);
+            g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
+            g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
 
             g2.setColor(Color.blue);
             g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
