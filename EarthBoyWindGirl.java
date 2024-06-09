@@ -59,6 +59,7 @@ public class EarthBoyWindGirl extends JFrame {
             cover = loadImage("\\Images\\PICTURE.png");
 
             intro = new JPanel();
+            intro.setLayout(new BoxLayout(intro, BoxLayout.LINE_AXIS));
             introDraw = new DrawingPanel();
             intro.setPreferredSize(new Dimension(Width, Height));
 
@@ -73,6 +74,7 @@ public class EarthBoyWindGirl extends JFrame {
                                     fadeDone = true;
                                     fadeOUT.stop();
                                     fadeIN.stop();
+                                    introDraw.repaint();
                                 } else {
                                     transparency+=2;
                                     introDraw.repaint();
@@ -84,10 +86,19 @@ public class EarthBoyWindGirl extends JFrame {
                         transparency-=2;
                         introDraw.repaint();
                     }
+
+                    
                 }
             });
             fadeIN.start();
-            
+
+            // System.out.println("button?");
+            // start = new JButton("Start");
+            // start.setActionCommand("Start");
+            // start.addActionListener(this);
+            // intro.add(start);
+
+            introDraw.repaint();
             intro.add(introDraw);
             this.add(intro);
             this.pack();
