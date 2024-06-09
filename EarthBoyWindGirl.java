@@ -184,7 +184,7 @@ public class EarthBoyWindGirl extends JFrame {
         // poisonFog = new PoisonFog(200, H - 100, 60, 20, null);
         poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
         // quickSand = new QuickSand(200, H - 20, 60, 20, null);
-        quickSand = new QuickSand(300, H - 420, 60, 20, null);
+        quickSand = new QuickSand(300, H - 420, 200, 20, null);
         poisonList.add(poisonFog);
         quickSandList.add(quickSand);
 
