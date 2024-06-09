@@ -35,8 +35,8 @@ public class EarthBoyWindGirl extends JFrame {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                // new EarthBoyWindGirl();
-                new Introduction();
+                new EarthBoyWindGirl();
+                // new Introduction();
             }
         });
     }
@@ -86,8 +86,6 @@ public class EarthBoyWindGirl extends JFrame {
                         transparency-=2;
                         introDraw.repaint();
                     }
-
-                    
                 }
             });
             fadeIN.start();
@@ -130,8 +128,8 @@ public class EarthBoyWindGirl extends JFrame {
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
-
+        public void actionPerformed(ActionEvent event) {
+            String e = event.getActionCommand();
         }
 
         BufferedImage loadImage(String filename) {
@@ -162,12 +160,42 @@ public class EarthBoyWindGirl extends JFrame {
 
         draw = new DrawingPanel();
 
-        // adding test platforms
-        platforms.add(new Platform(W - 300, H - 200, 100, 30));
-        platforms.add(new Platform(W - 450, H - 80, 100, 30));
+        // adding start platforms
+        platforms.add(new Platform(0, H - 100, 100, 20));
+        // platforms.add(new Platform(W - 300, H - 200, 100, 30));
+        // platforms.add(new Platform(W - 450, H - 80, 100, 30));
+
+        //Floor + Ceiling
         platforms.add(new Platform(-30, H, W + 60, 30));
-        platforms.add(new Platform(-30, 0, 30, H + 30));
-        platforms.add(new Platform(W, 0, 30, H + 30));
+
+        //Side Walls
+        platforms.add(new Platform(-30, 0, 30, H + 30)); 
+        platforms.add(new Platform(W, 0, 30, H + 30)); 
+
+        //Characters
+        windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
+        earthBoy = new EarthBoy(30, H - 120 - 30, null, false, false, false);
+
+        //Doors
+        dWind = new Door(W - 100, H - 480, 40, 80, null);
+        dEarth = new Door(W - 200, H - 480, 40, 80, null);
+
+        //Poison fog + Quicksand
+        // poisonFog = new PoisonFog(200, H - 100, 60, 20, null);
+        poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
+        // quickSand = new QuickSand(200, H - 20, 60, 20, null);
+        quickSand = new QuickSand(300, H - 420, 60, 20, null);
+        poisonList.add(poisonFog);
+        quickSandList.add(quickSand);
+
+        //Additional Platforms
+        platforms.add(new Platform(0, H - 200, W - 200, 20));
+        platforms.add(new Platform(200, H - 310, 400, 20));
+        platforms.add(new Platform(35, H - 260, 100, 20));
+        // platforms.add(new Platform(200, H - 290, 20, 90)); TODO: ADD IN LATER
+        platforms.add(new Platform(300, H - 400, W - 300, 20));
+        platforms.add(new Platform(300, H - 530, 20, 70));
+        platforms.add(new Platform(320, H - 530, 80, 20));
 
         /* 
         for (int i = 0; i < (W / 20); i++) {
@@ -177,16 +205,6 @@ public class EarthBoyWindGirl extends JFrame {
             }
         }
          */
-        windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
-        earthBoy = new EarthBoy(70, H - 40 - 30, null, false, false, false);
-        dWind = new Door(W - 300, H - 300, 40, 100, null);
-        dEarth = new Door(W - 450, H - 180, 40, 100, null);
-
-        poisonFog = new PoisonFog(400, 500, 100, 20, null);
-        quickSand = new QuickSand(700, 500, 100, 20, null);
-
-        poisonList.add(poisonFog);
-        quickSandList.add(quickSand);
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -228,7 +246,7 @@ public class EarthBoyWindGirl extends JFrame {
                             earthPlat = new Platform(0, 0, 0, 0);
                         } else {
                             earthBoy.enterBuildMode();
-                            earthPlat = new Platform(20, 20, 100, 30);
+                            earthPlat = new Platform(earthBoy.x + 10, earthBoy.y + 10, 100, 20);
                             earthBoy.setReadyBuild(false);
                         }
                     } else if (i == KeyEvent.VK_UP) {
