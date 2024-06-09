@@ -11,7 +11,7 @@ import javax.swing.Timer;
 public class EarthBoyWindGirl extends JFrame {
 
     DrawingPanel draw;
-    JPanel p;
+    JPanel introP, p;
     JOptionPane quit;
     int W = 1000;
     int H = 600;
@@ -35,9 +35,110 @@ public class EarthBoyWindGirl extends JFrame {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new EarthBoyWindGirl();
+                // new EarthBoyWindGirl();
+                new Introduction();
             }
         });
+    }
+
+    static class Introduction extends JFrame implements ActionListener {
+
+        BufferedImage cover;
+        JPanel intro;
+        DrawingPanel introDraw;
+        JButton start;
+        int Width = 1000, Height = 600, transparency = 255;
+        Timer fadeIN, fadeOUT;
+        Boolean fadeDone = false;
+
+        Introduction() {
+            this.setTitle("EarthBoy and WindGirl Introduction");
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.setResizable(false);
+
+            cover = loadImage("\\Images\\PICTURE.png");
+
+            intro = new JPanel();
+            introDraw = new DrawingPanel();
+            intro.setPreferredSize(new Dimension(Width, Height));
+
+            fadeIN = new Timer(1, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (transparency == 1) {
+                        fadeOUT = new Timer(1, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                if (transparency == 255) {
+                                    fadeDone = true;
+                                    fadeOUT.stop();
+                                    fadeIN.stop();
+                                } else {
+                                    transparency+=2;
+                                    introDraw.repaint();
+                                }
+                            }
+                        });
+                        fadeOUT.start();
+                    } else {
+                        transparency-=2;
+                        introDraw.repaint();
+                    }
+                }
+            });
+            fadeIN.start();
+            
+            intro.add(introDraw);
+            this.add(intro);
+            this.pack();
+            this.setVisible(true);
+            this.setLocationRelativeTo(null);
+        }
+
+        class DrawingPanel extends JPanel {
+            DrawingPanel() {
+                this.setPreferredSize(new Dimension(Width, Height));
+            }
+
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                if (!fadeDone) {
+                    g2.drawImage(cover, 0,0, Width, Height, null);
+                    g2.setColor(new Color(0,0,0,transparency));
+                    g2.fillRect(0,0,Width,Height);
+                } else {
+                    g2.setColor(new Color(255, 255, 255));
+                    g2.fillRect(0,0,Width, Height);
+                }
+
+            }
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+
+        BufferedImage loadImage(String filename) {
+            BufferedImage image = null;
+            java.net.URL imageURL = this.getClass().getResource(filename);
+            if (imageURL != null) {
+                try {
+                    image = ImageIO.read(imageURL);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "An image failed to load: " + filename, "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            return image;
+        }
+    
+
     }
 
     EarthBoyWindGirl() {
