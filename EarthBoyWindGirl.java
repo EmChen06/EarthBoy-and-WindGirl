@@ -151,9 +151,9 @@ public class EarthBoyWindGirl extends JFrame {
                 quickSand.checkCollision(windGirl);
 
                 dEarth.checkCollision(earthBoy);
-                System.out.println("Earth: " + dEarth.charDone);
+                // System.out.println("Earth: " + dEarth.charDone);
                 dWind.checkCollision(windGirl);
-                System.out.println("Wind: " + dWind.charDone);
+                // System.out.println("Wind: " + dWind.charDone);
 
 
                 if (earthBoy.isBuild) {
