@@ -16,8 +16,8 @@ public class EarthBoyWindGirl {
     JOptionPane quit;
     int W = 1000;
     int H = 600;
-    WindGirl windGirl;
-    EarthBoy earthBoy;
+    static WindGirl windGirl;
+    static EarthBoy earthBoy;
     Door dEarth, dWind;
     Timer keyDelay, platTimer;
     BufferedImage SS, platformImg, backgroundImg;
@@ -32,13 +32,15 @@ public class EarthBoyWindGirl {
     static ArrayList<Platform> poisonList = new ArrayList<>();
     static ArrayList<Platform> quickSandList = new ArrayList<>();
 
+    static ArrayList<Platform> interactableList = new ArrayList<>();
+
     PoisonFog poisonFog;
     QuickSand quickSand;
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Introduction();
+                new EarthBoyWindGirl();
             }
         });
     }
@@ -164,7 +166,7 @@ public class EarthBoyWindGirl {
         p.setPreferredSize(new Dimension(W, H));
 
         draw = new DrawingPanel();
-
+        
         // adding start platforms
         platforms.add(new Platform(0, H - 100, 100, 20));
         // platforms.add(new Platform(W - 300, H - 200, 100, 30));
@@ -192,6 +194,13 @@ public class EarthBoyWindGirl {
         quickSand = new QuickSand(300, H - 420, 200, 20, null);
         poisonList.add(poisonFog);
         quickSandList.add(quickSand);
+
+        interactableList.addAll(poisonList);
+        interactableList.addAll(quickSandList);
+        interactableList.add(dEarth);
+        interactableList.add(dWind);
+
+
 
         //Additional Platforms
         platforms.add(new Platform(0, H - 200, W - 200, 20));
