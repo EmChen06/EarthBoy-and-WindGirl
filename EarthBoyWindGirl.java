@@ -5,10 +5,11 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import javax.imageio.ImageIO;
+import javax.sound.midi.Soundbank;
 import javax.swing.*;
 import javax.swing.Timer;
 
-public class EarthBoyWindGirl extends JFrame {
+public class EarthBoyWindGirl{
 
     DrawingPanel draw;
     JPanel introP, p;
@@ -21,6 +22,8 @@ public class EarthBoyWindGirl extends JFrame {
     Timer keyDelay, platTimer;
     BufferedImage SS, platformImg, backgroundImg;
     Boolean platPlaced = false, tempPlaced = false, endGame = false;
+    static JFrame window = new JFrame();
+    
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0, 0, 0, 0);
@@ -35,13 +38,12 @@ public class EarthBoyWindGirl extends JFrame {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new EarthBoyWindGirl();
-                // new Introduction();
+                new Introduction();
             }
         });
     }
 
-    static class Introduction extends JFrame implements ActionListener {
+    static class Introduction implements ActionListener {
 
         BufferedImage cover;
         JPanel intro;
@@ -52,9 +54,9 @@ public class EarthBoyWindGirl extends JFrame {
         Boolean fadeDone = false;
 
         Introduction() {
-            this.setTitle("EarthBoy and WindGirl Introduction");
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setResizable(false);
+            window.setTitle("EarthBoy and WindGirl Introduction");
+            window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            window.setResizable(false);
 
             cover = loadImage("\\Images\\PICTURE.png");
 
@@ -75,10 +77,13 @@ public class EarthBoyWindGirl extends JFrame {
                                     fadeOUT.stop();
                                     fadeIN.stop();
                                     introDraw.repaint();
+                                    intro.setVisible(false);
                                 } else {
                                     transparency+=2;
                                     introDraw.repaint();
+                                    
                                 }
+
                             }
                         });
                         fadeOUT.start();
@@ -86,9 +91,12 @@ public class EarthBoyWindGirl extends JFrame {
                         transparency-=2;
                         introDraw.repaint();
                     }
+                    
+
                 }
             });
             fadeIN.start();
+            
 
             // System.out.println("button?");
             // start = new JButton("Start");
@@ -98,10 +106,10 @@ public class EarthBoyWindGirl extends JFrame {
 
             introDraw.repaint();
             intro.add(introDraw);
-            this.add(intro);
-            this.pack();
-            this.setVisible(true);
-            this.setLocationRelativeTo(null);
+            window.add(intro);
+            window.pack();
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
         }
 
         class DrawingPanel extends JPanel {
@@ -151,9 +159,9 @@ public class EarthBoyWindGirl extends JFrame {
     }
 
     EarthBoyWindGirl() {
-        this.setTitle("EarthBoy and WindGirl");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+        window.setTitle("EarthBoy and WindGirl");
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
 
         p = new JPanel();
         p.setPreferredSize(new Dimension(W, H));
@@ -192,19 +200,10 @@ public class EarthBoyWindGirl extends JFrame {
         platforms.add(new Platform(0, H - 200, W - 200, 20));
         platforms.add(new Platform(200, H - 310, 400, 20));
         platforms.add(new Platform(35, H - 260, 100, 20));
-        // platforms.add(new Platform(200, H - 290, 20, 90)); TODO: ADD IN LATER
+        platforms.add(new Platform(200, H - 290, 20, 90));// TODO: ADD IN LATER
         platforms.add(new Platform(300, H - 400, W - 300, 20));
         platforms.add(new Platform(300, H - 530, 20, 70));
         platforms.add(new Platform(320, H - 530, 80, 20));
-
-        /* 
-        for (int i = 0; i < (W / 20); i++) {
-            for(int j = 0; j < (H / 20); j++){
-                Platform pl = new Platform(i * 20, j*20, 20, 20);
-                platforms.add(pl);
-            }
-        }
-         */
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -308,17 +307,17 @@ public class EarthBoyWindGirl extends JFrame {
         keyDelay.start();
 
         p.setFocusable(true);
-        this.setContentPane(p);
-        this.pack();
-        this.setVisible(true);
-        this.setLocationRelativeTo(null);
+        window.setContentPane(p);
+        window.pack();
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
     }
 
     protected void checkDeath() {
         if (earthBoy.isDead || windGirl.isDead){
             JOptionPane.showMessageDialog(null, "U DIED UNLUCKY", "Game Over", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
-            this.dispose();
+            window.dispose();
         }
     }
 
@@ -333,7 +332,7 @@ public class EarthBoyWindGirl extends JFrame {
             System.out.println("quit");
             JOptionPane.showMessageDialog(null, "YOU WON!", "Great Job!", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
-            this.dispose();
+            window.dispose();
         }
     }
 
