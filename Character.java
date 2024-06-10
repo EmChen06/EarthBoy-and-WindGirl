@@ -2,7 +2,7 @@
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Character {
+public class Character{
 
     BufferedImage img;
     int x, y;
