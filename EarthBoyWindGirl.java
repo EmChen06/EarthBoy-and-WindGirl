@@ -9,7 +9,7 @@ import javax.sound.midi.Soundbank;
 import javax.swing.*;
 import javax.swing.Timer;
 
-public class EarthBoyWindGirl{
+public class EarthBoyWindGirl {
 
     DrawingPanel draw;
     JPanel introP, p;
@@ -22,8 +22,8 @@ public class EarthBoyWindGirl{
     Timer keyDelay, platTimer;
     BufferedImage SS, platformImg, backgroundImg;
     Boolean platPlaced = false, tempPlaced = false, endGame = false;
+    Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
     static JFrame window = new JFrame();
-    
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0, 0, 0, 0);
@@ -82,31 +82,28 @@ public class EarthBoyWindGirl{
                                     introDraw.repaint();
                                     intro.setVisible(false);
                                 } else {
-                                    transparency+=2;
+                                    transparency += 2;
                                     introDraw.repaint();
-                                    
+
                                 }
 
                             }
                         });
                         fadeOUT.start();
                     } else {
-                        transparency-=2;
+                        transparency -= 2;
                         introDraw.repaint();
                     }
-                    
 
                 }
             });
             fadeIN.start();
-            
 
             // System.out.println("button?");
             // start = new JButton("Start");
             // start.setActionCommand("Start");
             // start.addActionListener(this);
             // intro.add(start);
-
             introDraw.repaint();
             intro.add(introDraw);
             window.add(intro);
@@ -116,6 +113,7 @@ public class EarthBoyWindGirl{
         }
 
         class DrawingPanel extends JPanel {
+
             DrawingPanel() {
                 this.setPreferredSize(new Dimension(Width, Height));
             }
@@ -127,12 +125,12 @@ public class EarthBoyWindGirl{
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 if (!fadeDone) {
-                    g2.drawImage(cover, 0,0, Width, Height, null);
-                    g2.setColor(new Color(0,0,0,transparency));
-                    g2.fillRect(0,0,Width,Height);
+                    g2.drawImage(cover, 0, 0, Width, Height, null);
+                    g2.setColor(new Color(0, 0, 0, transparency));
+                    g2.fillRect(0, 0, Width, Height);
                 } else {
                     g2.setColor(new Color(255, 255, 255));
-                    g2.fillRect(0,0,Width, Height);
+                    g2.fillRect(0, 0, Width, Height);
                 }
 
             }
@@ -157,7 +155,6 @@ public class EarthBoyWindGirl{
             }
             return image;
         }
-    
 
     }
 
@@ -180,8 +177,8 @@ public class EarthBoyWindGirl{
         platforms.add(new Platform(-30, H, W + 60, 30));
 
         //Side Walls
-        platforms.add(new Platform(-30, 0, 30, H + 30)); 
-        platforms.add(new Platform(W, 0, 30, H + 30)); 
+        platforms.add(new Platform(-30, 0, 30, H + 30));
+        platforms.add(new Platform(W, 0, 30, H + 30));
 
         //Characters
         windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
@@ -285,7 +282,7 @@ public class EarthBoyWindGirl{
                         wVX += 3.5;
                     } else if (i == KeyEvent.VK_LEFT) {
                         wVX -= 3.5;
-                    } 
+                    }
                 }
                 windGirl.setVX(wVX);
                 windGirl.move();
@@ -309,7 +306,6 @@ public class EarthBoyWindGirl{
                 // System.out.println("Earth: " + dEarth.charDone);
                 dWind.checkCollision(windGirl);
                 // System.out.println("Wind: " + dWind.charDone);
-
 
                 if (earthBoy.isBuild) {
                     earthAbility();
@@ -340,7 +336,7 @@ public class EarthBoyWindGirl{
     }
 
     protected void checkDeath() {
-        if (earthBoy.isDead || windGirl.isDead){
+        if (earthBoy.isDead || windGirl.isDead) {
             JOptionPane.showMessageDialog(null, "U DIED UNLUCKY", "Game Over", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
             window.dispose();
@@ -438,7 +434,7 @@ public class EarthBoyWindGirl{
             g2.drawImage(backgroundImg, 0, 0, W, H, null);
 
             g2.setColor(Color.black);
-        
+
             for (int i = 0; i < W / 20; i++) {
                 for (int j = 0; j < H / 20; j++) {
                     g2.drawRect(i * 20, j * 20, 20, 20);
@@ -465,7 +461,7 @@ public class EarthBoyWindGirl{
            
             g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
             g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
-            
+
             g2.setColor(Color.red);
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
             for (QuickSand quickSand : quickSandList){
