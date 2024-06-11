@@ -305,43 +305,43 @@ public class EarthBoyWindGirl {
         // }
 
         // //Characters
-        // windGirl = new WindGirl(30, H - 70, null, false, false);
-        // earthBoy = new EarthBoy(30, H - 150, null, false, false, false);
+        windGirl = new WindGirl(30, H - 70, null, false, false);
+        earthBoy = new EarthBoy(30, H - 150, null, false, false, false);
 
         // //Doors
-        // dWind = new Door(W - 100, H - 480, 40, 80, null);
-        // dEarth = new Door(W - 200, H - 480, 40, 80, null);
+        dWind = new Door(W - 100, H - 480, 40, 80, null);
+        dEarth = new Door(W - 200, H - 480, 40, 80, null);
 
-        // //Poison fog + Quicksand
-        // poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
-        // quickSand = new QuickSand(300, H - 420, 200, 20, null);
-        // poisonList.add(poisonFog);
-        // quickSandList.add(quickSand);
+        //Poison fog + Quicksand
+        poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
+        quickSand = new QuickSand(300, H - 420, 200, 20, null);
+        poisonList.add(poisonFog);
+        quickSandList.add(quickSand);
 
-        // interactableList.addAll(poisonList);
-        // interactableList.addAll(quickSandList);
-        // interactableList.addAll(pressurePlateList);
-        // interactableList.add(dEarth);
-        // interactableList.add(dWind);
+        interactableList.addAll(poisonList);
+        interactableList.addAll(quickSandList);
+        interactableList.addAll(pressurePlateList);
+        interactableList.add(dEarth);
+        interactableList.add(dWind);
 
-        // //Additional Platforms
-        // platforms.add(new Platform(0, H - 200, W - 200, 20));
-        // platforms.add(new Platform(200, H - 310, 400, 20));
-        // platforms.add(new Platform(35, H - 260, 100, 20));
+        //Additional Platforms
+        platforms.add(new Platform(0, H - 200, W - 200, 20));
+        platforms.add(new Platform(200, H - 310, 400, 20));
+        platforms.add(new Platform(35, H - 260, 100, 20));
 
-        // Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
-        // platforms.add(movingPlatform);
+        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
+        platforms.add(movingPlatform);
 
-        // platforms.add(new Platform(300, H - 400, W - 300, 20));
-        // platforms.add(new Platform(300, H - 540, 20, 70));
-        // platforms.add(new Platform(320, H - 540, 80, 20));
+        platforms.add(new Platform(300, H - 400, W - 300, 20));
+        platforms.add(new Platform(300, H - 540, 20, 70));
+        platforms.add(new Platform(320, H - 540, 80, 20));
 
-        // // Add pressure plate
-        // PressurePlate plate = new PressurePlate(320, H - 550, 20, 10, null, movingPlatform);
-        // pressurePlateList.add(plate);
+        // Add pressure plate
+        PressurePlate plate = new PressurePlate(320, H - 550, 20, 10, null, movingPlatform);
+        pressurePlateList.add(plate);
 
-        // // Add start platforms
-        // platforms.add(new Platform(0, H - 100, 100, 20));
+        // Add start platforms
+        platforms.add(new Platform(0, H - 100, 100, 20));
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -473,11 +473,13 @@ public class EarthBoyWindGirl {
 
         keyDelay.start();
 
-        p.setFocusable(true);
         window.setContentPane(p);
         window.pack();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
+        p.setFocusable(true);
+        p.requestFocus();
+ 
     }
 
     protected void level1() {

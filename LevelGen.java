@@ -38,8 +38,8 @@ public class LevelGen {
             f1 = new int[count1.length()][lineNum];
 
             for (int i = 0; i < count1.length(); i++) {
-                for (int j = 0; j < lineNum) {
-                    f1[i] = Integer.parseInt(String.valueOf(i));
+                for (int j = 0; j < lineNum; j++) {
+                    f1[i][j] = Integer.parseInt(String.valueOf(i));
                 }
                 count1 = reader1.readLine();
             }
