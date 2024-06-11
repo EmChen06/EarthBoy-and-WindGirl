@@ -16,8 +16,4 @@ public class Door extends Interactable {
     void onLeave(Character c) {
         this.charDone = false;        
     }
-    
-
-
-
 }

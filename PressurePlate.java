@@ -11,7 +11,7 @@ public class PressurePlate extends Interactable{
 
     @Override
     void onInteraction(Character c) {
-        System.out.println("enter");
+        //System.out.println("enter");
         p.move();
     }
 

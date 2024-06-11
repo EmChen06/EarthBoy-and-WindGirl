@@ -101,35 +101,29 @@ public class Platform extends Rectangle{
     void checkPlatformCollision(Platform p){
         if (this.x < p.x+p.width && this.x  + this.width> p.x && this.y + this.height>= p.y && vy < 0 && this.y + this.height <= p.y+p.height && this.y + this.height + this.vy <= p.y) {
             this.setY(p.y - this.height);
-            this.setVY(0);
             System.out.println("COLLIDING 1");
         }
         if (this.y < p.y + p.height && this.x + this.width > p.x && this.x < p.x + p.width && vy > 0 && this.y + this.height > p.y + p.height){
             this.setY(p.y + p.height);
-            this.setVY(0);
             System.out.println("COLLIDING 4");                
         }
         if (this.x + this.width > p.x && this.x < p.x && this.y < p.y + p.height && this.y + this.height > p.y){
             this.setX(p.x - this.width);
-            this.setVX(0);
             System.out.println("COLLIDING 2");
 
         }
         if (this.x < p.x + p.width && this.x + this.width > p.x + p.width && this.y < p.y + p.height && this.y + this.height > p.y){
             this.setX(p.x + p.width);
-            this.setVX(0);
         }
     }
 
     void checkPlayerCollisino(Character p){
         if (this.x < p.x + p.w && this.x + this.width > p.x && this.y + this.height >= p.y && vy < 0 && this.y + this.height <= p.y + p.h && this.y + this.height + this.vy <= p.y) {
             this.setY(p.y - this.height);
-            this.setVY(0);
             // System.out.println("COLLIDING");
         }
         if (this.y < p.y + p.h && this.x + this.width > p.x && this.x < p.x + p.w && vy > 0 && this.y + this.height > p.y + p.h) {
             this.setY(p.y + p.h);
-            this.setVY(0);
             // System.out.println("COLLIDING");                
         }
 
