@@ -20,7 +20,7 @@ public class EarthBoyWindGirl {
     static EarthBoy earthBoy;
     Door dEarth, dWind;
     Timer keyDelay, platTimer;
-    BufferedImage SS, platformImg, backgroundImg;
+    BufferedImage SS, platformImg, backgroundImg, eDoor, wDoor, PressureP;
     Boolean platPlaced = false, tempPlaced = false, endGame = false;
     Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
     static JFrame window = new JFrame();
@@ -168,6 +168,16 @@ public class EarthBoyWindGirl {
 
         draw = new DrawingPanel();
         
+        //setting all the animation variables to false
+        eLeft = false;
+        eRight = false; 
+        eUp = false;
+        eDown = false;
+        wLeft = false;
+        wRight = false; 
+        wUp = false;
+        wDown = false;
+
         // adding start platforms
         platforms.add(new Platform(0, H - 100, 100, 20));
         // platforms.add(new Platform(W - 300, H - 200, 100, 30));
@@ -224,11 +234,16 @@ public class EarthBoyWindGirl {
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
         platformImg = loadImage("\\Images\\Platform.png");
         backgroundImg = loadImage("\\Images\\background.png");
+        eDoor = loadImage("\\Images\\EarthBoyDoor.png");
+        wDoor = loadImage("\\Images\\WindGirlDoor.png");
+        PressureP = loadImage("\\Images\\Plate.png");
 
         draw.setPreferredSize(new Dimension(W, H));
 
         p.add(draw);
         p.addKeyListener(new kListener());
+
+        //movement
         keyDelay = new Timer(10, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int eVX = 0;
@@ -240,15 +255,18 @@ public class EarthBoyWindGirl {
                                 earthBoy.setJump(true);
                                 earthBoy.setVY(15);
                                 earthBoy.setPreparedJump(false);
+                                eUp = true;
                             }
                         }
                     } else if (i == KeyEvent.VK_D) { // forward
                         if (!earthBoy.isBuild) {
                             eVX += 3.5;
+                            eRight = true;
                         }
                     } else if (i == KeyEvent.VK_A) { // back
                         if (!earthBoy.isBuild) {
                             eVX -= 3.5;
+                            eLeft = true;
                         }
                     } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump && !tempPlaced) { //if he presses E again, he can exit
                         if (earthBoy.isBuild) {
@@ -266,22 +284,27 @@ public class EarthBoyWindGirl {
                     } else if (i == KeyEvent.VK_UP) {
                         if (!windGirl.isJump) {
                             windGirl.setDoubleJump(false);
+                            wUp = true;
                         }
                         if (!windGirl.isJump && windGirl.preparedJump) {
                             windGirl.setJump(true);
                             windGirl.setVY(15);
                             windGirl.setPreparedJump(false);
+                            wUp = true;
                         }
                         if (windGirl.isJump && !windGirl.isDoubleJump && windGirl.preparedJump) {
                             windGirl.setDoubleJump(true);
                             windGirl.setVY(15);
                             System.out.println("Double Jump");
                             windGirl.setPreparedJump(false);
+                            wUp = true;
                         }
                     } else if (i == KeyEvent.VK_RIGHT) {
                         wVX += 3.5;
+                        wRight = true;
                     } else if (i == KeyEvent.VK_LEFT) {
                         wVX -= 3.5;
+                        wLeft = true;
                     }
                 }
                 windGirl.setVX(wVX);
@@ -453,27 +476,41 @@ public class EarthBoyWindGirl {
             g2.setColor(Color.blue);
             // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
             //g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
-            g2.fillRect(dWind.x, dWind.y, dWind.width, dWind.height);
+            //g2.fillRect(dWind.x, dWind.y, dWind.width, dWind.height);
+            
+            //Draws the Doors
+            g2.drawImage(wDoor, dWind.x, dWind.y, dWind.width, dWind.height, null);
+            g2.drawImage(eDoor, dEarth.x, dEarth.y, dEarth.width, dEarth.height, null);
 
             for (PoisonFog poisonFog : poisonList){
                 g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
             }
            
-            g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
-            g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
+            //draw windgirl
+            if (wUp == false && wLeft == false && wRight == false){ //standing still
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
+            }
 
             g2.setColor(Color.red);
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
             for (QuickSand quickSand : quickSandList){
                 g2.fillRect(quickSand.x, quickSand.y, quickSand.width, quickSand.height);
             }
-            g2.fillRect(dEarth.x, dEarth.y, dEarth.width, dEarth.height);
-            g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
-            g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
 
-            g2.setColor(Color.ORANGE);
+            //g2.fillRect(dEarth.x, dEarth.y, dEarth.width, dEarth.height);
+            
+
+            //draw Earthboy
+            if (eUp == false && eLeft == false && eRight == false){ //standing still
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
+            }
+            
+            //g2.setColor(Color.ORANGE);
             for (PressurePlate pressurePlate : pressurePlateList){
-                g2.fillRect(pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height);
+                //g2.fillRect(pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height);
+                g2.drawImage(PressureP, pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height, null);
             }
         }
     }
