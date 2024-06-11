@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -24,6 +23,7 @@ public class EarthBoyWindGirl {
     Boolean platPlaced = false, tempPlaced = false, endGame = false;
     Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
     static JFrame window = new JFrame();
+    static JFrame window2 = new JFrame();
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0, 0, 0, 0);
@@ -41,20 +41,22 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new EarthBoyWindGirl();
+                // new EarthBoyWindGirl();
+                new Introduction();
+                // new Menu();
             }
         });
     }
 
-    static class Introduction implements ActionListener {
+    //Fade In, Fade Out
+    static class Introduction {
 
         BufferedImage cover;
         JPanel intro;
         DrawingPanel introDraw;
-        JButton start;
         int Width = 1000, Height = 600, transparency = 255;
         Timer fadeIN, fadeOUT;
-        Boolean fadeDone = false;
+        Boolean fadeDone = false, fadeInDone = false;
 
         Introduction() {
             window.setTitle("EarthBoy and WindGirl Introduction");
@@ -64,7 +66,6 @@ public class EarthBoyWindGirl {
             cover = loadImage("\\Images\\PICTURE.png");
 
             intro = new JPanel();
-            intro.setLayout(new BoxLayout(intro, BoxLayout.LINE_AXIS));
             introDraw = new DrawingPanel();
             intro.setPreferredSize(new Dimension(Width, Height));
 
@@ -75,10 +76,9 @@ public class EarthBoyWindGirl {
                         fadeOUT = new Timer(1, new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                if (transparency == 255) {
+                                if (transparency == 255 && fadeInDone) {
                                     fadeDone = true;
                                     fadeOUT.stop();
-                                    fadeIN.stop();
                                     introDraw.repaint();
                                     intro.setVisible(false);
                                 } else {
@@ -89,21 +89,21 @@ public class EarthBoyWindGirl {
 
                             }
                         });
+                        fadeInDone = true;
+                        System.out.println("FadeInDone: " + fadeInDone);
                         fadeOUT.start();
                     } else {
                         transparency -= 2;
                         introDraw.repaint();
                     }
 
+                    checkFadeDone();
+
                 }
+
             });
             fadeIN.start();
 
-            // System.out.println("button?");
-            // start = new JButton("Start");
-            // start.setActionCommand("Start");
-            // start.addActionListener(this);
-            // intro.add(start);
             introDraw.repaint();
             intro.add(introDraw);
             window.add(intro);
@@ -124,21 +124,27 @@ public class EarthBoyWindGirl {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                if (!fadeDone) {
-                    g2.drawImage(cover, 0, 0, Width, Height, null);
-                    g2.setColor(new Color(0, 0, 0, transparency));
-                    g2.fillRect(0, 0, Width, Height);
-                } else {
-                    g2.setColor(new Color(255, 255, 255));
-                    g2.fillRect(0, 0, Width, Height);
-                }
+                // if (!fadeDone) {
+
+                // } else {
+                //     g2.setColor(new Color(255, 255, 255));
+                //     g2.fillRect(0, 0, Width, Height);
+                // }
+
+                g2.drawImage(cover, 0, 0, Width, Height, null);
+                g2.setColor(new Color(0, 0, 0, transparency));
+                g2.fillRect(0, 0, Width, Height);
 
             }
         }
 
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            String e = event.getActionCommand();
+        void checkFadeDone() {
+            if (fadeDone) {
+                fadeIN.stop();
+                System.out.println("hi");
+                window.setVisible(false);
+                new Menu();
+            }
         }
 
         BufferedImage loadImage(String filename) {
@@ -158,7 +164,111 @@ public class EarthBoyWindGirl {
 
     }
 
-    EarthBoyWindGirl() {
+    static class Menu implements ActionListener {
+
+        BufferedImage img;
+        JPanel menu;
+        DrawingPanel menuDraw;
+        JButton start;
+        int Width = 1000, Height = 600;
+        JRadioButton l1, l2, l3;
+        ButtonGroup b;
+        int map;
+
+        Menu() {
+            window2.setTitle("EarthBoy and WindGirl Menu");
+            window2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            window2.setResizable(false);
+
+            menu = new JPanel();
+            menu.setLayout(new BoxLayout(menu, BoxLayout.LINE_AXIS));
+            menuDraw = new DrawingPanel();
+
+            b = new ButtonGroup();
+
+            l1 = new JRadioButton("Map A");
+            l1.setActionCommand("L1");
+            l1.addActionListener(this);
+            b.add(l1);
+            menu.add(l1);
+
+            l2 = new JRadioButton("Map B");
+            l2.setActionCommand("L2");
+            l2.addActionListener(this);
+            b.add(l2);
+            menu.add(l2);
+
+            l3 = new JRadioButton("Map C");
+            l3.setActionCommand("L3");
+            l3.addActionListener(this);
+            b.add(l3);
+            menu.add(l3);
+
+            start = new JButton("Start");
+            start.setActionCommand("Start");
+            start.addActionListener(this);
+            menu.add(start);
+            start.setEnabled(false);
+
+            menuDraw.repaint();
+            menu.add(menuDraw);
+            window2.add(menu);
+            window2.pack();
+            window2.setVisible(true);
+            window2.setLocationRelativeTo(null);
+        }
+
+        class DrawingPanel extends JPanel {
+
+            DrawingPanel() {
+                this.setPreferredSize(new Dimension(Width, Height));
+            }
+
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            }
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            String e = event.getActionCommand();
+            if (e.equals("L1")) {
+                map = 1;
+                start.setEnabled(true);
+            } else if (e.equals("L2")) {
+                map = 2;
+                start.setEnabled(true);
+            } else if (e.equals("L3")) {
+                map = 3;
+                start.setEnabled(true);
+            } else if (e.equals("Start")) {
+                window2.setVisible(false);
+                new EarthBoyWindGirl(map);
+            }
+        }
+
+        BufferedImage loadImage(String filename) {
+            BufferedImage image = null;
+            java.net.URL imageURL = this.getClass().getResource(filename);
+            if (imageURL != null) {
+                try {
+                    image = ImageIO.read(imageURL);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "An image failed to load: " + filename, "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            return image;
+        }
+    }
+
+    EarthBoyWindGirl(int mapChoice) {
+        System.out.println(mapChoice);
         window.setTitle("EarthBoy and WindGirl");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
