@@ -288,11 +288,6 @@ public class EarthBoyWindGirl {
         wUp = false;
         wDown = false;
 
-        // adding start platforms
-        platforms.add(new Platform(0, H - 100, 100, 20));
-        // platforms.add(new Platform(W - 300, H - 200, 100, 30));
-        // platforms.add(new Platform(W - 450, H - 80, 100, 30));
-
         //Floor + Ceiling
         platforms.add(new Platform(-30, H, W + 60, 30));
         platforms.add(new Platform(-30, -30, W + 60, 30));
@@ -301,43 +296,52 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(-30, 0, 30, H + 30));
         platforms.add(new Platform(W, 0, 30, H + 30));
 
-        //Characters
-        windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
-        earthBoy = new EarthBoy(30, H - 120 - 30, null, false, false, false);
+        // if (mapChoice == 1) {
+        //     level1();
+        // } else if (mapChoice == 2) {
+        //     System.out.println("Man not yet");
+        // } else if (mapChoice == 3) {
+        //     System.out.println("also not yet");
+        // }
 
-        //Doors
-        dWind = new Door(W - 100, H - 480, 40, 80, null);
-        dEarth = new Door(W - 200, H - 480, 40, 80, null);
+        // //Characters
+        // windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
+        // earthBoy = new EarthBoy(30, H - 120 - 30, null, false, false, false);
 
-        //Poison fog + Quicksand
-        // poisonFog = new PoisonFog(200, H - 100, 60, 20, null);
-        poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
-        // quickSand = new QuickSand(200, H - 20, 60, 20, null);
-        quickSand = new QuickSand(300, H - 420, 200, 20, null);
-        poisonList.add(poisonFog);
-        quickSandList.add(quickSand);
+        // //Doors
+        // dWind = new Door(W - 100, H - 480, 40, 80, null);
+        // dEarth = new Door(W - 200, H - 480, 40, 80, null);
 
-        interactableList.addAll(poisonList);
-        interactableList.addAll(quickSandList);
-        interactableList.addAll(pressurePlateList);
-        interactableList.add(dEarth);
-        interactableList.add(dWind);
+        // //Poison fog + Quicksand
+        // poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
+        // quickSand = new QuickSand(300, H - 420, 200, 20, null);
+        // poisonList.add(poisonFog);
+        // quickSandList.add(quickSand);
 
-        //Additional Platforms
-        platforms.add(new Platform(0, H - 200, W - 200, 20));
-        platforms.add(new Platform(200, H - 310, 400, 20));
-        platforms.add(new Platform(35, H - 260, 100, 20));
+        // interactableList.addAll(poisonList);
+        // interactableList.addAll(quickSandList);
+        // interactableList.addAll(pressurePlateList);
+        // interactableList.add(dEarth);
+        // interactableList.add(dWind);
 
-        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
-        platforms.add(movingPlatform);
+        // //Additional Platforms
+        // platforms.add(new Platform(0, H - 200, W - 200, 20));
+        // platforms.add(new Platform(200, H - 310, 400, 20));
+        // platforms.add(new Platform(35, H - 260, 100, 20));
 
-        platforms.add(new Platform(300, H - 400, W - 300, 20));
-        platforms.add(new Platform(300, H - 540, 20, 70));
-        platforms.add(new Platform(320, H - 540, 80, 20));
+        // Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
+        // platforms.add(movingPlatform);
 
-        // Add pressure plate
-        PressurePlate plate = new PressurePlate(320, H - 550, 20, 10, null, movingPlatform);
-        pressurePlateList.add(plate);
+        // platforms.add(new Platform(300, H - 400, W - 300, 20));
+        // platforms.add(new Platform(300, H - 540, 20, 70));
+        // platforms.add(new Platform(320, H - 540, 80, 20));
+
+        // // Add pressure plate
+        // PressurePlate plate = new PressurePlate(320, H - 550, 20, 10, null, movingPlatform);
+        // pressurePlateList.add(plate);
+
+        // // Add start platforms
+        // platforms.add(new Platform(0, H - 100, 100, 20));
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -474,6 +478,47 @@ public class EarthBoyWindGirl {
         window.pack();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
+    }
+
+    protected void level1() {
+        //Characters
+        windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
+        earthBoy = new EarthBoy(30, H - 120 - 30, null, false, false, false);
+        
+        //Doors
+        dWind = new Door(W - 100, H - 480, 40, 80, null);
+        dEarth = new Door(W - 200, H - 480, 40, 80, null);
+        
+        //Poison fog + Quicksand
+        poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
+        quickSand = new QuickSand(300, H - 420, 200, 20, null);
+        poisonList.add(poisonFog);
+        quickSandList.add(quickSand);
+        
+        interactableList.addAll(poisonList);
+        interactableList.addAll(quickSandList);
+        interactableList.addAll(pressurePlateList);
+        interactableList.add(dEarth);
+        interactableList.add(dWind);
+        
+        //Additional Platforms
+        platforms.add(new Platform(0, H - 200, W - 200, 20));
+        platforms.add(new Platform(200, H - 310, 400, 20));
+        platforms.add(new Platform(35, H - 260, 100, 20));
+        
+        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
+        platforms.add(movingPlatform);
+        
+        platforms.add(new Platform(300, H - 400, W - 300, 20));
+        platforms.add(new Platform(300, H - 540, 20, 70));
+        platforms.add(new Platform(320, H - 540, 80, 20));
+        
+        // Add pressure plate
+        PressurePlate plate = new PressurePlate(320, H - 550, 20, 10, null, movingPlatform);
+        pressurePlateList.add(plate);
+        
+        // Add start platforms
+        platforms.add(new Platform(0, H - 100, 100, 20));
     }
 
     protected void checkDeath() {
