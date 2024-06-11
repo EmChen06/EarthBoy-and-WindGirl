@@ -31,7 +31,7 @@ public class EarthBoyWindGirl {
 
     static ArrayList<PoisonFog> poisonList = new ArrayList<>();
     static ArrayList<QuickSand> quickSandList = new ArrayList<>();
-    static ArrayList<PressurePlate> pressurePlateList = new ArrayList<>(); 
+    static ArrayList<PressurePlate> pressurePlateList = new ArrayList<>();
 
     static ArrayList<Platform> interactableList = new ArrayList<>();
 
@@ -167,14 +167,14 @@ public class EarthBoyWindGirl {
         p.setPreferredSize(new Dimension(W, H));
 
         draw = new DrawingPanel();
-        
+
         //setting all the animation variables to false
         eLeft = false;
-        eRight = false; 
+        eRight = false;
         eUp = false;
         eDown = false;
         wLeft = false;
-        wRight = false; 
+        wRight = false;
         wUp = false;
         wDown = false;
 
@@ -218,7 +218,7 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(200, H - 310, 400, 20));
         platforms.add(new Platform(35, H - 260, 100, 20));
 
-        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H-350, 230, H-200);
+        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
         platforms.add(movingPlatform);
 
         platforms.add(new Platform(300, H - 400, W - 300, 20));
@@ -226,7 +226,7 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(320, H - 540, 80, 20));
 
         // Add pressure plate
-        PressurePlate plate = new PressurePlate(320, H-550, 20, 10, null, movingPlatform);
+        PressurePlate plate = new PressurePlate(320, H - 550, 20, 10, null, movingPlatform);
         pressurePlateList.add(plate);
 
         //load images in
@@ -255,17 +255,23 @@ public class EarthBoyWindGirl {
                                 earthBoy.setVY(14);
                                 earthBoy.setPreparedJump(false);
                                 eUp = true;
+                                eLeft = false;
+                                eRight = false;
                             }
                         }
                     } else if (i == KeyEvent.VK_D) { // forward
                         if (!earthBoy.isBuild) {
                             eVX += 3.5;
                             eRight = true;
+                            eUp = false;
+                            eLeft = false;
                         }
                     } else if (i == KeyEvent.VK_A) { // back
                         if (!earthBoy.isBuild) {
                             eVX -= 3.5;
                             eLeft = true;
+                            eUp = false;
+                            eRight = false;
                         }
                     } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump && !tempPlaced) { //if he presses E again, he can exit
                         if (earthBoy.isBuild) {
@@ -284,26 +290,30 @@ public class EarthBoyWindGirl {
                         if (!windGirl.isJump) {
                             windGirl.setDoubleJump(false);
                             wUp = true;
+                            wLeft = false;
+                            wRight = false;
                         }
                         if (!windGirl.isJump && windGirl.preparedJump) {
                             windGirl.setJump(true);
                             windGirl.setVY(14);
                             windGirl.setPreparedJump(false);
-                            wUp = true;
                         }
                         if (windGirl.isJump && !windGirl.isDoubleJump && windGirl.preparedJump) {
                             windGirl.setDoubleJump(true);
                             windGirl.setVY(15);
                             System.out.println("Double Jump");
                             windGirl.setPreparedJump(false);
-                            wUp = true;
                         }
                     } else if (i == KeyEvent.VK_RIGHT) {
                         wVX += 3.5;
                         wRight = true;
+                        wUp = false;
+                        wLeft = false;
                     } else if (i == KeyEvent.VK_LEFT) {
                         wVX -= 3.5;
                         wLeft = true;
+                        wUp = false;
+                        wRight = false;
                     }
                 }
                 windGirl.setVX(wVX);
@@ -311,16 +321,15 @@ public class EarthBoyWindGirl {
                 earthBoy.setVX(eVX);
                 earthBoy.move();
 
-
-                for (PoisonFog p: poisonList){
+                for (PoisonFog p : poisonList) {
                     p.checkCollision(earthBoy);
                 }
 
-                for (QuickSand q: quickSandList){
+                for (QuickSand q : quickSandList) {
                     q.checkCollision(windGirl);
                 }
 
-                for (PressurePlate p: pressurePlateList){
+                for (PressurePlate p : pressurePlateList) {
                     p.checkCollision(earthBoy, windGirl);
                 }
 
@@ -476,53 +485,61 @@ public class EarthBoyWindGirl {
             // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
             //g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
             //g2.fillRect(dWind.x, dWind.y, dWind.width, dWind.height);
-            
+
             //Draws the Doors
             g2.drawImage(wDoor, dWind.x, dWind.y, dWind.width, dWind.height, null);
             g2.drawImage(eDoor, dEarth.x, dEarth.y, dEarth.width, dEarth.height, null);
 
-            for (PoisonFog poisonFog : poisonList){
+            for (PoisonFog poisonFog : poisonList) {
                 g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
             }
-           
+
             //draw windgirl
             // if (!wUp && !wLeft && !wRight){ //standing still
             //     g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
             //     g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             // }
-
             //temp for rn
-            g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
-            g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
+            if (!wLeft && !wRight && !wUp) { //standing still
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
+            } else if (eLeft) {
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 850, 470, 888, 510, null);
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 17, 238, 122, 300, null);
+            } else if (eRight) {
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 888, 510, 850, 470, null);
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 122, 300, 17, 238, null);
+            } else if (eUp) {
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 301, 570, 362, 660, null); //head up
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null); //body default
+            }
 
             g2.setColor(Color.red);
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
-            for (QuickSand quickSand : quickSandList){
+            for (QuickSand quickSand : quickSandList) {
                 g2.fillRect(quickSand.x, quickSand.y, quickSand.width, quickSand.height);
             }
 
-            //g2.fillRect(dEarth.x, dEarth.y, dEarth.width, dEarth.height);
-            
-
             //draw Earthboy
-            if (!eUp && !eLeft && !eRight){ //standing still
-                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
-                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
-            } else if (eUp) {
-
+            if (!eLeft && !eRight && !eUp) { //standing still
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head default
             } else if (eLeft) {
-                
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 350, 479, 314, 440, null); //body left
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 231, 125, 168, 65, null); //head left
             } else if (eRight) {
-                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body
-                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body right
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 168, 65, 231, 125, null); //head right
+            } else if (eUp) {
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 436, 60, 496, 120, null); //head up
             }
- 
+
             //temp for rn
             // g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
             // g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
-            
             //g2.setColor(Color.ORANGE);
-            for (PressurePlate pressurePlate : pressurePlateList){
+            for (PressurePlate pressurePlate : pressurePlateList) {
                 //g2.fillRect(pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height);
                 g2.drawImage(PressureP, pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height, null);
             }
