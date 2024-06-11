@@ -29,8 +29,9 @@ public class EarthBoyWindGirl{
     Platform earthPlat = new Platform(0, 0, 0, 0);
     ArrayList<Integer> storedKeys = new ArrayList<>();
 
-    static ArrayList<Platform> poisonList = new ArrayList<>();
-    static ArrayList<Platform> quickSandList = new ArrayList<>();
+    static ArrayList<PoisonFog> poisonList = new ArrayList<>();
+    static ArrayList<QuickSand> quickSandList = new ArrayList<>();
+    static ArrayList<PressurePlate> pressurePlateList = new ArrayList<>(); 
 
     static ArrayList<Platform> interactableList = new ArrayList<>();
 
@@ -200,6 +201,7 @@ public class EarthBoyWindGirl{
 
         interactableList.addAll(poisonList);
         interactableList.addAll(quickSandList);
+        interactableList.addAll(pressurePlateList);
         interactableList.add(dEarth);
         interactableList.add(dWind);
 
@@ -209,10 +211,17 @@ public class EarthBoyWindGirl{
         platforms.add(new Platform(0, H - 200, W - 200, 20));
         platforms.add(new Platform(200, H - 310, 400, 20));
         platforms.add(new Platform(35, H - 260, 100, 20));
-        platforms.add(new Platform(200, H - 290, 20, 90));// TODO: ADD IN LATER
+
+        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H-350, 230, H-200);
+        platforms.add(movingPlatform);
+
         platforms.add(new Platform(300, H - 400, W - 300, 20));
         platforms.add(new Platform(300, H - 530, 20, 70));
         platforms.add(new Platform(320, H - 530, 80, 20));
+
+        // Add pressure plate
+        PressurePlate plate = new PressurePlate(100, H-20, 20, 10, null, movingPlatform);
+        pressurePlateList.add(plate);
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -283,10 +292,18 @@ public class EarthBoyWindGirl{
                 earthBoy.setVX(eVX);
                 earthBoy.move();
 
-                poisonFog.checkCollision(earthBoy);
-                poisonFog.checkCollision(windGirl);
-                quickSand.checkCollision(earthBoy);
-                quickSand.checkCollision(windGirl);
+
+                for (PoisonFog p: poisonList){
+                    p.checkCollision(earthBoy);
+                }
+
+                for (QuickSand q: quickSandList){
+                    q.checkCollision(windGirl);
+                }
+
+                for (PressurePlate p: pressurePlateList){
+                    p.checkCollision(earthBoy, windGirl);
+                }
 
                 dEarth.checkCollision(earthBoy);
                 // System.out.println("Earth: " + dEarth.charDone);
@@ -441,17 +458,27 @@ public class EarthBoyWindGirl{
             // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
             //g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
             g2.fillRect(dWind.x, dWind.y, dWind.width, dWind.height);
-            g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
+
+            for (PoisonFog poisonFog : poisonList){
+                g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
+            }
+           
             g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
             g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             
             g2.setColor(Color.red);
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
+            for (QuickSand quickSand : quickSandList){
+                g2.fillRect(quickSand.x, quickSand.y, quickSand.width, quickSand.height);
+            }
             g2.fillRect(dEarth.x, dEarth.y, dEarth.width, dEarth.height);
-            g2.fillRect(quickSand.x, quickSand.y, quickSand.width, quickSand.height);
             g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
             g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
 
+            g2.setColor(Color.ORANGE);
+            for (PressurePlate pressurePlate : pressurePlateList){
+                g2.fillRect(pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height);
+            }
         }
     }
 
