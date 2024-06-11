@@ -305,8 +305,8 @@ public class EarthBoyWindGirl {
         // }
 
         // //Characters
-        // windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
-        // earthBoy = new EarthBoy(30, H - 120 - 30, null, false, false, false);
+        // windGirl = new WindGirl(30, H - 70, null, false, false);
+        // earthBoy = new EarthBoy(30, H - 150, null, false, false, false);
 
         // //Doors
         // dWind = new Door(W - 100, H - 480, 40, 80, null);
