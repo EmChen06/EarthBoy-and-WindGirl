@@ -42,6 +42,7 @@ public class EarthBoyWindGirl {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new EarthBoyWindGirl();
+                // new Introduction();
             }
         });
     }
@@ -68,7 +69,7 @@ public class EarthBoyWindGirl {
             introDraw = new DrawingPanel();
             intro.setPreferredSize(new Dimension(Width, Height));
 
-            fadeIN = new Timer(1, new ActionListener() {
+            fadeIN = new Timer(10, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (transparency == 1) {
@@ -217,7 +218,7 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(320, H - 530, 80, 20));
 
         // Add pressure plate
-        PressurePlate plate = new PressurePlate(100, H-20, 20, 10, null, movingPlatform);
+        PressurePlate plate = new PressurePlate(330, H-540, 20, 10, null, movingPlatform);
         pressurePlateList.add(plate);
 
         //load images in
