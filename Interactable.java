@@ -24,7 +24,7 @@ public abstract class Interactable extends Platform{
 
     void checkCollision(Character c1, Character c2){
         interacted = (colliding(c1) || colliding(c2));
-        System.out.println(interacted);
+        // System.out.println(interacted);
         if (interacted){
             onInteraction(c1);
         }
