@@ -19,7 +19,7 @@ public class EarthBoyWindGirl {
     static WindGirl windGirl;
     static EarthBoy earthBoy;
     Door dEarth, dWind;
-    Timer keyDelay, platTimer;
+    Timer keyDelay, platTimer, animeTimer;
     BufferedImage SS, platformImg, backgroundImg, eDoor, wDoor, PressureP, fart, sand, Msheet;
     Boolean platPlaced = false, tempPlaced = false, endGame = false;
     Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
@@ -333,11 +333,6 @@ public class EarthBoyWindGirl {
         //movement
         keyDelay = new Timer(10, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (aCount < 4) {
-                    aCount++;
-                } else if (aCount >= 4) {
-                    aCount = 0;
-                }
                 int eVX = 0;
                 int wVX = 0;
                 for (Integer i : storedKeys) {
@@ -448,6 +443,17 @@ public class EarthBoyWindGirl {
         });
         keyDelay.start();
 
+        animeTimer = new Timer(80, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (aCount < 4) {
+                    aCount++;
+                } else if (aCount >= 4) {
+                    aCount = 0;
+                }
+            }
+        });
+        animeTimer.start();
+
         window.setContentPane(p);
         window.pack();
         window.setVisible(true);
@@ -503,6 +509,7 @@ public class EarthBoyWindGirl {
         if (earthBoy.isDead || windGirl.isDead) {
             JOptionPane.showMessageDialog(null, "U DIED UNLUCKY", "Game Over", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
+            animeTimer.stop();
             window.dispose();
             new Menu();
         }
@@ -519,6 +526,7 @@ public class EarthBoyWindGirl {
             System.out.println("quit");
             JOptionPane.showMessageDialog(null, "YOU WON!", "Great Job!", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
+            animeTimer.stop();
             window.dispose();
             new Menu();
         }
@@ -635,17 +643,27 @@ public class EarthBoyWindGirl {
             }
 
             //draw windgirl
-            // g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
-            // g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             if ((!wLeft && !wRight && !wUp) || (windGirl.vx == 0 && windGirl.vy == 0)) { //standing still
+                wLeft = false;
+                wRight = false;
+                wUp = false;
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             } else if (wLeft) {
-                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 526, 476, 557, 512, null); //body left
-                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 1290, 242, 1391, 299, null); //head left
+                g2.drawImage(Msheet, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 1290, 242, 1391, 299, null); //head left
+                if (aCount == 1 || aCount == 3){
+                    g2.drawImage(Msheet, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 526, 476, 557, 512, null); //body left 1
+                } else if (aCount == 2 || aCount == 4){
+                    g2.drawImage(Msheet, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 124, 475, 151, 510, null); //body left 2
+                }
             } else if (wRight) {
-                g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right
-                g2.drawImage(SS, windGirl.x - 30, windGirl.y - 20, windGirl.x + windGirl.w + 10, windGirl.y + 10, 17, 238, 122, 300, null); //head right
+                g2.drawImage(SS, windGirl.x - 30, windGirl.y - 40, windGirl.x + windGirl.h, windGirl.y + 5, 17, 238, 122, 300, null); //head right
+                if (aCount == 1 || aCount == 3){
+                    g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right 1
+                } else if (aCount == 2 || aCount == 4){
+                    g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 1258, 475, 1281, 510, null); //body right 2
+                }
+                
 
             } else if (wUp) {
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 301, 570, 362, 660, null); //head up
@@ -653,14 +671,15 @@ public class EarthBoyWindGirl {
             }
 
             //draw Earthboy
-            // g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
-            // g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
             if ((!eLeft && !eRight && !eUp) || (earthBoy.vx == 0 && earthBoy.vy == 0)) { //standing still
+                eLeft = false;
+                eRight = false;
+                eUp = false;
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head default
             } else if (eLeft) {
-                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 1066, 444, 1094, 480, null); //body left
-                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 1183, 65, 1241, 121, null); //head left
+                g2.drawImage(Msheet, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 1066, 444, 1094, 480, null); //body left
+                g2.drawImage(Msheet, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 1183, 65, 1241, 121, null); //head left
             } else if (eRight) {
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body right
                 g2.drawImage(SS, earthBoy.x + 5, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + 23, 168, 65, 231, 125, null); //head right
