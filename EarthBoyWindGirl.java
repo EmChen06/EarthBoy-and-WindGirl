@@ -158,11 +158,9 @@ public class EarthBoyWindGirl {
 
         BufferedImage img;
         JPanel menu;
-        JLabel earthInstructions;
         DrawingPanel menuDraw;
         JButton start;
-        // int Width = 300, Height = 50;
-        int Width = 1000, Height = 600;
+        int Width = 800, Height = 200;
         JRadioButton l1, l2, l3;
         ButtonGroup b;
         int map;
@@ -179,13 +177,7 @@ public class EarthBoyWindGirl {
             JPanel flowPanel = new JPanel();
             flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-            JPanel iPanel = new JPanel();
-            iPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-
-            //Instructions
-            earthInstructions = new JLabel("EarthBoy Commands:");
-            iPanel.add(earthInstructions);
-            menu.add(iPanel, BorderLayout.CENTER);
+            menuDraw = new DrawingPanel();
 
             //Adding map options and start button
             b = new ButtonGroup();
@@ -214,6 +206,8 @@ public class EarthBoyWindGirl {
             flowPanel.add(start);
             start.setEnabled(false);
 
+            menuDraw.repaint();
+            menu.add(menuDraw, BorderLayout.CENTER);
             menu.add(flowPanel, BorderLayout.PAGE_END);
             window2.add(menu);
             window2.pack();
@@ -221,9 +215,61 @@ public class EarthBoyWindGirl {
             window2.setLocationRelativeTo(null);
         }
 
+        class DrawingPanel extends JPanel {
+
+            DrawingPanel() {
+                this.setPreferredSize(new Dimension(Width, Height));
+            }
+
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                g2.setColor(Color.BLACK);
+                g2.setFont(new Font("Calibri", Font.BOLD, 15));
+                g2.drawString("EarthBoy Instructions:", 0, 15);
+                g2.setFont(new Font("Calibri", Font.PLAIN, 15));
+                g2.drawString("[W] for jump, [A] for left, [D] for right", 0, 40);
+                g2.drawString("[E] to create platform and use WASD to move around", 0, 65);
+                g2.drawString("[Space] to place platform", 0, 90);
+
+                g2.setFont(new Font("Calibri", Font.BOLD, 15));
+                g2.drawString("WindGirl Instructions:", 450, 15);
+                g2.setFont(new Font("Calibri", Font.PLAIN, 15));
+                g2.drawString("[UP] for jump, [LEFT] for left, [RIGHT] for right", 450, 40);
+                g2.drawString("Quickly double tap [UP] to double jump", 450, 65);
+                g2.drawString("Hold [UP] while jumping and use arrow keys to drift", 450, 90);
+
+            }
+        }
+
         @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g2.setColor(Color.BLACK);
+            g2.setFont(new Font("Calibri", Font.BOLD, 15));
+            g2.drawString("EarthBoy Instructions:", 0, 15);
+            g2.setFont(new Font("Calibri", Font.PLAIN, 15));
+            g2.drawString("[W] for jump, [A] for left, [D] for right", 0, 40);
+            g2.drawString("[E] to create platform and use WASD to move around", 0, 65);
+            g2.drawString("[Space] to place platform", 0, 90);
+
+            g2.setFont(new Font("Calibri", Font.BOLD, 15));
+            g2.drawString("WindGirl Instructions:", 450, 15);
+            g2.setFont(new Font("Calibri", Font.PLAIN, 15));
+            g2.drawString("[UP] for jump, [LEFT] for left, [RIGHT] for right", 450, 40);
+            g2.drawString("Quickly double tap [UP] to double jump", 450, 65);
+            g2.drawString("Hold [UP] while jumping and use arrow keys to drift", 450, 90);
+
+        }
+
         public void actionPerformed(ActionEvent event) {
-            String e = event.getActionCommand();
+            String e = event.getActionComand();
             if (e.equals("L1")) {
                 map = 1;
                 start.setEnabled(true);
