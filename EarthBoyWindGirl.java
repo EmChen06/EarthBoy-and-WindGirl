@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -172,7 +173,7 @@ public class EarthBoyWindGirl {
             window2.setResizable(false);
             menu = new JPanel();
             menu.setPreferredSize(new Dimension(Width, Height));
-            menu.setLayout(new BorderLayout(10,10));
+            menu.setLayout(new BorderLayout(10, 10));
 
             JPanel flowPanel = new JPanel();
             flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -180,7 +181,7 @@ public class EarthBoyWindGirl {
             //Instructions
             earthInstructions = new JLabel("EarthBoy Commands:");
             menu.add(earthInstructions, BorderLayout.CENTER);
-            
+
             //Adding map options and start button
             b = new ButtonGroup();
 
@@ -296,7 +297,6 @@ public class EarthBoyWindGirl {
         sand = loadImage("\\Images\\sand.png");
 
         // draw.setPreferredSize(new Dimension(W, H));
-
         p.add(draw);
         p.addKeyListener(new kListener());
 
@@ -419,46 +419,46 @@ public class EarthBoyWindGirl {
         window.setLocationRelativeTo(null);
         p.setFocusable(true);
         p.requestFocus();
- 
+
     }
 
     protected void level1() {
         //Characters
         windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
         earthBoy = new EarthBoy(30, H - 120 - 30, null, false, false, false);
-        
+
         //Doors
         dWind = new Door(W - 100, H - 480, 40, 80, null);
         dEarth = new Door(W - 200, H - 480, 40, 80, null);
-        
+
         //Poison fog + Quicksand
         poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
         quickSand = new QuickSand(300, H - 420, 200, 20, null);
         poisonList.add(poisonFog);
         quickSandList.add(quickSand);
-        
+
         interactableList.addAll(poisonList);
         interactableList.addAll(quickSandList);
         interactableList.addAll(pressurePlateList);
         interactableList.add(dEarth);
         interactableList.add(dWind);
-        
+
         //Additional Platforms
         platforms.add(new Platform(0, H - 200, W - 200, 20));
         platforms.add(new Platform(200, H - 310, 400, 20));
         platforms.add(new Platform(35, H - 260, 100, 20));
-        
+
         Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
         platforms.add(movingPlatform);
-        
+
         platforms.add(new Platform(300, H - 400, W - 300, 20));
         platforms.add(new Platform(300, H - 540, 20, 70));
         platforms.add(new Platform(320, H - 540, 80, 20));
-        
+
         // Add pressure plate
         PressurePlate plate = new PressurePlate(320, H - 550, 20, 10, null, movingPlatform);
         pressurePlateList.add(plate);
-        
+
         // Add start platforms
         platforms.add(new Platform(0, H - 100, 100, 20));
     }
@@ -585,7 +585,7 @@ public class EarthBoyWindGirl {
             }
             //EarthBoy's platform
             g2.drawImage(platformImg, earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height, null);
-            
+
             //Poison Fog
             g2.setColor(Color.blue);
             for (PoisonFog poisonFog : poisonList) {
@@ -610,7 +610,7 @@ public class EarthBoyWindGirl {
             } else if (wRight) {
                 g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right
                 g2.drawImage(SS, windGirl.x - 30, windGirl.y - 20, windGirl.x + windGirl.w + 10, windGirl.y + 10, 17, 238, 122, 300, null); //head right
-                
+
             } else if (wUp) {
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 301, 570, 362, 660, null); //head up
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null); //body default
