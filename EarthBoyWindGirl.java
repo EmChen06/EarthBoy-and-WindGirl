@@ -42,8 +42,8 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                // new Introduction();
-                new Menu();
+                new Introduction();
+                // new Menu();
                 // new EarthBoyWindGirl();
             }
         });
@@ -473,6 +473,7 @@ public class EarthBoyWindGirl {
 
         //Additional Platforms
         platforms.add(new Platform(0, H - 200, W - 200, 20));
+        platforms.add(new Platform(W - 300, H - 50, 100, 20));
         platforms.add(new Platform(200, H - 310, 400, 20));
         platforms.add(new Platform(35, H - 260, 100, 20));
 
