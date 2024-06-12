@@ -246,30 +246,8 @@ public class EarthBoyWindGirl {
         }
 
         @Override
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            g2.setColor(Color.BLACK);
-            g2.setFont(new Font("Calibri", Font.BOLD, 15));
-            g2.drawString("EarthBoy Instructions:", 0, 15);
-            g2.setFont(new Font("Calibri", Font.PLAIN, 15));
-            g2.drawString("[W] for jump, [A] for left, [D] for right", 0, 40);
-            g2.drawString("[E] to create platform and use WASD to move around", 0, 65);
-            g2.drawString("[Space] to place platform", 0, 90);
-
-            g2.setFont(new Font("Calibri", Font.BOLD, 15));
-            g2.drawString("WindGirl Instructions:", 450, 15);
-            g2.setFont(new Font("Calibri", Font.PLAIN, 15));
-            g2.drawString("[UP] for jump, [LEFT] for left, [RIGHT] for right", 450, 40);
-            g2.drawString("Quickly double tap [UP] to double jump", 450, 65);
-            g2.drawString("Hold [UP] while jumping and use arrow keys to drift", 450, 90);
-
-        }
-
         public void actionPerformed(ActionEvent event) {
-            String e = event.getActionComand();
+            String e = event.getActionCommand();
             if (e.equals("L1")) {
                 map = 1;
                 start.setEnabled(true);
