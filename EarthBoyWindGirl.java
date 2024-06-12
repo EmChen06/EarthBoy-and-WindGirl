@@ -41,8 +41,8 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Introduction();
-                // new Menu();
+                // new Introduction();
+                new Menu();
                 // new EarthBoyWindGirl();
             }
         });
@@ -156,9 +156,11 @@ public class EarthBoyWindGirl {
 
         BufferedImage img;
         JPanel menu;
+        JLabel earthInstructions;
         DrawingPanel menuDraw;
         JButton start;
-        int Width = 300, Height = 50;
+        // int Width = 300, Height = 50;
+        int Width = 1000, Height = 600;
         JRadioButton l1, l2, l3;
         ButtonGroup b;
         int map;
@@ -170,7 +172,14 @@ public class EarthBoyWindGirl {
             window2.setResizable(false);
             menu = new JPanel();
             menu.setPreferredSize(new Dimension(Width, Height));
-            menu.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+            menu.setLayout(new BorderLayout(10,10));
+
+            JPanel flowPanel = new JPanel();
+            flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
+            //Instructions
+            earthInstructions = new JLabel("EarthBoy Commands:");
+            menu.add(earthInstructions, BorderLayout.CENTER);
             
             //Adding map options and start button
             b = new ButtonGroup();
@@ -179,26 +188,27 @@ public class EarthBoyWindGirl {
             l1.setActionCommand("L1");
             l1.addActionListener(this);
             b.add(l1);
-            menu.add(l1);
+            flowPanel.add(l1);
 
             l2 = new JRadioButton("Map B");
             l2.setActionCommand("L2");
             l2.addActionListener(this);
             b.add(l2);
-            menu.add(l2);
+            flowPanel.add(l2);
 
             l3 = new JRadioButton("Map C");
             l3.setActionCommand("L3");
             l3.addActionListener(this);
             b.add(l3);
-            menu.add(l3);
+            flowPanel.add(l3);
 
             start = new JButton("Start");
             start.setActionCommand("Start");
             start.addActionListener(this);
-            menu.add(start);
+            flowPanel.add(start);
             start.setEnabled(false);
 
+            menu.add(flowPanel, BorderLayout.PAGE_END);
             window2.add(menu);
             window2.pack();
             window2.setVisible(true);
