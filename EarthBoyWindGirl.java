@@ -19,7 +19,7 @@ public class EarthBoyWindGirl {
     static EarthBoy earthBoy;
     Door dEarth, dWind;
     Timer keyDelay, platTimer;
-    BufferedImage SS, platformImg, backgroundImg, eDoor, wDoor, PressureP;
+    BufferedImage SS, platformImg, backgroundImg, eDoor, wDoor, PressureP, fart, sand;
     Boolean platPlaced = false, tempPlaced = false, endGame = false;
     Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
     static JFrame window = new JFrame();
@@ -282,6 +282,8 @@ public class EarthBoyWindGirl {
         eDoor = loadImage("\\Images\\EarthBoyDoor.png");
         wDoor = loadImage("\\Images\\WindGirlDoor.png");
         PressureP = loadImage("\\Images\\Plate.png");
+        fart = loadImage("\\Images\\fart.png");
+        sand = loadImage("\\Images\\sand.png");
 
         // draw.setPreferredSize(new Dimension(W, H));
 
@@ -577,13 +579,13 @@ public class EarthBoyWindGirl {
             //Poison Fog
             g2.setColor(Color.blue);
             for (PoisonFog poisonFog : poisonList) {
-                g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
+                g2.drawImage(fart, poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height, null);
             }
 
             //Quicksand
             g2.setColor(Color.red);
             for (QuickSand quickSand : quickSandList) {
-                g2.fillRect(quickSand.x, quickSand.y, quickSand.width, quickSand.height);
+                g2.drawImage(sand, quickSand.x, quickSand.y, quickSand.width, quickSand.height, null);
             }
 
             //draw windgirl
@@ -593,11 +595,12 @@ public class EarthBoyWindGirl {
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             } else if (wLeft) {
-                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 850, 470, 888, 510, null);
-                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 17, 238, 122, 300, null);
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 850, 510, 888, 470, null); //body left
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 17, 238, 122, 300, null); //head left
             } else if (wRight) {
-                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 888, 510, 850, 470, null);
-                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 122, 300, 17, 238, null);
+                g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right
+                g2.drawImage(SS, windGirl.x - 30, windGirl.y - 20, windGirl.x + windGirl.w + 10, windGirl.y + 10, 17, 238, 122, 300, null); //head right
+                
             } else if (wUp) {
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 301, 570, 362, 660, null); //head up
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null); //body default
@@ -614,10 +617,10 @@ public class EarthBoyWindGirl {
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 231, 125, 168, 65, null); //head left
             } else if (eRight) {
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body right
-                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 168, 65, 231, 125, null); //head right
+                g2.drawImage(SS, earthBoy.x + 5, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + 23, 168, 65, 231, 125, null); //head right
             } else if (eUp) {
-                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 436, 60, 496, 120, null); //head up
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default 
             }
         }
     }
