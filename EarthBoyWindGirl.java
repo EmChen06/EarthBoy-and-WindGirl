@@ -177,9 +177,13 @@ public class EarthBoyWindGirl {
             JPanel flowPanel = new JPanel();
             flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
+            JPanel iPanel = new JPanel();
+            iPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
             //Instructions
             earthInstructions = new JLabel("EarthBoy Commands:");
-            menu.add(earthInstructions, BorderLayout.CENTER);
+            iPanel.add(earthInstructions);
+            menu.add(iPanel, BorderLayout.CENTER);
             
             //Adding map options and start button
             b = new ButtonGroup();
