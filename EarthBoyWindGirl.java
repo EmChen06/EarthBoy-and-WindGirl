@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -20,10 +19,11 @@ public class EarthBoyWindGirl {
     static EarthBoy earthBoy;
     Door dEarth, dWind;
     Timer keyDelay, platTimer;
-    BufferedImage SS, platformImg, backgroundImg;
+    BufferedImage SS, platformImg, backgroundImg, eDoor, wDoor, PressureP;
     Boolean platPlaced = false, tempPlaced = false, endGame = false;
     Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
     static JFrame window = new JFrame();
+    static JFrame window2 = new JFrame();
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0, 0, 0, 0);
@@ -31,7 +31,7 @@ public class EarthBoyWindGirl {
 
     static ArrayList<PoisonFog> poisonList = new ArrayList<>();
     static ArrayList<QuickSand> quickSandList = new ArrayList<>();
-    static ArrayList<PressurePlate> pressurePlateList = new ArrayList<>(); 
+    static ArrayList<PressurePlate> pressurePlateList = new ArrayList<>();
 
     static ArrayList<Platform> interactableList = new ArrayList<>();
 
@@ -41,21 +41,22 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new EarthBoyWindGirl();
-                // new Introduction();
+                // new EarthBoyWindGirl();
+                new Introduction();
+                // new Menu();
             }
         });
     }
 
-    static class Introduction implements ActionListener {
+    //Fade In, Fade Out
+    static class Introduction {
 
         BufferedImage cover;
         JPanel intro;
         DrawingPanel introDraw;
-        JButton start;
         int Width = 1000, Height = 600, transparency = 255;
         Timer fadeIN, fadeOUT;
-        Boolean fadeDone = false;
+        Boolean fadeDone = false, fadeInDone = false;
 
         Introduction() {
             window.setTitle("EarthBoy and WindGirl Introduction");
@@ -65,7 +66,6 @@ public class EarthBoyWindGirl {
             cover = loadImage("\\Images\\PICTURE.png");
 
             intro = new JPanel();
-            intro.setLayout(new BoxLayout(intro, BoxLayout.LINE_AXIS));
             introDraw = new DrawingPanel();
             intro.setPreferredSize(new Dimension(Width, Height));
 
@@ -76,10 +76,9 @@ public class EarthBoyWindGirl {
                         fadeOUT = new Timer(1, new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                if (transparency == 255) {
+                                if (transparency == 255 && fadeInDone) {
                                     fadeDone = true;
                                     fadeOUT.stop();
-                                    fadeIN.stop();
                                     introDraw.repaint();
                                     intro.setVisible(false);
                                 } else {
@@ -90,21 +89,21 @@ public class EarthBoyWindGirl {
 
                             }
                         });
+                        fadeInDone = true;
+                        System.out.println("FadeInDone: " + fadeInDone);
                         fadeOUT.start();
                     } else {
                         transparency -= 2;
                         introDraw.repaint();
                     }
 
+                    checkFadeDone();
+
                 }
+
             });
             fadeIN.start();
 
-            // System.out.println("button?");
-            // start = new JButton("Start");
-            // start.setActionCommand("Start");
-            // start.addActionListener(this);
-            // intro.add(start);
             introDraw.repaint();
             intro.add(introDraw);
             window.add(intro);
@@ -125,21 +124,27 @@ public class EarthBoyWindGirl {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                if (!fadeDone) {
-                    g2.drawImage(cover, 0, 0, Width, Height, null);
-                    g2.setColor(new Color(0, 0, 0, transparency));
-                    g2.fillRect(0, 0, Width, Height);
-                } else {
-                    g2.setColor(new Color(255, 255, 255));
-                    g2.fillRect(0, 0, Width, Height);
-                }
+                // if (!fadeDone) {
+
+                // } else {
+                //     g2.setColor(new Color(255, 255, 255));
+                //     g2.fillRect(0, 0, Width, Height);
+                // }
+
+                g2.drawImage(cover, 0, 0, Width, Height, null);
+                g2.setColor(new Color(0, 0, 0, transparency));
+                g2.fillRect(0, 0, Width, Height);
 
             }
         }
 
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            String e = event.getActionCommand();
+        void checkFadeDone() {
+            if (fadeDone) {
+                fadeIN.stop();
+                System.out.println("hi");
+                window.setVisible(false);
+                new Menu();
+            }
         }
 
         BufferedImage loadImage(String filename) {
@@ -159,7 +164,111 @@ public class EarthBoyWindGirl {
 
     }
 
-    EarthBoyWindGirl() {
+    static class Menu implements ActionListener {
+
+        BufferedImage img;
+        JPanel menu;
+        DrawingPanel menuDraw;
+        JButton start;
+        int Width = 1000, Height = 600;
+        JRadioButton l1, l2, l3;
+        ButtonGroup b;
+        int map;
+
+        Menu() {
+            window2.setTitle("EarthBoy and WindGirl Menu");
+            window2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            window2.setResizable(false);
+
+            menu = new JPanel();
+            menu.setLayout(new BoxLayout(menu, BoxLayout.LINE_AXIS));
+            menuDraw = new DrawingPanel();
+
+            b = new ButtonGroup();
+
+            l1 = new JRadioButton("Map A");
+            l1.setActionCommand("L1");
+            l1.addActionListener(this);
+            b.add(l1);
+            menu.add(l1);
+
+            l2 = new JRadioButton("Map B");
+            l2.setActionCommand("L2");
+            l2.addActionListener(this);
+            b.add(l2);
+            menu.add(l2);
+
+            l3 = new JRadioButton("Map C");
+            l3.setActionCommand("L3");
+            l3.addActionListener(this);
+            b.add(l3);
+            menu.add(l3);
+
+            start = new JButton("Start");
+            start.setActionCommand("Start");
+            start.addActionListener(this);
+            menu.add(start);
+            start.setEnabled(false);
+
+            menuDraw.repaint();
+            menu.add(menuDraw);
+            window2.add(menu);
+            window2.pack();
+            window2.setVisible(true);
+            window2.setLocationRelativeTo(null);
+        }
+
+        class DrawingPanel extends JPanel {
+
+            DrawingPanel() {
+                this.setPreferredSize(new Dimension(Width, Height));
+            }
+
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            }
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            String e = event.getActionCommand();
+            if (e.equals("L1")) {
+                map = 1;
+                start.setEnabled(true);
+            } else if (e.equals("L2")) {
+                map = 2;
+                start.setEnabled(true);
+            } else if (e.equals("L3")) {
+                map = 3;
+                start.setEnabled(true);
+            } else if (e.equals("Start")) {
+                window2.setVisible(false);
+                new EarthBoyWindGirl(map);
+            }
+        }
+
+        BufferedImage loadImage(String filename) {
+            BufferedImage image = null;
+            java.net.URL imageURL = this.getClass().getResource(filename);
+            if (imageURL != null) {
+                try {
+                    image = ImageIO.read(imageURL);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "An image failed to load: " + filename, "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            return image;
+        }
+    }
+
+    EarthBoyWindGirl(int mapChoice) {
+        System.out.println(mapChoice);
         window.setTitle("EarthBoy and WindGirl");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
@@ -168,31 +277,43 @@ public class EarthBoyWindGirl {
         p.setPreferredSize(new Dimension(W, H));
 
         draw = new DrawingPanel();
-        
-        // adding start platforms
-        platforms.add(new Platform(0, H - 100, 100, 20));
-        // platforms.add(new Platform(W - 300, H - 200, 100, 30));
-        // platforms.add(new Platform(W - 450, H - 80, 100, 30));
+
+        //setting all the animation variables to false
+        eLeft = false;
+        eRight = false;
+        eUp = false;
+        eDown = false;
+        wLeft = false;
+        wRight = false;
+        wUp = false;
+        wDown = false;
 
         //Floor + Ceiling
         platforms.add(new Platform(-30, H, W + 60, 30));
+        platforms.add(new Platform(-30, -30, W + 60, 30));
 
         //Side Walls
         platforms.add(new Platform(-30, 0, 30, H + 30));
         platforms.add(new Platform(W, 0, 30, H + 30));
 
-        //Characters
-        windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
-        earthBoy = new EarthBoy(30, H - 120 - 30, null, false, false, false);
+        // if (mapChoice == 1) {
+        //     level1();
+        // } else if (mapChoice == 2) {
+        //     System.out.println("Man not yet");
+        // } else if (mapChoice == 3) {
+        //     System.out.println("also not yet");
+        // }
 
-        //Doors
+        // //Characters
+        windGirl = new WindGirl(30, H - 70, null, false, false);
+        earthBoy = new EarthBoy(30, H - 150, null, false, false, false);
+
+        // //Doors
         dWind = new Door(W - 100, H - 480, 40, 80, null);
         dEarth = new Door(W - 200, H - 480, 40, 80, null);
 
         //Poison fog + Quicksand
-        // poisonFog = new PoisonFog(200, H - 100, 60, 20, null);
         poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
-        // quickSand = new QuickSand(200, H - 20, 60, 20, null);
         quickSand = new QuickSand(300, H - 420, 200, 20, null);
         poisonList.add(poisonFog);
         quickSandList.add(quickSand);
@@ -203,33 +324,39 @@ public class EarthBoyWindGirl {
         interactableList.add(dEarth);
         interactableList.add(dWind);
 
-
-
         //Additional Platforms
         platforms.add(new Platform(0, H - 200, W - 200, 20));
         platforms.add(new Platform(200, H - 310, 400, 20));
         platforms.add(new Platform(35, H - 260, 100, 20));
 
-        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H-350, 230, H-200);
+        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
         platforms.add(movingPlatform);
 
         platforms.add(new Platform(300, H - 400, W - 300, 20));
-        platforms.add(new Platform(300, H - 530, 20, 70));
-        platforms.add(new Platform(320, H - 530, 80, 20));
+        platforms.add(new Platform(300, H - 540, 20, 70));
+        platforms.add(new Platform(320, H - 540, 80, 20));
 
         // Add pressure plate
-        PressurePlate plate = new PressurePlate(330, H-540, 20, 10, null, movingPlatform);
+        PressurePlate plate = new PressurePlate(100, H-20, 20, 10, null, movingPlatform);
         pressurePlateList.add(plate);
+
+        // Add start platforms
+        platforms.add(new Platform(0, H - 100, 100, 20));
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
         platformImg = loadImage("\\Images\\Platform.png");
         backgroundImg = loadImage("\\Images\\background.png");
+        eDoor = loadImage("\\Images\\EarthBoyDoor.png");
+        wDoor = loadImage("\\Images\\WindGirlDoor.png");
+        PressureP = loadImage("\\Images\\Plate.png");
 
         draw.setPreferredSize(new Dimension(W, H));
 
         p.add(draw);
         p.addKeyListener(new kListener());
+
+        //movement
         keyDelay = new Timer(10, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int eVX = 0;
@@ -239,17 +366,26 @@ public class EarthBoyWindGirl {
                         if (!earthBoy.isBuild) {
                             if (!earthBoy.isJump && earthBoy.preparedJump) {
                                 earthBoy.setJump(true);
-                                earthBoy.setVY(15);
+                                earthBoy.setVY(14);
                                 earthBoy.setPreparedJump(false);
+                                eUp = true;
+                                eLeft = false;
+                                eRight = false;
                             }
                         }
                     } else if (i == KeyEvent.VK_D) { // forward
                         if (!earthBoy.isBuild) {
                             eVX += 3.5;
+                            eRight = true;
+                            eUp = false;
+                            eLeft = false;
                         }
                     } else if (i == KeyEvent.VK_A) { // back
                         if (!earthBoy.isBuild) {
                             eVX -= 3.5;
+                            eLeft = true;
+                            eUp = false;
+                            eRight = false;
                         }
                     } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump && !tempPlaced) { //if he presses E again, he can exit
                         if (earthBoy.isBuild) {
@@ -267,10 +403,13 @@ public class EarthBoyWindGirl {
                     } else if (i == KeyEvent.VK_UP) {
                         if (!windGirl.isJump) {
                             windGirl.setDoubleJump(false);
+                            wUp = true;
+                            wLeft = false;
+                            wRight = false;
                         }
                         if (!windGirl.isJump && windGirl.preparedJump) {
                             windGirl.setJump(true);
-                            windGirl.setVY(15);
+                            windGirl.setVY(14);
                             windGirl.setPreparedJump(false);
                         }
                         if (windGirl.isJump && !windGirl.isDoubleJump && windGirl.preparedJump) {
@@ -281,8 +420,14 @@ public class EarthBoyWindGirl {
                         }
                     } else if (i == KeyEvent.VK_RIGHT) {
                         wVX += 3.5;
+                        wRight = true;
+                        wUp = false;
+                        wLeft = false;
                     } else if (i == KeyEvent.VK_LEFT) {
                         wVX -= 3.5;
+                        wLeft = true;
+                        wUp = false;
+                        wRight = false;
                     }
                 }
                 windGirl.setVX(wVX);
@@ -290,16 +435,15 @@ public class EarthBoyWindGirl {
                 earthBoy.setVX(eVX);
                 earthBoy.move();
 
-
-                for (PoisonFog p: poisonList){
+                for (PoisonFog p : poisonList) {
                     p.checkCollision(earthBoy);
                 }
 
-                for (QuickSand q: quickSandList){
+                for (QuickSand q : quickSandList) {
                     q.checkCollision(windGirl);
                 }
 
-                for (PressurePlate p: pressurePlateList){
+                for (PressurePlate p : pressurePlateList) {
                     p.checkCollision(earthBoy, windGirl);
                 }
 
@@ -329,11 +473,54 @@ public class EarthBoyWindGirl {
 
         keyDelay.start();
 
-        p.setFocusable(true);
         window.setContentPane(p);
         window.pack();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
+        p.setFocusable(true);
+        p.requestFocus();
+ 
+    }
+
+    protected void level1() {
+        //Characters
+        windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
+        earthBoy = new EarthBoy(30, H - 120 - 30, null, false, false, false);
+        
+        //Doors
+        dWind = new Door(W - 100, H - 480, 40, 80, null);
+        dEarth = new Door(W - 200, H - 480, 40, 80, null);
+        
+        //Poison fog + Quicksand
+        poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
+        quickSand = new QuickSand(300, H - 420, 200, 20, null);
+        poisonList.add(poisonFog);
+        quickSandList.add(quickSand);
+        
+        interactableList.addAll(poisonList);
+        interactableList.addAll(quickSandList);
+        interactableList.addAll(pressurePlateList);
+        interactableList.add(dEarth);
+        interactableList.add(dWind);
+        
+        //Additional Platforms
+        platforms.add(new Platform(0, H - 200, W - 200, 20));
+        platforms.add(new Platform(200, H - 310, 400, 20));
+        platforms.add(new Platform(35, H - 260, 100, 20));
+        
+        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
+        platforms.add(movingPlatform);
+        
+        platforms.add(new Platform(300, H - 400, W - 300, 20));
+        platforms.add(new Platform(300, H - 540, 20, 70));
+        platforms.add(new Platform(320, H - 540, 80, 20));
+        
+        // Add pressure plate
+        PressurePlate plate = new PressurePlate(320, H - 550, 20, 10, null, movingPlatform);
+        pressurePlateList.add(plate);
+        
+        // Add start platforms
+        platforms.add(new Platform(0, H - 100, 100, 20));
     }
 
     protected void checkDeath() {
@@ -454,27 +641,64 @@ public class EarthBoyWindGirl {
             g2.setColor(Color.blue);
             // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
             //g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
-            g2.fillRect(dWind.x, dWind.y, dWind.width, dWind.height);
+            //g2.fillRect(dWind.x, dWind.y, dWind.width, dWind.height);
 
-            for (PoisonFog poisonFog : poisonList){
+            //Draws the Doors
+            g2.drawImage(wDoor, dWind.x, dWind.y, dWind.width, dWind.height, null);
+            g2.drawImage(eDoor, dEarth.x, dEarth.y, dEarth.width, dEarth.height, null);
+
+            for (PoisonFog poisonFog : poisonList) {
                 g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
             }
-           
-            g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
-            g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
+
+            //draw windgirl
+            // if (!wUp && !wLeft && !wRight){ //standing still
+            //     g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
+            //     g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
+            // }
+            //temp for rn
+            if (!wLeft && !wRight && !wUp) { //standing still
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
+            } else if (wLeft) {
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 850, 470, 888, 510, null);
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 17, 238, 122, 300, null);
+            } else if (wRight) {
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 888, 510, 850, 470, null);
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 122, 300, 17, 238, null);
+            } else if (wUp) {
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 301, 570, 362, 660, null); //head up
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null); //body default
+            }
 
             g2.setColor(Color.red);
             // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
-            for (QuickSand quickSand : quickSandList){
+            for (QuickSand quickSand : quickSandList) {
                 g2.fillRect(quickSand.x, quickSand.y, quickSand.width, quickSand.height);
             }
-            g2.fillRect(dEarth.x, dEarth.y, dEarth.width, dEarth.height);
-            g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
-            g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
 
-            g2.setColor(Color.ORANGE);
-            for (PressurePlate pressurePlate : pressurePlateList){
-                g2.fillRect(pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height);
+            //draw Earthboy
+            if (!eLeft && !eRight && !eUp) { //standing still
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head default
+            } else if (eLeft) {
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 350, 479, 314, 440, null); //body left
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 231, 125, 168, 65, null); //head left
+            } else if (eRight) {
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body right
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 168, 65, 231, 125, null); //head right
+            } else if (eUp) {
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 436, 60, 496, 120, null); //head up
+            }
+
+            //temp for rn
+            // g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
+            // g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
+            //g2.setColor(Color.ORANGE);
+            for (PressurePlate pressurePlate : pressurePlateList) {
+                //g2.fillRect(pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height);
+                g2.drawImage(PressureP, pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height, null);
             }
         }
     }

@@ -6,22 +6,26 @@ import java.io.*;
 
 public class LevelGen {
 
-    static int[] f1;
+    static int[][] f1;
+
     int code;
 
     /*
      * Reads the file in which the "level" is stored in
      */
-    public static int[] readFile(String name) {
+    public static int[][] readFile(String name) {
         try {
 
             File file1 = new File(name);
             FileReader fin1 = new FileReader(file1);
             BufferedReader reader1 = new BufferedReader(fin1);
 
-            String x = reader1.readLine();
-            while (x != null) {
-                x = reader1.readLine();
+            int lineNum = 0;
+            String line = reader1.readLine();
+
+            while (line != null) {
+                line = reader1.readLine();
+                lineNum++;
             }
 
             reader1.close();
@@ -31,10 +35,12 @@ public class LevelGen {
             reader1 = new BufferedReader(fin1);
 
             String count1 = reader1.readLine();
-            f1 = new int[count1.length()];
+            f1 = new int[count1.length()][lineNum];
 
             for (int i = 0; i < count1.length(); i++) {
-                f1[i] = Integer.parseInt(String.valueOf(i));
+                for (int j = 0; j < lineNum; j++) {
+                    f1[i][j] = Integer.parseInt(String.valueOf(i));
+                }
                 count1 = reader1.readLine();
             }
 
@@ -51,7 +57,7 @@ public class LevelGen {
     }
 
     public static void main(String[] args) {
-        int[] x = readFile("test.txt");
+        int[][] x = readFile("test.txt");
 
         // for (int[] is : x) {
         //   System.out.println(Arrays.toString(is));
