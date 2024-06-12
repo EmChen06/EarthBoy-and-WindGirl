@@ -20,11 +20,12 @@ public class EarthBoyWindGirl {
     static EarthBoy earthBoy;
     Door dEarth, dWind;
     Timer keyDelay, platTimer;
-    BufferedImage SS, platformImg, backgroundImg, eDoor, wDoor, PressureP, fart, sand;
+    BufferedImage SS, platformImg, backgroundImg, eDoor, wDoor, PressureP, fart, sand, Msheet;
     Boolean platPlaced = false, tempPlaced = false, endGame = false;
     Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
     static JFrame window = new JFrame();
     static JFrame window2 = new JFrame();
+    int aCount = 0;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0, 0, 0, 0);
@@ -177,7 +178,7 @@ public class EarthBoyWindGirl {
             flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
             menuDraw = new DrawingPanel();
-            
+
             //Adding map options and start button
             b = new ButtonGroup();
 
@@ -228,14 +229,14 @@ public class EarthBoyWindGirl {
 
                 g2.setColor(Color.BLACK);
                 g2.setFont(new Font("Calibri", Font.BOLD, 15));
-                g2.drawString("EarthBoy Instructions:", 0,15);
+                g2.drawString("EarthBoy Instructions:", 0, 15);
                 g2.setFont(new Font("Calibri", Font.PLAIN, 15));
                 g2.drawString("[W] for jump, [A] for left, [D] for right", 0, 40);
                 g2.drawString("[E] to create platform and use WASD to move around", 0, 65);
                 g2.drawString("[Space] to place platform", 0, 90);
 
                 g2.setFont(new Font("Calibri", Font.BOLD, 15));
-                g2.drawString("WindGirl Instructions:", 450,15);
+                g2.drawString("WindGirl Instructions:", 450, 15);
                 g2.setFont(new Font("Calibri", Font.PLAIN, 15));
                 g2.drawString("[UP] for jump, [LEFT] for left, [RIGHT] for right", 450, 40);
                 g2.drawString("Quickly double tap [UP] to double jump", 450, 65);
@@ -245,8 +246,30 @@ public class EarthBoyWindGirl {
         }
 
         @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g2.setColor(Color.BLACK);
+            g2.setFont(new Font("Calibri", Font.BOLD, 15));
+            g2.drawString("EarthBoy Instructions:", 0, 15);
+            g2.setFont(new Font("Calibri", Font.PLAIN, 15));
+            g2.drawString("[W] for jump, [A] for left, [D] for right", 0, 40);
+            g2.drawString("[E] to create platform and use WASD to move around", 0, 65);
+            g2.drawString("[Space] to place platform", 0, 90);
+
+            g2.setFont(new Font("Calibri", Font.BOLD, 15));
+            g2.drawString("WindGirl Instructions:", 450, 15);
+            g2.setFont(new Font("Calibri", Font.PLAIN, 15));
+            g2.drawString("[UP] for jump, [LEFT] for left, [RIGHT] for right", 450, 40);
+            g2.drawString("Quickly double tap [UP] to double jump", 450, 65);
+            g2.drawString("Hold [UP] while jumping and use arrow keys to drift", 450, 90);
+
+        }
+
         public void actionPerformed(ActionEvent event) {
-            String e = event.getActionCommand();
+            String e = event.getActionComand();
             if (e.equals("L1")) {
                 map = 1;
                 start.setEnabled(true);
@@ -323,6 +346,7 @@ public class EarthBoyWindGirl {
         PressureP = loadImage("\\Images\\Plate.png");
         fart = loadImage("\\Images\\fart.png");
         sand = loadImage("\\Images\\sand.png");
+        Msheet = loadImage("\\Images\\MirroredSpriteSheet.png");
 
         // draw.setPreferredSize(new Dimension(W, H));
         p.add(draw);
@@ -331,6 +355,11 @@ public class EarthBoyWindGirl {
         //movement
         keyDelay = new Timer(10, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                if (aCount < 4) {
+                    aCount++;
+                } else if (aCount >= 4) {
+                    aCount = 0;
+                }
                 int eVX = 0;
                 int wVX = 0;
                 for (Integer i : storedKeys) {
@@ -630,12 +659,12 @@ public class EarthBoyWindGirl {
             //draw windgirl
             // g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
             // g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
-            if (!wLeft && !wRight && !wUp) { //standing still
+            if ((!wLeft && !wRight && !wUp) || (windGirl.vx == 0 && windGirl.vy == 0)) { //standing still
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             } else if (wLeft) {
-                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 850, 510, 888, 470, null); //body left
-                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 17, 238, 122, 300, null); //head left
+                g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 526, 476, 557, 512, null); //body left
+                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 1290, 242, 1391, 299, null); //head left
             } else if (wRight) {
                 g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right
                 g2.drawImage(SS, windGirl.x - 30, windGirl.y - 20, windGirl.x + windGirl.w + 10, windGirl.y + 10, 17, 238, 122, 300, null); //head right
@@ -648,12 +677,12 @@ public class EarthBoyWindGirl {
             //draw Earthboy
             // g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
             // g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
-            if (!eLeft && !eRight && !eUp) { //standing still
+            if ((!eLeft && !eRight && !eUp) || (earthBoy.vx == 0 && earthBoy.vy == 0)) { //standing still
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head default
             } else if (eLeft) {
-                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 350, 479, 314, 440, null); //body left
-                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 231, 125, 168, 65, null); //head left
+                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 1066, 444, 1094, 480, null); //body left
+                g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 1183, 65, 1241, 121, null); //head left
             } else if (eRight) {
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body right
                 g2.drawImage(SS, earthBoy.x + 5, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + 23, 168, 65, 231, 125, null); //head right
