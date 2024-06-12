@@ -42,8 +42,8 @@ public class EarthBoyWindGirl {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 // new EarthBoyWindGirl();
-                new Introduction();
-                // new Menu();
+                // new Introduction();
+                new Menu();
             }
         });
     }
@@ -59,15 +59,15 @@ public class EarthBoyWindGirl {
         Boolean fadeDone = false, fadeInDone = false;
 
         Introduction() {
+            //Setup
             window.setTitle("EarthBoy and WindGirl Introduction");
             window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             window.setResizable(false);
-
-            cover = loadImage("\\Images\\PICTURE.png");
-
             intro = new JPanel();
             introDraw = new DrawingPanel();
             intro.setPreferredSize(new Dimension(Width, Height));
+
+            cover = loadImage("\\Images\\PICTURE.png");
 
             fadeIN = new Timer(10, new ActionListener() {
                 @Override
@@ -84,23 +84,18 @@ public class EarthBoyWindGirl {
                                 } else {
                                     transparency += 2;
                                     introDraw.repaint();
-
                                 }
 
                             }
                         });
                         fadeInDone = true;
-                        System.out.println("FadeInDone: " + fadeInDone);
                         fadeOUT.start();
-                    } else {
+                    } else if (!fadeInDone) {
                         transparency -= 2;
                         introDraw.repaint();
                     }
-
                     checkFadeDone();
-
                 }
-
             });
             fadeIN.start();
 
@@ -120,16 +115,10 @@ public class EarthBoyWindGirl {
 
             @Override
             public void paintComponent(Graphics g) {
+                //Graphics setup
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // if (!fadeDone) {
-
-                // } else {
-                //     g2.setColor(new Color(255, 255, 255));
-                //     g2.fillRect(0, 0, Width, Height);
-                // }
 
                 g2.drawImage(cover, 0, 0, Width, Height, null);
                 g2.setColor(new Color(0, 0, 0, transparency));
@@ -141,7 +130,6 @@ public class EarthBoyWindGirl {
         void checkFadeDone() {
             if (fadeDone) {
                 fadeIN.stop();
-                System.out.println("hi");
                 window.setVisible(false);
                 new Menu();
             }
@@ -170,20 +158,21 @@ public class EarthBoyWindGirl {
         JPanel menu;
         DrawingPanel menuDraw;
         JButton start;
-        int Width = 1000, Height = 600;
+        int Width = 300, Height = 50;
         JRadioButton l1, l2, l3;
         ButtonGroup b;
         int map;
 
         Menu() {
+            //Setup
             window2.setTitle("EarthBoy and WindGirl Menu");
             window2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             window2.setResizable(false);
-
             menu = new JPanel();
-            menu.setLayout(new BoxLayout(menu, BoxLayout.LINE_AXIS));
-            menuDraw = new DrawingPanel();
-
+            menu.setPreferredSize(new Dimension(Width, Height));
+            menu.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+            
+            //Adding map options and start button
             b = new ButtonGroup();
 
             l1 = new JRadioButton("Map A");
@@ -210,27 +199,10 @@ public class EarthBoyWindGirl {
             menu.add(start);
             start.setEnabled(false);
 
-            menuDraw.repaint();
-            menu.add(menuDraw);
             window2.add(menu);
             window2.pack();
             window2.setVisible(true);
             window2.setLocationRelativeTo(null);
-        }
-
-        class DrawingPanel extends JPanel {
-
-            DrawingPanel() {
-                this.setPreferredSize(new Dimension(Width, Height));
-            }
-
-            @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            }
         }
 
         @Override
@@ -268,17 +240,16 @@ public class EarthBoyWindGirl {
     }
 
     EarthBoyWindGirl(int mapChoice) {
-        System.out.println(mapChoice);
+
+        //Window setup
         window.setTitle("EarthBoy and WindGirl");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-
         p = new JPanel();
         p.setPreferredSize(new Dimension(W, H));
-
         draw = new DrawingPanel();
 
-        //setting all the animation variables to false
+        //All animation variables
         eLeft = false;
         eRight = false;
         eUp = false;
@@ -291,57 +262,18 @@ public class EarthBoyWindGirl {
         //Floor + Ceiling
         platforms.add(new Platform(-30, H, W + 60, 30));
         platforms.add(new Platform(-30, -30, W + 60, 30));
-
         //Side Walls
         platforms.add(new Platform(-30, 0, 30, H + 30));
         platforms.add(new Platform(W, 0, 30, H + 30));
 
-        // if (mapChoice == 1) {
-        //     level1();
-        // } else if (mapChoice == 2) {
-        //     System.out.println("Man not yet");
-        // } else if (mapChoice == 3) {
-        //     System.out.println("also not yet");
-        // }
-
-        // //Characters
-        windGirl = new WindGirl(30, H - 70, null, false, false);
-        earthBoy = new EarthBoy(30, H - 150, null, false, false, false);
-
-        // //Doors
-        dWind = new Door(W - 100, H - 480, 40, 80, null);
-        dEarth = new Door(W - 200, H - 480, 40, 80, null);
-
-        //Poison fog + Quicksand
-        poisonFog = new PoisonFog(220, H - 280, 500, 20, null);
-        quickSand = new QuickSand(300, H - 420, 200, 20, null);
-        poisonList.add(poisonFog);
-        quickSandList.add(quickSand);
-
-        interactableList.addAll(poisonList);
-        interactableList.addAll(quickSandList);
-        interactableList.addAll(pressurePlateList);
-        interactableList.add(dEarth);
-        interactableList.add(dWind);
-
-        //Additional Platforms
-        platforms.add(new Platform(0, H - 200, W - 200, 20));
-        platforms.add(new Platform(200, H - 310, 400, 20));
-        platforms.add(new Platform(35, H - 260, 100, 20));
-
-        Platform movingPlatform = new Platform(200, H - 290, 20, 90, 0, 1, 190, H - 350, 230, H - 200);
-        platforms.add(movingPlatform);
-
-        platforms.add(new Platform(300, H - 400, W - 300, 20));
-        platforms.add(new Platform(300, H - 540, 20, 70));
-        platforms.add(new Platform(320, H - 540, 80, 20));
-
-        // Add pressure plate
-        PressurePlate plate = new PressurePlate(100, H-20, 20, 10, null, movingPlatform);
-        pressurePlateList.add(plate);
-
-        // Add start platforms
-        platforms.add(new Platform(0, H - 100, 100, 20));
+        //Choosing maps
+        if (mapChoice == 1) {
+            level1();
+        } else if (mapChoice == 2) {
+            System.out.println("Man not yet");
+        } else if (mapChoice == 3) {
+            System.out.println("also not yet");
+        }
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -351,7 +283,7 @@ public class EarthBoyWindGirl {
         wDoor = loadImage("\\Images\\WindGirlDoor.png");
         PressureP = loadImage("\\Images\\Plate.png");
 
-        draw.setPreferredSize(new Dimension(W, H));
+        // draw.setPreferredSize(new Dimension(W, H));
 
         p.add(draw);
         p.addKeyListener(new kListener());
@@ -462,15 +394,11 @@ public class EarthBoyWindGirl {
                 }
 
                 checkDoor();
-
                 checkDeath();
-
                 checkEnd();
-
                 draw.repaint();
             }
         });
-
         keyDelay.start();
 
         window.setContentPane(p);
@@ -528,6 +456,7 @@ public class EarthBoyWindGirl {
             JOptionPane.showMessageDialog(null, "U DIED UNLUCKY", "Game Over", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
             window.dispose();
+            new Menu();
         }
     }
 
@@ -543,6 +472,7 @@ public class EarthBoyWindGirl {
             JOptionPane.showMessageDialog(null, "YOU WON!", "Great Job!", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
             window.dispose();
+            new Menu();
         }
     }
 
@@ -611,52 +541,54 @@ public class EarthBoyWindGirl {
         }
 
         @Override
-        public void paintComponent(Graphics g) { //changed to public instead of protected
+        public void paintComponent(Graphics g) {
+            //Drawing setup
             super.paintComponent(g);
-
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); //turn on antialiasing
-            //g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR); //turn on antialiasing
 
-            //draw background
+            //Draw background
             g2.drawImage(backgroundImg, 0, 0, W, H, null);
 
+            //Draw grid lines
             g2.setColor(Color.black);
-
             for (int i = 0; i < W / 20; i++) {
                 for (int j = 0; j < H / 20; j++) {
                     g2.drawRect(i * 20, j * 20, 20, 20);
                 }
             }
 
-            for (Platform platform : platforms) {
-                //g2.fillRect(platform.x, platform.y, platform.width, platform.height);
-                g2.drawImage(platformImg, platform.x, platform.y, platform.width, platform.height, null);
-            }
-
-            g2.setColor(new Color(128, 156, 217));
-            // g2.fillRect(earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height);
-            g2.drawImage(platformImg, earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height, null);
-
-            g2.setColor(Color.blue);
-            // g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.w, windGirl.h, 200, 200, 100, 100, null);
-            //g2.fillRect(windGirl.x, windGirl.y, windGirl.w, windGirl.h);
-            //g2.fillRect(dWind.x, dWind.y, dWind.width, dWind.height);
-
             //Draws the Doors
             g2.drawImage(wDoor, dWind.x, dWind.y, dWind.width, dWind.height, null);
             g2.drawImage(eDoor, dEarth.x, dEarth.y, dEarth.width, dEarth.height, null);
 
+            //Pressure plates
+            for (PressurePlate pressurePlate : pressurePlateList) {
+                g2.drawImage(PressureP, pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height, null);
+            }
+
+            //All platforms
+            for (Platform platform : platforms) {
+                g2.drawImage(platformImg, platform.x, platform.y, platform.width, platform.height, null);
+            }
+            //EarthBoy's platform
+            g2.drawImage(platformImg, earthPlat.x, earthPlat.y, earthPlat.width, earthPlat.height, null);
+            
+            //Poison Fog
+            g2.setColor(Color.blue);
             for (PoisonFog poisonFog : poisonList) {
                 g2.fillRect(poisonFog.x, poisonFog.y, poisonFog.width, poisonFog.height);
             }
 
+            //Quicksand
+            g2.setColor(Color.red);
+            for (QuickSand quickSand : quickSandList) {
+                g2.fillRect(quickSand.x, quickSand.y, quickSand.width, quickSand.height);
+            }
+
             //draw windgirl
-            // if (!wUp && !wLeft && !wRight){ //standing still
-            //     g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
-            //     g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
-            // }
-            //temp for rn
+            // g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
+            // g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             if (!wLeft && !wRight && !wUp) { //standing still
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
@@ -671,13 +603,9 @@ public class EarthBoyWindGirl {
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null); //body default
             }
 
-            g2.setColor(Color.red);
-            // g2.fillRect(earthBoy.x, earthBoy.y, earthBoy.w, earthBoy.h);
-            for (QuickSand quickSand : quickSandList) {
-                g2.fillRect(quickSand.x, quickSand.y, quickSand.width, quickSand.height);
-            }
-
             //draw Earthboy
+            // g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
+            // g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
             if (!eLeft && !eRight && !eUp) { //standing still
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head default
@@ -690,15 +618,6 @@ public class EarthBoyWindGirl {
             } else if (eUp) {
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 436, 60, 496, 120, null); //head up
-            }
-
-            //temp for rn
-            // g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body
-            // g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head
-            //g2.setColor(Color.ORANGE);
-            for (PressurePlate pressurePlate : pressurePlateList) {
-                //g2.fillRect(pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height);
-                g2.drawImage(PressureP, pressurePlate.x, pressurePlate.y, pressurePlate.width, pressurePlate.height, null);
             }
         }
     }
