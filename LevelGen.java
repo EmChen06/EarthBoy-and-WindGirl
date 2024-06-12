@@ -82,7 +82,7 @@ public class LevelGen {
     }
 
     public static void main(String args[]) {
-        int[][] x = readFile("\\Images\\testingDoc.txt");
+        int[][] x = readFile("\\Images\\testingDoc.txt.txt");
 
         for (int i = 0; i < (x.length) / 11; i++) {
             for (int j = 0; j < 11; j++) {
