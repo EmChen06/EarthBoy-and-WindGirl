@@ -75,7 +75,7 @@ public class EarthBoyWindGirl {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (transparency == 1) {
-                        fadeOUT = new Timer(1, new ActionListener() {
+                        fadeOUT = new Timer(10, new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 if (transparency == 255 && fadeInDone) {
