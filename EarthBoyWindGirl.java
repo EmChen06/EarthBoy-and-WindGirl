@@ -25,7 +25,7 @@ public class EarthBoyWindGirl {
     Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
     static JFrame window = new JFrame();
     static JFrame window2 = new JFrame();
-    int aCount = 0;
+    int aCount = 1;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0, 0, 0, 0);
@@ -448,7 +448,7 @@ public class EarthBoyWindGirl {
                 if (aCount < 4) {
                     aCount++;
                 } else if (aCount >= 4) {
-                    aCount = 0;
+                    aCount = 1;
                 }
             }
         });
@@ -678,11 +678,19 @@ public class EarthBoyWindGirl {
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head default
             } else if (eLeft) {
-                g2.drawImage(Msheet, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 1066, 444, 1094, 480, null); //body left
-                g2.drawImage(Msheet, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 1183, 65, 1241, 121, null); //head left
+                g2.drawImage(Msheet, earthBoy.x, earthBoy.y - 20, earthBoy.x + earthBoy.w, earthBoy.y + 23, 1183, 65, 1241, 121, null); //head left
+                if (aCount == 1 || aCount == 3) {
+                    g2.drawImage(Msheet, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 1066, 444, 1094, 480, null); //body left 1
+                } else if (aCount == 2 || aCount == 4){
+                    g2.drawImage(Msheet, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 664, 445, 682, 480, null); //body left 2
+                }
             } else if (eRight) {
-                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body right
                 g2.drawImage(SS, earthBoy.x + 5, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + 23, 168, 65, 231, 125, null); //head right
+                if (aCount == 1 || aCount == 3) {
+                    g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body right 1    
+                } else if (aCount == 2 || aCount == 4){
+                    g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 724, 445, 743, 479, null); //body right 2
+                }  
             } else if (eUp) {
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 436, 60, 496, 120, null); //head up
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default 
