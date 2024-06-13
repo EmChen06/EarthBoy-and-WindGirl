@@ -43,8 +43,8 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-               // new Introduction();
-                new Menu();
+               new Introduction();
+                // new Menu();
                 // new EarthBoyWindGirl();
             }
         });
