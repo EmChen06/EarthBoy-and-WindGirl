@@ -310,7 +310,7 @@ public class EarthBoyWindGirl {
         if (mapChoice == 1) {
             level1();
         } else if (mapChoice == 2) {
-            System.out.println("Man not yet");
+            level2();
         } else if (mapChoice == 3) {
             System.out.println("also not yet");
         }
@@ -504,6 +504,73 @@ public class EarthBoyWindGirl {
         // Add start platforms
         platforms.add(new Platform(0, H - 100, 100, 20));
     }
+
+    protected void level2(){
+        //Characters
+        windGirl = new WindGirl(20, 40, null, false, false);
+        earthBoy = new EarthBoy(W - 40, 40, null, false, false, false);
+        
+        //Doors
+        dWind = new Door(220, H - 80, 40, 80, null);
+        dEarth = new Door(W - 220, H - 80, 40, 80, null);
+        
+        //Poison fog + Quicksand
+        poisonList.add(new PoisonFog(W-280, 120, 180, 20, null));
+        poisonList.add(new PoisonFog(W-420, 360, 160, 20, null));
+        poisonList.add(new PoisonFog(W-440, H-20, 160, 20, null));
+        
+        quickSandList.add(new QuickSand(300, H - 20, 140, 20, null));
+        quickSandList.add(new QuickSand(200, 420, 80, 20, null));
+        quickSandList.add(new QuickSand(240, 280, 140, 20, null));
+
+        
+        interactableList.addAll(poisonList);
+        interactableList.addAll(quickSandList);
+        interactableList.addAll(pressurePlateList);
+        interactableList.add(dEarth);
+        interactableList.add(dWind);
+        
+        //Additional Platforms
+        platforms.add(new Platform(0, 80, 100, 20));
+        platforms.add(new Platform(400, 160, 80, 20));
+        platforms.add(new Platform(380, 280, 100, 20));
+        platforms.add(new Platform(0, 420, 200, 20));
+        platforms.add(new Platform(280, 420, 60, 20));
+        platforms.add(new Platform(340, 420, 20, 40));
+
+        platforms.add(new Platform(W-100, 80, 100, 20));
+        platforms.add(new Platform(W-100, 100, 20, 40));
+        platforms.add(new Platform(W-420, 120, 140, 20));
+        platforms.add(new Platform(W-420, 220, 180, 20));
+        platforms.add(new Platform(W-220, 220, 120, 20));
+        platforms.add(new Platform(W-260, 360, 260, 20));
+        platforms.add(new Platform(W-300, 440, 300, 20));
+        platforms.add(new Platform(W-300, 460, 20, 40));
+
+
+        Platform movingPlatform1 = new Platform(390, 80, 20, 100, 0, -1, 390, 100, 410, 280);
+        Platform movingPlatform2 = new Platform(W-480, 120, 60, 20, 0, -1, W-480, 120, W-420, 240);
+        Platform movingPlatform3 = new Platform(W-240, 140, 20, 100, 0, -1, W-240, 140, W-220, 360);
+        platforms.add(movingPlatform1);
+        platforms.add(movingPlatform2);
+        platforms.add(movingPlatform3);
+
+
+        platforms.add(new Platform(480, 0, 40, H));
+        
+        
+       // Add pressure plate
+       PressurePlate plate1 = new PressurePlate(420, 150, 20, 10, null, movingPlatform2);
+       PressurePlate plate2 = new PressurePlate(440, 270, 20, 10, null, movingPlatform3);
+       PressurePlate plate3 = new PressurePlate(W-360, 110, 20, 10, null, movingPlatform1);
+
+        pressurePlateList.add(plate1);
+        pressurePlateList.add(plate2);
+        pressurePlateList.add(plate3);
+
+
+        
+   }
 
     protected void checkDeath() {
         if (earthBoy.isDead || windGirl.isDead) {
