@@ -25,7 +25,7 @@ public class EarthBoyWindGirl {
     Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
     static JFrame window = new JFrame();
     static JFrame window2 = new JFrame();
-    int aCount = 0;
+    int aCount = 1;
 
     static ArrayList<Platform> platforms = new ArrayList<>();
     Platform earthPlat = new Platform(0, 0, 0, 0);
@@ -43,9 +43,9 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                // new Introduction();
-                // new Menu();
-                new EarthBoyWindGirl(3);
+               // new Introduction();
+                new Menu();
+                // new EarthBoyWindGirl();
             }
         });
     }
@@ -307,15 +307,13 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(W, 0, 30, H + 30));
 
         //Choosing maps
-        // if (mapChoice == 1) {
-        //     level1();
-        // } else if (mapChoice == 2) {
-        //     // level2();
-        // } else if (mapChoice == 3) {
-        //     level3();
-        // }
-
-        level3();
+        if (mapChoice == 1) {
+            level1();
+        } else if (mapChoice == 2) {
+            level2();
+        } else if (mapChoice == 3) {
+            level3();
+        }
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -450,7 +448,7 @@ public class EarthBoyWindGirl {
                 if (aCount < 4) {
                     aCount++;
                 } else if (aCount >= 4) {
-                    aCount = 0;
+                    aCount = 1;
                 }
             }
         });
@@ -506,6 +504,73 @@ public class EarthBoyWindGirl {
         // Add start platforms
         platforms.add(new Platform(0, H - 100, 100, 20));
     }
+
+    protected void level2(){
+        //Characters
+        windGirl = new WindGirl(20, 40, null, false, false);
+        earthBoy = new EarthBoy(W - 40, 40, null, false, false, false);
+        
+        //Doors
+        dWind = new Door(220, H - 80, 40, 80, null);
+        dEarth = new Door(W - 220, H - 80, 40, 80, null);
+        
+        //Poison fog + Quicksand
+        poisonList.add(new PoisonFog(W-280, 120, 180, 20, null));
+        poisonList.add(new PoisonFog(W-420, 360, 160, 20, null));
+        poisonList.add(new PoisonFog(W-440, H-20, 160, 20, null));
+        
+        quickSandList.add(new QuickSand(300, H - 20, 140, 20, null));
+        quickSandList.add(new QuickSand(200, 420, 80, 20, null));
+        quickSandList.add(new QuickSand(240, 280, 140, 20, null));
+
+        
+        interactableList.addAll(poisonList);
+        interactableList.addAll(quickSandList);
+        interactableList.addAll(pressurePlateList);
+        interactableList.add(dEarth);
+        interactableList.add(dWind);
+        
+        //Additional Platforms
+        platforms.add(new Platform(0, 80, 100, 20));
+        platforms.add(new Platform(400, 160, 80, 20));
+        platforms.add(new Platform(380, 280, 100, 20));
+        platforms.add(new Platform(0, 420, 200, 20));
+        platforms.add(new Platform(280, 420, 60, 20));
+        platforms.add(new Platform(340, 420, 20, 40));
+
+        platforms.add(new Platform(W-100, 80, 100, 20));
+        platforms.add(new Platform(W-100, 100, 20, 40));
+        platforms.add(new Platform(W-420, 120, 140, 20));
+        platforms.add(new Platform(W-420, 220, 180, 20));
+        platforms.add(new Platform(W-220, 220, 120, 20));
+        platforms.add(new Platform(W-260, 360, 260, 20));
+        platforms.add(new Platform(W-300, 440, 300, 20));
+        platforms.add(new Platform(W-300, 460, 20, 40));
+
+
+        Platform movingPlatform1 = new Platform(390, 80, 20, 100, 0, -1, 390, 100, 410, 280);
+        Platform movingPlatform2 = new Platform(W-480, 120, 60, 20, 0, -1, W-480, 120, W-420, 240);
+        Platform movingPlatform3 = new Platform(W-240, 140, 20, 100, 0, -1, W-240, 140, W-220, 360);
+        platforms.add(movingPlatform1);
+        platforms.add(movingPlatform2);
+        platforms.add(movingPlatform3);
+
+
+        platforms.add(new Platform(480, 0, 40, H));
+        
+        
+       // Add pressure plate
+       PressurePlate plate1 = new PressurePlate(420, 150, 20, 10, null, movingPlatform2);
+       PressurePlate plate2 = new PressurePlate(440, 270, 20, 10, null, movingPlatform3);
+       PressurePlate plate3 = new PressurePlate(W-360, 110, 20, 10, null, movingPlatform1);
+
+        pressurePlateList.add(plate1);
+        pressurePlateList.add(plate2);
+        pressurePlateList.add(plate3);
+
+
+        
+   }
 
     protected void level3() {
         windGirl = new WindGirl(30, H - 40, null, false, false);
@@ -690,23 +755,23 @@ public class EarthBoyWindGirl {
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             } else if (wLeft) {
-                g2.drawImage(Msheet, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 1290, 242, 1391, 299, null); //head left
+                g2.drawImage(Msheet, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w + 20, windGirl.y + 20, 1290, 242, 1391, 299, null); //head left
                 if (aCount == 1 || aCount == 3){
-                    g2.drawImage(Msheet, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 526, 476, 557, 512, null); //body left 1
+                    g2.drawImage(Msheet, windGirl.x, windGirl.y + 15, windGirl.x + windGirl.w, windGirl.y + windGirl.h, 526, 476, 557, 512, null); //body left 1
                 } else if (aCount == 2 || aCount == 4){
-                    g2.drawImage(Msheet, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 124, 475, 151, 510, null); //body left 2
+                    g2.drawImage(Msheet, windGirl.x, windGirl.y+15, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 124, 475, 151, 510, null); //body left 2
                 }
             } else if (wRight) {
-                g2.drawImage(SS, windGirl.x - 30, windGirl.y - 40, windGirl.x + windGirl.h, windGirl.y + 5, 17, 238, 122, 300, null); //head right
+                g2.drawImage(SS, windGirl.x - 20, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 17, 238, 122, 300, null); //head right
                 if (aCount == 1 || aCount == 3){
-                    g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right 1
+                    g2.drawImage(SS, windGirl.x-3, windGirl.y+8, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right 1
                 } else if (aCount == 2 || aCount == 4){
-                    g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 1258, 475, 1281, 510, null); //body right 2
+                    g2.drawImage(SS, windGirl.x-5, windGirl.y+15, windGirl.x + (windGirl.w)-5 , windGirl.y + (windGirl.h), 1258, 475, 1281, 510, null); //body right 2
                 }
                 
 
             } else if (wUp) {
-                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 301, 570, 362, 660, null); //head up
+                g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + windGirl.w, windGirl.y + 30, 301, 570, 362, 660, null); //head up
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null); //body default
             }
 
@@ -718,11 +783,19 @@ public class EarthBoyWindGirl {
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head default
             } else if (eLeft) {
-                g2.drawImage(Msheet, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 1066, 444, 1094, 480, null); //body left
-                g2.drawImage(Msheet, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 1183, 65, 1241, 121, null); //head left
+                g2.drawImage(Msheet, earthBoy.x, earthBoy.y - 20, earthBoy.x + earthBoy.w, earthBoy.y + 23, 1183, 65, 1241, 121, null); //head left
+                if (aCount == 1 || aCount == 3) {
+                    g2.drawImage(Msheet, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 1066, 444, 1094, 480, null); //body left 1
+                } else if (aCount == 2 || aCount == 4){
+                    g2.drawImage(Msheet, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 664, 445, 682, 480, null); //body left 2
+                }
             } else if (eRight) {
-                g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body right
                 g2.drawImage(SS, earthBoy.x + 5, earthBoy.y, earthBoy.x + earthBoy.w, earthBoy.y + 23, 168, 65, 231, 125, null); //head right
+                if (aCount == 1 || aCount == 3) {
+                    g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 314, 440, 350, 479, null); //body right 1    
+                } else if (aCount == 2 || aCount == 4){
+                    g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 724, 445, 743, 479, null); //body right 2
+                }  
             } else if (eUp) {
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 436, 60, 496, 120, null); //head up
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default 
