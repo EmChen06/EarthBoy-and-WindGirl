@@ -43,8 +43,8 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Introduction();
-                //new Menu();
+                //new Introduction();
+                new Menu();
                 // new EarthBoyWindGirl();
             }
         });
@@ -585,6 +585,13 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(W - 130, H - 200, 50, 20));
         platforms.add(new Platform(W - 70, H - 400, 70, 20));
         platforms.add(new Platform(W - 130, H - 500, 70, 20));
+
+
+        Platform movingPlatform1 = new Platform(W-150, H - 150, 20, 70,0,1,W-150,H-220,W-130,H-80);
+        platforms.add(movingPlatform1);
+
+        PressurePlate pressurePlate = new PressurePlate(W-180, H-310, 20, 10, PressureP, movingPlatform1);
+        pressurePlateList.add(pressurePlate);
 
         quickSandList.add(new QuickSand(300, 240, 380, 20, null));
         quickSandList.add(new QuickSand(230, 360, 460, 20, null));
