@@ -1,41 +1,41 @@
-
+//Imports
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import javax.imageio.ImageIO;
-import javax.sound.midi.Soundbank;
 import javax.swing.*;
 import javax.swing.Timer;
 
 public class EarthBoyWindGirl {
 
-    DrawingPanel draw;
+    DrawingPanel draw; //main drawing panel
     JPanel introP, p;
     JOptionPane quit;
     int W = 1000;
     int H = 600;
     static WindGirl windGirl;
     static EarthBoy earthBoy;
-    Door dEarth, dWind;
-    Timer keyDelay, platTimer, animeTimer;
-    BufferedImage SS, platformImg, backgroundImg, eDoor, wDoor, PressureP, fart, sand, Msheet;
-    Boolean platPlaced = false, tempPlaced = false, endGame = false;
+    Door dEarth, dWind; //individual character doors
+    Timer keyDelay, platTimer, animeTimer; 
+    BufferedImage SS, platformImg, backgroundImg, eDoor, wDoor, PressureP, fart, sand, Msheet; //Images (sorry for fart)
+    Boolean platPlaced = false, tempPlaced = false, endGame = false; //Booleans for EarthBoy's platforms and end of game
     Boolean eLeft, eRight, eUp, eDown, wLeft, wRight, wUp, wDown; //Booleans for animation
-    static JFrame window = new JFrame();
-    static JFrame window2 = new JFrame();
-    int aCount = 1;
+    static JFrame window = new JFrame(); //Intro and Main frames
+    static JFrame window2 = new JFrame();  //Map selection frame
+    int aCount = 1; //Variable to keep animation from glitching
 
+    //ArrayLists for interactables and platforms
     static ArrayList<Platform> platforms = new ArrayList<>();
-    Platform earthPlat = new Platform(0, 0, 0, 0);
-    ArrayList<Integer> storedKeys = new ArrayList<>();
-
+    Platform earthPlat = new Platform(0, 0, 0, 0); 
     static ArrayList<PoisonFog> poisonList = new ArrayList<>();
     static ArrayList<QuickSand> quickSandList = new ArrayList<>();
     static ArrayList<PressurePlate> pressurePlateList = new ArrayList<>();
-
     static ArrayList<Platform> interactableList = new ArrayList<>();
+
+    //Stores multiple keys to allow EarthBoy and WindGirl to move at the same time
+    ArrayList<Integer> storedKeys = new ArrayList<>();
 
     PoisonFog poisonFog;
     QuickSand quickSand;
@@ -43,9 +43,7 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                //new Introduction();
-                new Menu();
-                // new EarthBoyWindGirl();
+                new Introduction();
             }
         });
     }
@@ -71,10 +69,12 @@ public class EarthBoyWindGirl {
 
             cover = loadImage("\\Images\\PICTURE.png");
 
+            //Timer to fade into the picture
             fadeIN = new Timer(10, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (transparency == 1) {
+                        //Timer to fade back out
                         fadeOUT = new Timer(10, new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -84,7 +84,7 @@ public class EarthBoyWindGirl {
                                     introDraw.repaint();
                                     intro.setVisible(false);
                                 } else {
-                                    transparency += 2;
+                                    transparency += 2; //At 1, transparency of black rectangle increases until 255
                                     introDraw.repaint();
                                 }
 
@@ -93,7 +93,7 @@ public class EarthBoyWindGirl {
                         fadeInDone = true;
                         fadeOUT.start();
                     } else if (!fadeInDone) {
-                        transparency -= 2;
+                        transparency -= 2; //Transparency of black rectangle decreases until 1
                         introDraw.repaint();
                     }
                     checkFadeDone();
@@ -123,12 +123,17 @@ public class EarthBoyWindGirl {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 g2.drawImage(cover, 0, 0, Width, Height, null);
+
+                //Creates black rectangle with increasing/decreasing transparency
                 g2.setColor(new Color(0, 0, 0, transparency));
                 g2.fillRect(0, 0, Width, Height);
 
             }
         }
 
+        /**
+         * Checks if the fade in/out is done and moves to the Menu window
+         */
         void checkFadeDone() {
             if (fadeDone) {
                 fadeIN.stop();
@@ -137,6 +142,11 @@ public class EarthBoyWindGirl {
             }
         }
 
+        /**
+         * Loads an image and shows a message dialog for errors
+         * @param filename  Name of the image file
+         * @return  Returns the image
+         */
         BufferedImage loadImage(String filename) {
             BufferedImage image = null;
             java.net.URL imageURL = this.getClass().getResource(filename);
@@ -154,6 +164,7 @@ public class EarthBoyWindGirl {
 
     }
 
+    //Map selection and instructions menu
     static class Menu implements ActionListener {
 
         BufferedImage img;
@@ -174,9 +185,11 @@ public class EarthBoyWindGirl {
             menu.setPreferredSize(new Dimension(Width, Height));
             menu.setLayout(new BorderLayout(10, 10));
 
+            //Centering JRadioButtons
             JPanel flowPanel = new JPanel();
             flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
+            //Drawing panel to include instructions
             menuDraw = new DrawingPanel();
 
             //Adding map options and start button
@@ -204,7 +217,7 @@ public class EarthBoyWindGirl {
             start.setActionCommand("Start");
             start.addActionListener(this);
             flowPanel.add(start);
-            start.setEnabled(false);
+            start.setEnabled(false); //Initially disabled until a map is selected
 
             menuDraw.repaint();
             menu.add(menuDraw, BorderLayout.CENTER);
@@ -227,6 +240,7 @@ public class EarthBoyWindGirl {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+                //EarthBoy instructions
                 g2.setColor(Color.BLACK);
                 g2.setFont(new Font("Calibri", Font.BOLD, 15));
                 g2.drawString("EarthBoy Instructions:", 0, 15);
@@ -235,6 +249,7 @@ public class EarthBoyWindGirl {
                 g2.drawString("[E] to create platform and use WASD to move around", 0, 65);
                 g2.drawString("[Space] to place platform", 0, 90);
 
+                //WindGirl instructions
                 g2.setFont(new Font("Calibri", Font.BOLD, 15));
                 g2.drawString("WindGirl Instructions:", 450, 15);
                 g2.setFont(new Font("Calibri", Font.PLAIN, 15));
@@ -244,8 +259,9 @@ public class EarthBoyWindGirl {
 
             }
         }
-
+ 
         @Override
+        //Saves the map selection choise then creates the main game window for the map
         public void actionPerformed(ActionEvent event) {
             String e = event.getActionCommand();
             if (e.equals("L1")) {
@@ -280,7 +296,6 @@ public class EarthBoyWindGirl {
     }
 
     EarthBoyWindGirl(int mapChoice) {
-
         //Window setup
         window.setTitle("EarthBoy and WindGirl");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -330,11 +345,13 @@ public class EarthBoyWindGirl {
         p.add(draw);
         p.addKeyListener(new kListener());
 
-        //movement
+        //Movement
         keyDelay = new Timer(10, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int eVX = 0;
+                //temporary speed variables
+                int eVX = 0; 
                 int wVX = 0;
+                //Goes through stored keys
                 for (Integer i : storedKeys) {
                     if (i == KeyEvent.VK_W) { // up,jump
                         if (!earthBoy.isBuild) {
@@ -345,84 +362,86 @@ public class EarthBoyWindGirl {
                                 eUp = true;
                             }
                         }
-                    } else if (i == KeyEvent.VK_D) { // forward
+                    } else if (i == KeyEvent.VK_D) { // Right
                         if (!earthBoy.isBuild) {
                             eVX += 3.5;
                             eRight = true;
                         }
-                    } else if (i == KeyEvent.VK_A) { // back
+                    } else if (i == KeyEvent.VK_A) { // Left
                         if (!earthBoy.isBuild) {
                             eVX -= 3.5;
                             eLeft = true;
                         }
-                    } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump && !tempPlaced) { //if he presses E again, he can exit
+                    } else if (i == KeyEvent.VK_E && earthBoy.readyBuild && !earthBoy.isJump && !tempPlaced) { //Enters build mode
                         if (earthBoy.isBuild) {
-                            earthBoy.leaveBuildMode();
+                            earthBoy.leaveBuildMode(); //Lets EarthBoy exit build mode if he pressess E again
                             earthBoy.setReadyBuild(false);
                             if (platforms.contains(earthPlat)) {
-                                platforms.remove(earthPlat);
+                                platforms.remove(earthPlat); //Deletes platform on the screen (to reset)
                             }
                             earthPlat = new Platform(0, 0, 0, 0);
                         } else {
                             earthBoy.enterBuildMode();
-                            earthPlat = new Platform(earthBoy.x + 10, earthBoy.y + 10, 100, 20);
-                            earthBoy.setReadyBuild(false);
+                            earthPlat = new Platform(earthBoy.x + 10, earthBoy.y + 10, 100, 20); //Generates new platform
+                            earthBoy.setReadyBuild(false); //Cannot build another platform in BuildMode
                         }
-                    } else if (i == KeyEvent.VK_UP) {
-                        if (!windGirl.isJump) {
+                    } else if (i == KeyEvent.VK_UP) { //Up
+                        if (!windGirl.isJump) { //If she is not jumping, she is not double jumping
                             windGirl.setDoubleJump(false);
                             wUp = true;
                         }
-                        if (!windGirl.isJump && windGirl.preparedJump) {
+                        if (!windGirl.isJump && windGirl.preparedJump) { //If she is not jumping, make her jump
                             windGirl.setJump(true);
                             windGirl.setVY(14);
                             windGirl.setPreparedJump(false);
                         }
-                        if (windGirl.isJump && !windGirl.isDoubleJump && windGirl.preparedJump) {
+                        if (windGirl.isJump && !windGirl.isDoubleJump && windGirl.preparedJump) { //If she is currently jumping and has not double jumped, then double jump
                             windGirl.setDoubleJump(true);
                             windGirl.setVY(15);
-                            //System.out.println("Double Jump");
                             windGirl.setPreparedJump(false);
                         }
-                    } else if (i == KeyEvent.VK_RIGHT) {
+                    } else if (i == KeyEvent.VK_RIGHT) { //Moves right
                         wVX += 3.5;
                         wRight = true;
-                    } else if (i == KeyEvent.VK_LEFT) {
+                    } else if (i == KeyEvent.VK_LEFT) { //Moves left
                         wVX -= 3.5;
                         wLeft = true;
                     }
                 }
-                windGirl.setVX(wVX);
+
+                //Changing speeds and moves
+                windGirl.setVX(wVX); 
                 windGirl.move();
                 earthBoy.setVX(eVX);
                 earthBoy.move();
 
+                //Checking collisions for all interactables
                 for (PoisonFog p : poisonList) {
                     p.checkCollision(earthBoy);
                 }
-
                 for (QuickSand q : quickSandList) {
                     q.checkCollision(windGirl);
                 }
-
                 for (PressurePlate p : pressurePlateList) {
                     p.checkCollision(earthBoy, windGirl);
                 }
 
+                //Checks if the character is on their respective door
                 dEarth.checkCollision(earthBoy);
-                // System.out.println("Earth: " + dEarth.charDone);
                 dWind.checkCollision(windGirl);
-                // System.out.println("Wind: " + dWind.charDone);
 
+                //If he enters build mode, he can move the platform around
                 if (earthBoy.isBuild) {
                     earthAbility();
                 }
 
+                //When a platform is placed, it has a delay
                 if (platPlaced) {
                     platformDecay();
                     platPlaced = false;
                 }
 
+                //Checks for death and endings
                 checkDoor();
                 checkDeath();
                 checkEnd();
@@ -431,6 +450,7 @@ public class EarthBoyWindGirl {
         });
         keyDelay.start();
 
+        //Animation timer
         animeTimer = new Timer(80, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (aCount < 4) {
@@ -448,9 +468,11 @@ public class EarthBoyWindGirl {
         window.setLocationRelativeTo(null);
         p.setFocusable(true);
         p.requestFocus();
-
     }
 
+    /**
+     * Level 1 Map generation
+     */
     protected void level1() {
         //Characters
         windGirl = new WindGirl(30, H - 70, null, false, false);
@@ -466,6 +488,7 @@ public class EarthBoyWindGirl {
         poisonList.add(poisonFog);
         quickSandList.add(quickSand);
 
+        //Adding interactables
         interactableList.addAll(poisonList);
         interactableList.addAll(quickSandList);
         interactableList.addAll(pressurePlateList);
@@ -493,6 +516,9 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(0, H - 100, 100, 20));
     }
 
+    /**
+     * Level 2 Map generation
+     */
     protected void level2(){
         //Characters
         windGirl = new WindGirl(20, 40, null, false, false);
@@ -511,7 +537,7 @@ public class EarthBoyWindGirl {
         quickSandList.add(new QuickSand(200, 420, 80, 20, null));
         quickSandList.add(new QuickSand(240, 280, 140, 20, null));
 
-        
+        //Adding interactables
         interactableList.addAll(poisonList);
         interactableList.addAll(quickSandList);
         interactableList.addAll(pressurePlateList);
@@ -535,7 +561,7 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(W-300, 440, 300, 20));
         platforms.add(new Platform(W-300, 460, 20, 40));
 
-
+        //Adding moving platforms for pressure plates
         Platform movingPlatform1 = new Platform(390, 80, 20, 100, 0, -1, 390, 100, 410, 280);
         Platform movingPlatform2 = new Platform(W-480, 120, 60, 20, 0, -1, W-480, 120, W-420, 240);
         Platform movingPlatform3 = new Platform(W-240, 140, 20, 100, 0, -1, W-240, 140, W-220, 360);
@@ -543,9 +569,7 @@ public class EarthBoyWindGirl {
         platforms.add(movingPlatform2);
         platforms.add(movingPlatform3);
 
-
         platforms.add(new Platform(480, 0, 40, H));
-        
         
        // Add pressure plate
        PressurePlate plate1 = new PressurePlate(420, 150, 20, 10, null, movingPlatform2);
@@ -555,18 +579,21 @@ public class EarthBoyWindGirl {
         pressurePlateList.add(plate1);
         pressurePlateList.add(plate2);
         pressurePlateList.add(plate3);
-
-
-        
    }
 
+   /**
+    * Level 3 Map generation
+    */
     protected void level3() {
+        //Adding WindGirl and EarthBoy starting positions
         windGirl = new WindGirl(30, H - 40, null, false, false);
         earthBoy = new EarthBoy(W - 30, H - 150, null, false, false, false);
 
+        //Adding doors
         dEarth = new Door(W - 40, H - 60, 40, 60, null);
         dWind = new Door(370, 0, 40, 60, null);
 
+        //Adding platforms
         platforms.add(new Platform(150, H - 80, W - 150, 20));
         platforms.add(new Platform(150, 60, 20, 460));
         platforms.add(new Platform(170, 60, 60, 20));
@@ -581,22 +608,22 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(80, H - 200, 70, 20));
         platforms.add(new Platform(0, H - 400, 70, 20));
         platforms.add(new Platform(80, H - 500, 70, 20));
-
         platforms.add(new Platform(W - 130, H - 200, 50, 20));
         platforms.add(new Platform(W - 70, H - 400, 70, 20));
         platforms.add(new Platform(W - 130, H - 500, 70, 20));
 
-
+        //Adding moving platforms for pressure plates
         Platform movingPlatform1 = new Platform(W-150, H - 150, 20, 70,0,1,W-150,H-220,W-130,H-80);
         platforms.add(movingPlatform1);
 
+        //Presure plates
         PressurePlate pressurePlate = new PressurePlate(W-180, H-310, 20, 10, PressureP, movingPlatform1);
         pressurePlateList.add(pressurePlate);
 
+        //Adding interactables
         quickSandList.add(new QuickSand(300, 240, 380, 20, null));
         quickSandList.add(new QuickSand(230, 360, 460, 20, null));
         poisonList.add(new PoisonFog(740, 400, 110, 20, null));
-
         interactableList.addAll(poisonList);
         interactableList.addAll(quickSandList);
         interactableList.addAll(pressurePlateList);
@@ -605,6 +632,9 @@ public class EarthBoyWindGirl {
 
     }
 
+    /**
+     * Check if windgirl or earthboy have died and will return back to map selection menu
+     */
     protected void checkDeath() {
         if (earthBoy.isDead || windGirl.isDead) {
             JOptionPane.showMessageDialog(null, "U DIED UNLUCKY", "Game Over", JOptionPane.INFORMATION_MESSAGE);
@@ -615,15 +645,20 @@ public class EarthBoyWindGirl {
         }
     }
 
+    /**
+     * Checks if both characters are on the door and will end game
+     */
     protected void checkDoor() {
         if (dEarth.charDone && dWind.charDone) {
             endGame = true;
         }
     }
 
+    /**
+     * Checks if characters have won the game and will return back to map selection menu
+     */
     protected void checkEnd() {
         if (endGame) {
-            //System.out.println("quit");
             JOptionPane.showMessageDialog(null, "YOU WON!", "Great Job!", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
             animeTimer.stop();
@@ -632,6 +667,9 @@ public class EarthBoyWindGirl {
         }
     }
 
+    /**
+     * Allows earthBoy to move the platform around using WASD
+     */
     public void earthAbility() {
         earthPlat.setVX(0);
         earthPlat.setVY(0);
@@ -644,8 +682,9 @@ public class EarthBoyWindGirl {
                 earthPlat.setVX(-4.0);
             } else if (i == KeyEvent.VK_D) {
                 earthPlat.setVX(4.0);
-            } else if (i == KeyEvent.VK_SPACE) {
+            } else if (i == KeyEvent.VK_SPACE) { //Places the platform does at the specific location
                 platforms.add(earthPlat);
+                //Cannot create another platform will this platform is placed
                 platPlaced = true;
                 tempPlaced = true;
                 earthBoy.leaveBuildMode();
@@ -654,13 +693,16 @@ public class EarthBoyWindGirl {
         earthPlat.move();
     }
 
+    /**
+     * Creates a timer for the temporary platform (3.5 seconds)
+     */
     public void platformDecay() {
         platTimer = new Timer(3500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 platforms.remove(earthPlat);
                 earthPlat = new Platform(0, 0, 0, 0);
                 draw.repaint();
-                tempPlaced = false;
+                tempPlaced = false; //At the end of the timer, EarthBoy can use his ability again
             }
         });
         platTimer.setRepeats(false);
@@ -668,7 +710,9 @@ public class EarthBoyWindGirl {
     }
 
     private class kListener extends KeyAdapter {
-
+        /**
+         * @param   if a key is pressed, it will be added to the storedKeys arrayList
+         */
         public void keyPressed(KeyEvent event) {
             Integer e = event.getKeyCode();
             if (!storedKeys.contains(e)) {
@@ -676,6 +720,9 @@ public class EarthBoyWindGirl {
             }
         }
 
+        /**
+         * @param   Removes keys when they are released and will set animations
+         */
         public void keyReleased(KeyEvent event) {
             Integer e = event.getKeyCode();
             storedKeys.remove(e);
@@ -701,7 +748,6 @@ public class EarthBoyWindGirl {
             else if (e == KeyEvent.VK_D){
                 eRight = false;
             }
-            
         }
     }
 
@@ -757,53 +803,51 @@ public class EarthBoyWindGirl {
                 g2.drawImage(sand, quickSand.x, quickSand.y, quickSand.width, quickSand.height, null);
             }
 
-            //draw windgirl
-            //System.out.println(wLeft + " " + wRight);
+            //draw windgirl using sprite, will animate different directions
             if ((!wLeft && !wRight && !wUp) || (wLeft && wRight)) { //standing still
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
-            } else if (wLeft) {
+            } else if (wLeft) { //Left
                 if (aCount == 1 || aCount == 3){
                     g2.drawImage(Msheet, windGirl.x, windGirl.y + 15, windGirl.x + windGirl.w, windGirl.y + windGirl.h, 526, 476, 557, 512, null); //body left 1
                 } else if (aCount == 2 || aCount == 4){
                     g2.drawImage(Msheet, windGirl.x, windGirl.y+15, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 124, 475, 151, 510, null); //body left 2
                 }
                 g2.drawImage(Msheet, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w + 20, windGirl.y + 20, 1290, 242, 1391, 299, null); //head left
-            } else if (wRight) {
+            } else if (wRight) { //Right
                 if (aCount == 1 || aCount == 3){
                     g2.drawImage(SS, windGirl.x-3, windGirl.y+8, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right 1
                 } else if (aCount == 2 || aCount == 4){
                     g2.drawImage(SS, windGirl.x-5, windGirl.y+15, windGirl.x + (windGirl.w)-5 , windGirl.y + (windGirl.h), 1258, 475, 1281, 510, null); //body right 2
                 }
                 g2.drawImage(SS, windGirl.x - 20, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 17, 238, 122, 300, null); //head right
-
-            } else if (wUp) {
+            } else if (wUp) { //Jump
                 g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + windGirl.w, windGirl.y + 30, 301, 570, 362, 660, null); //head up
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null); //body default
             }
 
-            //draw Earthboy
+            //draw Earthboy using sprite, will animate different directions
             if ((!eLeft && !eRight && !eUp) || (earthBoy.vx == 0 && earthBoy.vy == 0)) { //standing still
                 eLeft = false;
                 eRight = false;
                 eUp = false;
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 37, 67, 92, 126, null); //head default
-            } else if (eLeft) { //FIX THISSSSSSSSSSSSSSSSSSSSSS TMREWWWWWWWWWWWWWWWWWWW
+            } else if (eLeft) { //Left
                 g2.drawImage(Msheet, earthBoy.x, earthBoy.y - 7, earthBoy.x + earthBoy.w+5, earthBoy.y + 23, 1183, 65, 1241, 121, null); //head left
                 if (aCount == 1 || aCount == 3) {
                     g2.drawImage(Msheet, earthBoy.x+5, earthBoy.y + 15, earthBoy.x + earthBoy.w, earthBoy.y + earthBoy.h, 1066, 444, 1094, 480, null); //body left 1
                 } else if (aCount == 2 || aCount == 4){
                     g2.drawImage(Msheet, earthBoy.x+5, earthBoy.y+15, earthBoy.x + earthBoy.w-3, earthBoy.y + earthBoy.h, 664, 445, 682, 480, null); //body left 2
                 }
-            } else if (eRight) {
+            } else if (eRight) { //Right
                 g2.drawImage(SS, earthBoy.x-2, earthBoy.y-7, earthBoy.x + earthBoy.w + 4, earthBoy.y + 25, 168, 65, 231, 125, null); //head right
                 if (aCount == 1 || aCount == 3) {
                     g2.drawImage(SS, earthBoy.x-2, earthBoy.y + 13, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h - 2, 314, 440, 350, 479, null); //body right 1    
                 } else if (aCount == 2 || aCount == 4){
                     g2.drawImage(SS, earthBoy.x+2, earthBoy.y + 17, earthBoy.x + earthBoy.w - 6 , earthBoy.y + earthBoy.h, 724, 445, 743, 479, null); //body right 2
                 }  
-            } else if (eUp) {
+            } else if (eUp) { //Jump
                 g2.drawImage(SS, earthBoy.x, earthBoy.y - 5, earthBoy.x + earthBoy.w, earthBoy.y + 23, 436, 60, 496, 120, null); //head up
                 g2.drawImage(SS, earthBoy.x, earthBoy.y, earthBoy.x + earthBoy.w + 5, earthBoy.y + earthBoy.h, 180, 417, 230, 480, null); //body default 
             }
