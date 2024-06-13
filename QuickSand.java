@@ -1,3 +1,10 @@
+/**
+ * PoisonFog.java
+ * Emilee Chen, David Hang, Hansheng Liu
+ * June 13th, 2024
+ * Quicksand class which will kill Wingirl on impact
+ */
+
 import java.awt.image.BufferedImage;
 
 public class QuickSand extends Interactable{

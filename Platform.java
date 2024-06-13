@@ -1,3 +1,10 @@
+/**
+ * Platform.java
+ * Emilee Chen, David Hang, Hansheng Liu
+ * June 13th, 2024
+ * Platform class
+ */
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
