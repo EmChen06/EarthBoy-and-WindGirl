@@ -43,9 +43,9 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Introduction();
+                // new Introduction();
                 // new Menu();
-                // new EarthBoyWindGirl();
+                new EarthBoyWindGirl(3);
             }
         });
     }
@@ -307,13 +307,15 @@ public class EarthBoyWindGirl {
         platforms.add(new Platform(W, 0, 30, H + 30));
 
         //Choosing maps
-        if (mapChoice == 1) {
-            level1();
-        } else if (mapChoice == 2) {
-            System.out.println("Man not yet");
-        } else if (mapChoice == 3) {
-            System.out.println("also not yet");
-        }
+        // if (mapChoice == 1) {
+        //     level1();
+        // } else if (mapChoice == 2) {
+        //     // level2();
+        // } else if (mapChoice == 3) {
+        //     level3();
+        // }
+
+        level3();
 
         //load images in
         SS = loadImage("\\Images\\EdittedSpriteSheet.png");
@@ -465,8 +467,8 @@ public class EarthBoyWindGirl {
 
     protected void level1() {
         //Characters
-        windGirl = new WindGirl(30, H - 40 - 30, null, false, false);
-        earthBoy = new EarthBoy(30, H - 120 - 30, null, false, false, false);
+        windGirl = new WindGirl(30, H - 70, null, false, false);
+        earthBoy = new EarthBoy(30, H - 150, null, false, false, false);
 
         //Doors
         dWind = new Door(W - 100, H - 480, 40, 80, null);
@@ -503,6 +505,44 @@ public class EarthBoyWindGirl {
 
         // Add start platforms
         platforms.add(new Platform(0, H - 100, 100, 20));
+    }
+
+    protected void level3() {
+        windGirl = new WindGirl(30, H - 40, null, false, false);
+        earthBoy = new EarthBoy(W - 30, H - 150, null, false, false, false);
+
+        dEarth = new Door(W - 40, H - 60, 40, 60, null);
+        dWind = new Door(370, 0, 40, 60, null);
+
+        platforms.add(new Platform(150, H - 80, W - 150, 20));
+        platforms.add(new Platform(150, 60, 20, 460));
+        platforms.add(new Platform(170, 60, 60, 20));
+        platforms.add(new Platform(170, 170, 60, 20));
+        platforms.add(new Platform (170, 260, 500, 20));
+        platforms.add(new Platform(350, 0, 20, 150));
+        platforms.add(new Platform(370, 60, 500, 20));
+        platforms.add(new Platform(850, 80, 20, H - 230));
+        platforms.add(new Platform(500, 180, 100, 20));
+        platforms.add(new Platform(W - 250, 300, 100, 20));
+        platforms.add(new Platform(230, 380, 520, 20));
+        platforms.add(new Platform(80, H - 200, 70, 20));
+        platforms.add(new Platform(0, H - 400, 70, 20));
+        platforms.add(new Platform(80, H - 500, 70, 20));
+
+        platforms.add(new Platform(W - 130, H - 200, 50, 20));
+        platforms.add(new Platform(W - 70, H - 400, 70, 20));
+        platforms.add(new Platform(W - 130, H - 500, 70, 20));
+
+        quickSandList.add(new QuickSand(300, 240, 380, 20, null));
+        quickSandList.add(new QuickSand(230, 360, 460, 20, null));
+        poisonList.add(new PoisonFog(740, 400, 110, 20, null));
+
+        interactableList.addAll(poisonList);
+        interactableList.addAll(quickSandList);
+        interactableList.addAll(pressurePlateList);
+        interactableList.add(dEarth);
+        interactableList.add(dWind);
+
     }
 
     protected void checkDeath() {
