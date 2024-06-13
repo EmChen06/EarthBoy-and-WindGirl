@@ -101,15 +101,15 @@ public class Platform extends Rectangle{
     void checkPlatformCollision(Platform p){
         if (this.x < p.x+p.width && this.x  + this.width> p.x && this.y + this.height>= p.y && vy < 0 && this.y + this.height <= p.y+p.height && this.y + this.height + this.vy <= p.y) {
             this.setY(p.y - this.height);
-            System.out.println("COLLIDING 1");
+            //System.out.println("COLLIDING 1");
         }
         if (this.y < p.y + p.height && this.x + this.width > p.x && this.x < p.x + p.width && vy > 0 && this.y + this.height > p.y + p.height){
             this.setY(p.y + p.height);
-            System.out.println("COLLIDING 4");                
+            //System.out.println("COLLIDING 4");                
         }
         if (this.x + this.width > p.x && this.x < p.x && this.y < p.y + p.height && this.y + this.height > p.y){
             this.setX(p.x - this.width);
-            System.out.println("COLLIDING 2");
+            //System.out.println("COLLIDING 2");
 
         }
         if (this.x < p.x + p.width && this.x + this.width > p.x + p.width && this.y < p.y + p.height && this.y + this.height > p.y){

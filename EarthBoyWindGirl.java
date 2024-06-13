@@ -381,7 +381,7 @@ public class EarthBoyWindGirl {
                         if (windGirl.isJump && !windGirl.isDoubleJump && windGirl.preparedJump) {
                             windGirl.setDoubleJump(true);
                             windGirl.setVY(15);
-                            System.out.println("Double Jump");
+                            //System.out.println("Double Jump");
                             windGirl.setPreparedJump(false);
                         }
                     } else if (i == KeyEvent.VK_RIGHT) {
@@ -623,7 +623,7 @@ public class EarthBoyWindGirl {
 
     protected void checkEnd() {
         if (endGame) {
-            System.out.println("quit");
+            //System.out.println("quit");
             JOptionPane.showMessageDialog(null, "YOU WON!", "Great Job!", JOptionPane.INFORMATION_MESSAGE);
             keyDelay.stop();
             animeTimer.stop();
@@ -758,7 +758,7 @@ public class EarthBoyWindGirl {
             }
 
             //draw windgirl
-            System.out.println(wLeft + " " + wRight);
+            //System.out.println(wLeft + " " + wRight);
             if ((!wLeft && !wRight && !wUp) || (wLeft && wRight)) { //standing still
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);

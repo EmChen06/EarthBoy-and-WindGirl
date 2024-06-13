@@ -10,7 +10,7 @@ public class PoisonFog extends Interactable{
     void onInteraction(Character c) {
         if (c.name.equals("earthBoy")){
             c.isDead = true;
-            System.out.println("DIE DIE");
+            //System.out.println("DIE DIE");
         }        
     }
 
