@@ -43,8 +43,8 @@ public class EarthBoyWindGirl {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Introduction();
-                // new Menu();
+               // new Introduction();
+                new Menu();
                 // new EarthBoyWindGirl();
             }
         });
@@ -717,23 +717,23 @@ public class EarthBoyWindGirl {
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null);
                 g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 37, 560, 92, 633, null);
             } else if (wLeft) {
-                g2.drawImage(Msheet, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 1290, 242, 1391, 299, null); //head left
+                g2.drawImage(Msheet, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w + 20, windGirl.y + 20, 1290, 242, 1391, 299, null); //head left
                 if (aCount == 1 || aCount == 3){
-                    g2.drawImage(Msheet, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 526, 476, 557, 512, null); //body left 1
+                    g2.drawImage(Msheet, windGirl.x, windGirl.y + 15, windGirl.x + windGirl.w, windGirl.y + windGirl.h, 526, 476, 557, 512, null); //body left 1
                 } else if (aCount == 2 || aCount == 4){
-                    g2.drawImage(Msheet, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 124, 475, 151, 510, null); //body left 2
+                    g2.drawImage(Msheet, windGirl.x, windGirl.y+15, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 124, 475, 151, 510, null); //body left 2
                 }
             } else if (wRight) {
-                g2.drawImage(SS, windGirl.x - 30, windGirl.y - 40, windGirl.x + windGirl.h, windGirl.y + 5, 17, 238, 122, 300, null); //head right
+                g2.drawImage(SS, windGirl.x - 20, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 17, 238, 122, 300, null); //head right
                 if (aCount == 1 || aCount == 3){
-                    g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right 1
+                    g2.drawImage(SS, windGirl.x-3, windGirl.y+8, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 850, 470, 888, 510, null); //body right 1
                 } else if (aCount == 2 || aCount == 4){
-                    g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + (windGirl.w), windGirl.y + (windGirl.h), 1258, 475, 1281, 510, null); //body right 2
+                    g2.drawImage(SS, windGirl.x-5, windGirl.y+15, windGirl.x + (windGirl.w)-5 , windGirl.y + (windGirl.h), 1258, 475, 1281, 510, null); //body right 2
                 }
                 
 
             } else if (wUp) {
-                g2.drawImage(SS, windGirl.x, windGirl.y - 10, windGirl.x + windGirl.w, windGirl.y + 20, 301, 570, 362, 660, null); //head up
+                g2.drawImage(SS, windGirl.x, windGirl.y, windGirl.x + windGirl.w, windGirl.y + 30, 301, 570, 362, 660, null); //head up
                 g2.drawImage(SS, windGirl.x, windGirl.y + 15, windGirl.x + (windGirl.w + 15), windGirl.y + (windGirl.h + 50), 938, 300, 1000, 400, null); //body default
             }
 
