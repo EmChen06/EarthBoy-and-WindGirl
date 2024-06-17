@@ -178,6 +178,11 @@ public class EarthBoyWindGirl {
 
         Menu() {
             //Setup
+            platforms.clear();
+            poisonList.clear();
+            quickSandList.clear();
+            pressurePlateList.clear();
+            interactableList.clear();
             window2.setTitle("EarthBoy and WindGirl Menu");
             window2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             window2.setResizable(false);
@@ -721,7 +726,7 @@ public class EarthBoyWindGirl {
         }
 
         /**
-         * @param   Removes keys when they are released and will set animations
+         * @param  event Removes keys when they are released and will set animations
          */
         public void keyReleased(KeyEvent event) {
             Integer e = event.getKeyCode();
